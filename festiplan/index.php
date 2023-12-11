@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-<html lang=fr">
+<?php
 
-<head>
-    <title>Accueil - Festiplan</title>
-    <link rel="stylesheet" href="./libs/twbs/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
+const PREFIX_TO_RELATIVE_PATH = "";
+require $_SERVER['DOCUMENT_ROOT'] . PREFIX_TO_RELATIVE_PATH . '/libs/autoload.php';
 
-<body>
-    <div class=" container">
-        <div class="row">
-            <div class="col-12 text-center bg-success-subtle">
-                <h1>Coucou <i class="fa-regular fa-thumbs-up"></i></h1>
-                <?php
-                echo "Coucou"; ?>
-            </div>
-        </div>
-    </div>
-</body>
+use application\DefaultComponentFactory;
+use yasmf\DataSource;
+use yasmf\Router;
 
-</html>
+$dataSource = new DataSource(
+    $host = 'localhost',
+    $port = '3306',
+    $db = 'festiplan',
+    $user = 'server-user',
+    $pass = '12AveyronRodezIUT',
+    $charset = 'utf8mb4'
+);
+
+$router = new Router(new DefaultComponentFactory());
+$router->route(PREFIX_TO_RELATIVE_PATH, $dataSource);
+?>

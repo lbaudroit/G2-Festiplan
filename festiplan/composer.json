@@ -9,10 +9,18 @@
     ],
     "require": {
         "php": ">=8.1",
-        "twbs/bootstrap": "5.3.2",
+        "ext-pdo": "*",
         "yasmf/yasmf": ">=1.6.1"
     },
     "config": {
         "vendor-dir": "./libs/"
+    },
+    "autoload": {
+        "psr-4": {
+            "controllers\\": "controllers",
+            "services\\": "services",
+            "application\\": "application",
+            "views\\": "views"
+        }
     }
 }
