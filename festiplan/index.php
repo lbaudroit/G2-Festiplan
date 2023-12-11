@@ -18,7 +18,7 @@
 <body>
     <div class=" container">
         <div class="row">
-            <div class="col-12 text-center bg-success-subtle">
+            <div class="col-12 text-center bg-primary-subtle">
                 <h1>Coucou <i class="fa-regular fa-thumbs-up"></i></h1>
                 <?php
                 echo "Coucou"; ?>
