@@ -1,0 +1,19 @@
+{
+    "name": "g2/festiplan",
+    "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/the-yasmf-project/yasmf"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "twbs/bootstrap": "5.3.2",
+        "fortawesome/font-awesome": "^6.5",
+        "yasmf/yasmf": ">=1.6.1"
+    },
+    "config": {
+        "vendor-dir": "./libs/"
+    }
+}
