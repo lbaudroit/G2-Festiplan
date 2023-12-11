@@ -8,7 +8,7 @@ use yasmf\DataSource;
 use yasmf\Router;
 
 $dataSource = new DataSource(
-    $host = 'mezabi-1-db',
+    $host = 'localhost',
     $port = '3306',
     $db = 'festiplan',
     $user = 'server-user',
