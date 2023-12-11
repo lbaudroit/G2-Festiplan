@@ -13,8 +13,8 @@ services:
         image: mysql:8
         container_name: g2-festiplan-db
         environment:
-            - MYSQL_USER=server-user
             - MYSQL_DATABASE=festiplan
+            - MYSQL_USER=server-user
             - MYSQL_PASSWORD=12AveyronRodezIUT
             - MYSQL_ROOT_PASSWORD=12AveyronRodezIUTJeSuisGroot
         ports:
