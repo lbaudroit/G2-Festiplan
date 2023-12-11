@@ -4,4 +4,4 @@ Pour lancer en dev :
 
 Adresse de la BDD : localhost:6612
 Adresse du site web : localhost:8080
-Adresse de PHPmyAdmin : 8888
+Adresse de PHPmyAdmin : localhost:8888
