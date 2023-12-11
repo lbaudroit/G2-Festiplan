@@ -1,17 +1,17 @@
 version: '1'
 
 services:
-    g2-festiplan:
+    website:
         image: webdevops/php-apache-dev:8.2-alpine
-        container_name: g2-festiplan
+        container_name: website
         working_dir: /app/
         ports:
             - 8080:80
         volumes:
             - ./festiplan/:/app/
-    g2-festiplan-db:
+    database:
         image: mysql:8
-        container_name: g2-festiplan-db
+        container_name: database
         environment:
             - MYSQL_DATABASE=festiplan
             - MYSQL_USER=server-user
@@ -27,9 +27,9 @@ services:
         container_name: php-my-admin
         working_dir: /pma/
         depends_on:
-            - g2-festiplan-db
+            - database
         environment:
-            - PMA_HOST=g2-festiplan-db
+            - PMA_HOST=database
             - PMA_PORT=3306
         ports:
             - 8888:80

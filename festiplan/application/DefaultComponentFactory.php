@@ -18,6 +18,13 @@ class DefaultComponentFactory implements ComponentFactory
     private ?ExampleService $exampleService = null;
 
     /**
+     * Create a new default controller
+     */
+    public function __construct()
+    {
+    }
+
+    /**
      * @param string $controller_name the name of the controller to instanciate
      * @return mixed the controller
      * @throws NoControllerAvailableForNameException when controller is not found
@@ -25,8 +32,7 @@ class DefaultComponentFactory implements ComponentFactory
     public function buildControllerByName(string $controller_name): mixed
     {
         return match ($controller_name) {
-            "Home" => $this->buildHomeController(),
-            default => throw new NoControllerAvailableForNameException($controller_name)
+            default => $this->buildHomeController(),
         };
     }
 
@@ -38,8 +44,7 @@ class DefaultComponentFactory implements ComponentFactory
     public function buildServiceByName(string $service_name): mixed
     {
         return match ($service_name) {
-            "Example" => $this->buildExampleService(),
-            default => throw new NoServiceAvailableForNameException($service_name)
+            default => $this->buildExampleService(),
         };
     }
 
