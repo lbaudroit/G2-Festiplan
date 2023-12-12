@@ -1,10 +1,30 @@
 <?php
+/*
+ * yasmf - Yet Another Simple MVC Framework (For PHP)
+ *     Copyright (C) 2023   Franck SILVESTRE
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 
 namespace application;
 
 use controllers\HomeController;
+use controllers\ArticlesController;
+use controllers\CategoriesController;
 
-use services\ExampleService;
+use services\CategoriesService;
+use services\ArticlesService;
 
 use yasmf\ComponentFactory;
 use yasmf\NoControllerAvailableForNameException;
@@ -15,14 +35,10 @@ use yasmf\NoServiceAvailableForNameException;
  */
 class DefaultComponentFactory implements ComponentFactory
 {
-    private ?ExampleService $exampleService = null;
 
-    /**
-     * Create a new default controller
-     */
-    public function __construct()
-    {
-    }
+    private ?CategoriesService $categoriesService = null;
+
+    private ?ArticlesService $articlesService = null;
 
     /**
      * @param string $controller_name the name of the controller to instanciate
@@ -32,7 +48,10 @@ class DefaultComponentFactory implements ComponentFactory
     public function buildControllerByName(string $controller_name): mixed
     {
         return match ($controller_name) {
-            default => $this->buildHomeController(),
+            "Home" => $this->buildHomeController(),
+            "Articles" => $this->buildArticlesController(),
+            "Categories" => $this->buildCategoriesController(),
+            default => throw new NoControllerAvailableForNameException($controller_name)
         };
     }
 
@@ -44,7 +63,9 @@ class DefaultComponentFactory implements ComponentFactory
     public function buildServiceByName(string $service_name): mixed
     {
         return match ($service_name) {
-            default => $this->buildExampleService(),
+            "Categories" => $this->buildCategoriesService(),
+            "Articles" => $this->buildArticlesService(),
+            default => throw new NoServiceAvailableForNameException($service_name)
         };
     }
 
@@ -54,18 +75,46 @@ class DefaultComponentFactory implements ComponentFactory
      */
     private function buildHomeController(): HomeController
     {
-        return new HomeController($this->buildExampleService());
+        return new HomeController($this->buildCategoriesService());
+    }
+
+
+    /**
+     * @return ArticlesController
+     */
+    private function buildArticlesController(): ArticlesController
+    {
+        return new ArticlesController($this->buildArticlesService());
     }
 
     /**
-     * @return ExampleService
+     * @return CategoriesController
      */
-    private function buildExampleService(): ExampleService
+    private function buildCategoriesController(): CategoriesController
     {
-        if ($this->exampleService == null) {
-            $this->exampleService = new ExampleService();
+        return new CategoriesController($this->buildCategoriesService());
+    }
+
+    /**
+     * @return CategoriesService
+     */
+    private function buildCategoriesService(): CategoriesService
+    {
+        if ($this->categoriesService == null) {
+            $this->categoriesService = new CategoriesService();
         }
-        return $this->exampleService;
+        return $this->categoriesService;
+    }
+
+    /**
+     * @return ArticlesService
+     */
+    private function buildArticlesService(): ArticlesService
+    {
+        if ($this->articlesService == null) {
+            $this->articlesService = new ArticlesService();
+        }
+        return $this->articlesService;
     }
 
 }

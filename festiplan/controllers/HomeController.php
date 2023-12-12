@@ -3,27 +3,27 @@ namespace controllers;
 
 use yasmf\View;
 
-use services\ExampleService;
+use services\CategoriesService;
 
-class HomeController
-{
+class HomeController {
 
-    private ExampleService $exampleService;
+    private CategoriesService $categoriesService;
 
     /**
      * Create a new default controller
      */
-    public function __construct(ExampleService $serv)
+    public function __construct(CategoriesService $categoriesService)
     {
-        $this->exampleService = $serv;
+        $this->categoriesService = $categoriesService;
     }
 
-    public function index($pdo): View
-    {
-        $searchStmt = $this->exampleService->getAllUsers($pdo);
-        $view = new View("/views/home");
-        $view->setVar('users', $searchStmt);
+    public function index($pdo):View {
+        $searchStmt = $this -> categoriesService -> getAllCategories($pdo);
+        $view = new View("/views/all_categories");
+        $view->setVar('searchStmt',$searchStmt);
         return $view;
     }
 
 }
+
+
