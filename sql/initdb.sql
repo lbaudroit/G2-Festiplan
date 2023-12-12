@@ -7,6 +7,26 @@ CREATE TABLE users (
     Primary key (id_login)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE grij (
+    id_grij INTEGER NOT NULL,
+    heure_deb TIME NOT NULL,
+    heure_fin TIME NOT NULL,
+    temps_pause TIME NOT NULL,
+    Primary key (id_grij)
+);
+
+CREATE TABLE categoriefestival (
+    id_cat INTEGER NOT NULL,
+    libelle VARCHAR(35) NOT NULL,
+    Primary key (id_cat)
+);
+
+CREATE TABLE taillescene (
+    id_taille INTEGER NOT NULL,
+    libelle VARCHAR(35) NOT NULL,
+    Primary key (id_taille)
+);
+
 CREATE TABLE festivals (
     id_festival INTEGER NOT NULL,
     date_deb TIME NOT NULL,
@@ -53,25 +73,11 @@ CREATE TABLE scenes (
     Primary key (id_scene)
 );
 
-CREATE TABLE taillescene (
-    id_taille INTEGER NOT NULL,
-    libelle VARCHAR(35) NOT NULL,
-    Primary key (id_taille)
-);
 
-CREATE TABLE categoriefestival (
-    id_cat INTEGER NOT NULL,
-    libelle VARCHAR(35) NOT NULL,
-    Primary key (id_cat)
-);
 
-CREATE TABLE grij (
-    id_grij INTEGER NOT NULL,
-    heure_deb TIME NOT NULL,
-    heure_fin TIME NOT NULL,
-    temps_pause TIME NOT NULL,
-    Primary key (id_grij)
-);
+
+
+
 
 CREATE TABLE organise (
     id_festival INTEGER NOT NULL,
