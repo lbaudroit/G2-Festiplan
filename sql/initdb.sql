@@ -39,7 +39,7 @@ CREATE TABLE festivals (
     FOREIGN KEY (id_grij) REFERENCES grij(id_grij),
     FOREIGN KEY (id_login) REFERENCES users(id_login),
     FOREIGN KEY (id_cat) REFERENCES categoriefestival(id_cat),
-    Primary key (id_grij)
+    Primary key (id_festival)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE spectacles (
@@ -73,12 +73,6 @@ CREATE TABLE scenes (
     FOREIGN KEY (id_taille) REFERENCES taillescene(id_taille),
     Primary key (id_scene)
 );
-
-
-
-
-
-
 
 CREATE TABLE organise (
     id_festival INTEGER NOT NULL,
