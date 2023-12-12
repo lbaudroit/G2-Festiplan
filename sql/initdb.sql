@@ -1,9 +1,9 @@
 CREATE TABLE users (
-    'id_login' VARCHAR(35) NOT NULL,
-    'nom' VARCHAR(35) NOT NULL,
-    'prenom' VARCHAR(35) NOT NULL,
-    'email' VARCHAR(35) NOT NULL,
-    'hashed_pwd' VARCHAR(35) NOT NULL,
+    id_login VARCHAR(35) NOT NULL,
+    nom VARCHAR(35) NOT NULL,
+    prenom VARCHAR(35) NOT NULL,
+    email VARCHAR(35) NOT NULL,
+    hashed_pwd VARCHAR(35) NOT NULL,
     Primary key (id_login)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
