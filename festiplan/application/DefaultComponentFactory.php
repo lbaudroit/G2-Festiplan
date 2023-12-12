@@ -20,11 +20,7 @@
 namespace application;
 
 use controllers\HomeController;
-use controllers\ArticlesController;
-use controllers\CategoriesController;
-
-use services\CategoriesService;
-use services\ArticlesService;
+use services\UsersService;
 
 use yasmf\ComponentFactory;
 use yasmf\NoControllerAvailableForNameException;
@@ -36,9 +32,7 @@ use yasmf\NoServiceAvailableForNameException;
 class DefaultComponentFactory implements ComponentFactory
 {
 
-    private ?CategoriesService $categoriesService = null;
-
-    private ?ArticlesService $articlesService = null;
+    private ?UsersService $usersService = null;
 
     /**
      * @param string $controller_name the name of the controller to instanciate
@@ -48,10 +42,8 @@ class DefaultComponentFactory implements ComponentFactory
     public function buildControllerByName(string $controller_name): mixed
     {
         return match ($controller_name) {
-            "Home" => $this->buildHomeController(),
-            "Articles" => $this->buildArticlesController(),
-            "Categories" => $this->buildCategoriesController(),
-            default => throw new NoControllerAvailableForNameException($controller_name)
+            default => $this->buildHomeController(),
+        // TODO changer le default
         };
     }
 
@@ -63,9 +55,9 @@ class DefaultComponentFactory implements ComponentFactory
     public function buildServiceByName(string $service_name): mixed
     {
         return match ($service_name) {
-            "Categories" => $this->buildCategoriesService(),
-            "Articles" => $this->buildArticlesService(),
-            default => throw new NoServiceAvailableForNameException($service_name)
+            // TODO ajouter des correspondances
+            default => $this->buildUsersService()
+        // TODO changer le default
         };
     }
 
@@ -75,46 +67,18 @@ class DefaultComponentFactory implements ComponentFactory
      */
     private function buildHomeController(): HomeController
     {
-        return new HomeController($this->buildCategoriesService());
-    }
-
-
-    /**
-     * @return ArticlesController
-     */
-    private function buildArticlesController(): ArticlesController
-    {
-        return new ArticlesController($this->buildArticlesService());
+        return new HomeController($this->buildUsersService());
     }
 
     /**
-     * @return CategoriesController
+     * @return UsersService
      */
-    private function buildCategoriesController(): CategoriesController
+    private function buildUsersService(): UsersService
     {
-        return new CategoriesController($this->buildCategoriesService());
-    }
-
-    /**
-     * @return CategoriesService
-     */
-    private function buildCategoriesService(): CategoriesService
-    {
-        if ($this->categoriesService == null) {
-            $this->categoriesService = new CategoriesService();
+        if ($this->usersService == null) {
+            $this->usersService = new UsersService();
         }
-        return $this->categoriesService;
-    }
-
-    /**
-     * @return ArticlesService
-     */
-    private function buildArticlesService(): ArticlesService
-    {
-        if ($this->articlesService == null) {
-            $this->articlesService = new ArticlesService();
-        }
-        return $this->articlesService;
+        return $this->usersService;
     }
 
 }
