@@ -29,6 +29,7 @@ CREATE TABLE taillescene (
 
 CREATE TABLE festivals (
     id_festival INTEGER NOT NULL,
+    description_f TEXT NOT NULL,
     date_deb TIME NOT NULL,
     date_fin TIME NOT NULL,
     temps_pause TIME NOT NULL,
@@ -44,7 +45,7 @@ CREATE TABLE festivals (
 CREATE TABLE spectacles (
     id_spectacle INTEGER NOT NULL,
     titre VARCHAR(35) NOT NULL,
-    desc TEXT NOT NULL,
+    description_s TEXT NOT NULL,
     lien_img VARCHAR(35),
     duree TIME NOT NULL,
     categorie VARCHAR(35),
