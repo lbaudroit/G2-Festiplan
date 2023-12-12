@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300&display=swap');
+.fondbleu {
+    background-color : #4DD1C8;
+}
+
+.fondblanc {
+    background-color : #ffffff;
+}
+
+.titre {
+    font-family: 'Kiwi Maru', serif;
+}
