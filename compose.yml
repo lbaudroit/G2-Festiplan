@@ -29,7 +29,7 @@ services:
         depends_on:
             - database
         environment:
-            - PMA_HOST=saccharun.fr
+            - PMA_HOST=localhost
             - PMA_PORT=3306
         ports:
             - 8888:80
