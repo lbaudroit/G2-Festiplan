@@ -6,7 +6,7 @@ services:
         container_name: website
         working_dir: /app/
         ports:
-            - 8080:80
+            - 9999:80
         volumes:
             - ./festiplan/:/app/
     database:
