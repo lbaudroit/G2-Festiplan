@@ -1,29 +1,30 @@
 <?php
 namespace controllers;
 
+use services\UsersService;
 use yasmf\View;
-
-use services\ExampleService;
 
 class HomeController
 {
 
-    private ExampleService $exampleService;
+    private UsersService $usersService;
 
     /**
      * Create a new default controller
      */
-    public function __construct(ExampleService $serv)
+    public function __construct(UsersService $usersService)
     {
-        $this->exampleService = $serv;
+        $this->usersService = $usersService;
     }
 
     public function index($pdo): View
     {
-        $searchStmt = $this->exampleService->getAllUsers($pdo);
-        $view = new View("/views/home");
-        $view->setVar('users', $searchStmt);
+        $searchStmt = $this->usersService->getUsers($pdo);
+        $view = new View("/views/users");
+        $view->setVar('searchStmt', $searchStmt);
         return $view;
     }
 
 }
+
+

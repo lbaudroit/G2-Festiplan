@@ -8,7 +8,10 @@ services:
         ports:
             - 9999:80
         volumes:
-            - ./festiplan/:/app/
+            - ./:/app/
+        profiles:
+            - dev
+            - prod
     database:
         image: mysql:8
         container_name: database
@@ -26,10 +29,8 @@ services:
         image: phpmyadmin:latest
         container_name: php-my-admin
         working_dir: /pma/
-        depends_on:
-            - database
         environment:
-            - PMA_HOST=database
-            - PMA_PORT=3306
+            - PMA_HOST=saccharun.fr
+            - PMA_PORT=6612
         ports:
             - 8888:80

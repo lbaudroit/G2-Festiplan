@@ -6,17 +6,18 @@ use PDO;
 use PDOStatement;
 
 /**
- * The example service class
+ * The users service class
  */
-class ExampleService
+class UsersService
 {
     /**
-     * Returns all users.
+     * Trouve les utilisateurs
      *
      * @param PDO $pdo the pdo object
+     * @param string $codeCategorie the category alias
      * @return PDOStatement the statement referencing the result set
      */
-    public function getAllUsers(PDO $pdo): PDOStatement
+    public function getUsers(PDO $pdo): PDOStatement
     {
         $sql = "SELECT * FROM users";
         $searchStmt = $pdo->query($sql);

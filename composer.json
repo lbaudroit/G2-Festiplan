@@ -13,14 +13,14 @@
         "yasmf/yasmf": ">=1.6.1"
     },
     "config": {
-        "vendor-dir": "./libs/"
+        "vendor-dir": "./festiplan/libs/"
     },
     "autoload": {
         "psr-4": {
-            "controllers\\": "controllers",
-            "services\\": "services",
-            "application\\": "application",
-            "views\\": "views"
+            "controllers\\": "festiplan/controllers",
+            "services\\": "festiplan/services",
+            "application\\": "festiplan/application",
+            "views\\": "festiplan/views"
         }
     }
 }
