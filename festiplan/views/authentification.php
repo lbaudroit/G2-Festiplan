@@ -19,8 +19,7 @@
         <link rel="stylesheet" href="..\css\style.css">
     </head>
     <body>
-    <body class="fondbleu">
-        <header class="row cadre fondbleu text-center">
+        <header class="row fondbleu text-center">
             <div class="col-1 titre">
                 <h3>Festiplan</h3>
             </div>
@@ -28,5 +27,11 @@
         <div class="fondblanc col-12">
             bloups
         </div>
+        <footer class ="row fondbleu">
+            <div class="offset-10">
+				<!--- Logo et lien IUT -->
+				Réalisé par <br/><a href="http://www.iut-rodez.fr" target="_blank"><img src="../images/logo-iut.png" class ="image" id="logoIUT" alt="Logo IUT" /></a>
+		    </div>
+        </footer>
     </body>
 </html>
