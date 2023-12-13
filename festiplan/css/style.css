@@ -1,12 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300&display=swap');
 .fondbleu {
     background-color : #4DD1C8;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .fondblanc {
     background-color : #ffffff;
+    text-align: center;
 }
 
 .titre {
     font-family: 'Kiwi Maru', serif;
+}
+
+.footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.image {
+    position: absolute;
+    bottom: 0;
+    width: 150px;
+    height: 100px;
 }
