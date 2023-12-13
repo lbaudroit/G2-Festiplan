@@ -43,6 +43,7 @@ class DefaultComponentFactory implements ComponentFactory
     {
         return match ($controller_name) {
             default => $this->buildHomeController(),
+            "Dashboard" => $this->buildDashboardController(),
         // TODO changer le default
         };
     }
