@@ -1,18 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300&display=swap');
 
-
-
-.fondblanc {
-    background-color : #ffffff;
-    text-align: center;
-}
-
 .titre {
     font-family: 'Kiwi Maru', serif;
     font-size: 40px;
 }
-
+.formulaire {
+    margin-right: 200px;
+    margin-left: 200px; 
+}
+.textFormulaire {
+    padding: 5px;
+    margin-bottom: 5px;
+}
 .bordure {
+    border: 1px solid black;
     border-radius: 5px;
 }
 
