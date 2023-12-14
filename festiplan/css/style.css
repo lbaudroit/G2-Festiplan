@@ -14,9 +14,22 @@ body{ display:flex; flex-direction:column; }
     text-align: center;
 }
 
+
 .titre {
     font-family: 'Kiwi Maru', serif;
     font-size: 40px;
+}
+.formulaire {
+    margin-right: 200px;
+    margin-left: 200px; 
+}
+.textFormulaire {
+    padding: 5px;
+    margin-bottom: 5px;
+}
+.bordure {
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 header{
