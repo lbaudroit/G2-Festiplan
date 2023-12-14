@@ -26,7 +26,7 @@ CREATE TABLE grij (
     PRIMARY KEY (id_grij)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE categoriefestival (
+CREATE TABLE categorie (
     id_cat INTEGER NOT NULL AUTO_INCREMENT,
     libelle VARCHAR(35) NOT NULL,
     PRIMARY KEY (id_cat)
@@ -50,7 +50,7 @@ CREATE TABLE festivals (
     id_cat INTEGER NOT NULL,
     FOREIGN KEY (id_grij) REFERENCES grij(id_grij),
     FOREIGN KEY (id_login) REFERENCES users(id_login),
-    FOREIGN KEY (id_cat) REFERENCES categoriefestival(id_cat),
+    FOREIGN KEY (id_cat) REFERENCES categorie(id_cat),
     PRIMARY KEY (id_festival)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -60,13 +60,13 @@ CREATE TABLE spectacles (
     description_s TEXT NOT NULL,
     lien_img VARCHAR(35),
     duree TIME NOT NULL,
-    categorie VARCHAR(35),
+    id_cat INTEGER,
     id_login VARCHAR(35) NOT NULL,
     id_taille INTEGER NOT NULL,
     FOREIGN KEY (id_login) REFERENCES users(id_login),
     FOREIGN KEY (id_taille) REFERENCES taillescene(id_taille),
-    PRIMARY KEY (id_spectacle),
-    CONSTRAINT categorie CHECK (categorie IN ('concert', 'pièce de théatre', 'cirque', 'danse', 'projection de film'))
+    FOREIGN KEY (id_cat) REFERENCES categorie(id_cat),
+    PRIMARY KEY (id_spectacle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE intervenants (
@@ -87,7 +87,7 @@ CREATE TABLE scenes (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE organise (
-    id_festival INTEGER NOT NULL AUTO_INCREMENT,
+    id_festival INTEGER NOT NULL,
     id_login VARCHAR(35) NOT NULL,
     FOREIGN KEY (id_login) REFERENCES users(id_login),
     FOREIGN KEY (id_festival) REFERENCES festivals(id_festival),
@@ -95,7 +95,7 @@ CREATE TABLE organise (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE estsurscene (
-    id_intervenant INTEGER NOT NULL AUTO_INCREMENT,
+    id_intervenant INTEGER NOT NULL,
     id_spectacle INTEGER NOT NULL,
     FOREIGN KEY (id_intervenant) REFERENCES intervenants(id_intervenant),
     FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
@@ -103,7 +103,7 @@ CREATE TABLE estsurscene (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE esthorsscene (
-    id_intervenant INTEGER NOT NULL AUTO_INCREMENT,
+    id_intervenant INTEGER NOT NULL,
     id_spectacle INTEGER NOT NULL,
     FOREIGN KEY (id_intervenant) REFERENCES intervenants(id_intervenant),
     FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
