@@ -21,7 +21,7 @@
     <body>
         <header>
             
-                <hspan class="titre">Festiplan</span>
+                <span class="titre">Festiplan</span>
             
         </header>
         <div class="contenue">
