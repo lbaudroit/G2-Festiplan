@@ -28,7 +28,7 @@
             bloups
         </div>
         <footer class ="row fondbleu">
-            <div class="offset-10">
+            <div class="offset-10 col-2">
 				<!--- Logo et lien IUT -->
 				Réalisé par <br/><a href="http://www.iut-rodez.fr" target="_blank"><img src="../images/logo-iut.png" class ="image" id="logoIUT" alt="Logo IUT" /></a>
 		    </div>

@@ -25,7 +25,6 @@
             </div>
         </header>
         <div class="fondblanc col-12">
-            bloups
         </div>
         <footer class ="row fondbleu">
             <div class="offset-10">
