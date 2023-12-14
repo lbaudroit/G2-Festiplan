@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300&display=swap');
-.fondbleu {
-    background-color : #4DD1C8;
-    padding-right: 10px;
-    padding-left: 10px;
-}
+
+
 
 .fondblanc {
     background-color : #ffffff;
@@ -12,21 +9,35 @@
 
 .titre {
     font-family: 'Kiwi Maru', serif;
+    font-size: 40px;
 }
 
 .bordure {
     border-radius: 5px;
 }
 
-.footer {
-    position: absolute;
-    left: 0;
-    right: 0;
+header{
+    padding: 5px;
+    background-color : #4DD1C8;
 }
 
-.image {
+footer {
+    bottom : 0;
     position: absolute;
-    bottom: 0;
-    width: 150px;
-    height: 100px;
+    background-color : #4DD1C8;
+    
+    width: 100%;
+    height :auto;
+    
+}
+
+.logo{
+    width: 228px;
+    max-width: 33%;
+    min-width: 183px;
+}
+
+.contenue_droite{
+    display: flex;
+    justify-content: right;
 }
