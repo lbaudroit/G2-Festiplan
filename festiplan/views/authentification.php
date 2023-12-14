@@ -19,13 +19,38 @@
         <link rel="stylesheet" href="..\css\style.css">
     </head>
     <body>
-        <header class="row fondbleu text-center">
-            <div class="col-1 titre">
-                <h3>Festiplan</h3>
+        <div class = "container container-fluid">
+            <header class="row fondbleu text-center">
+                <div class="col-1 titre">
+                    <h3>Festiplan</h3>
+                </div>
+            </header>
+            <div class="fondblanc col-12">
+                <h1>Bienvenue sur le site Festiplan</h1><br/>
+                <h2>Connectez-vous pour reprendre la planification de vos festivals ou spectacle.<br/>
+                Ou inscrivez-vous pour commencer à créer !</h2>
             </div>
-        </header>
-        <div class="fondblanc col-12">
-            bloups
+            <form class="bordureFormulaire">
+                <i class="fa-solid fa-user"></i>
+                <div class="row text-center">
+                    <div class="col-12">
+                        Identifiant : 
+                        <br/>    
+                        <input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control"/>
+                    </div>
+                    <div class="col-12">
+                        Mot de passe : 
+                        <br/>
+                        <input type="text" name="pswd" placeholder="Tapez votre mot de passe" class="form-control"/>					
+                    </div>
+                    <div class="col-12">
+                        <input class="btn" type="submit" value="Se connecter">
+                    </div>
+                    <div class="col-12">
+                        <a href = "creerCompte.php">Créer un compte</a>
+                    </div>
+                </div>
+            </form>
         </div>
         <footer class ="row fondbleu">
             <div class="offset-10">

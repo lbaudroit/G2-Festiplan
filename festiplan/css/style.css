@@ -14,6 +14,10 @@
     font-family: 'Kiwi Maru', serif;
 }
 
+.bordure {
+    border-radius: 5px;
+}
+
 .footer {
     position: absolute;
     left: 0;
