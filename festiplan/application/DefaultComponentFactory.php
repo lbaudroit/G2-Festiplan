@@ -19,7 +19,10 @@
 
 namespace application;
 
+use controllers\DashboardController;
 use controllers\HomeController;
+use services\FestivalsService;
+use services\SpectaclesService;
 use services\UsersService;
 
 use yasmf\ComponentFactory;
@@ -82,4 +85,9 @@ class DefaultComponentFactory implements ComponentFactory
         return $this->usersService;
     }
 
+    private function buildDashboardController(): DashboardController
+    {
+        return new DashboardController(new FestivalsService(), new SpectaclesService());
+    }
 }
+

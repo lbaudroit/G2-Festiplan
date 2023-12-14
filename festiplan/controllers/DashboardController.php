@@ -32,6 +32,7 @@ class DashboardController
         $vue = new View("/views/dashboard");
         $vue->setVar("listeFestivals", $listFestivals);
         $vue->setVar("listeSpectacles", $listSpectacles);
+        return $vue;
     }
 
 }

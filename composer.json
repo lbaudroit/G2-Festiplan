@@ -20,7 +20,8 @@
             "controllers\\": "festiplan/controllers",
             "services\\": "festiplan/services",
             "application\\": "festiplan/application",
-            "views\\": "festiplan/views"
+            "views\\": "festiplan/views",
+            "utils\\": "festiplan/utils"
         }
     }
 }
