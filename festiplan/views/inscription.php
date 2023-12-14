@@ -9,11 +9,9 @@
     <link rel="stylesheet" href="../css/Inscription.css" > 
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
-    <header class="row fondbleu text-center">
-            <div class="col-1 titre">
-                <h3>Festiplan</h3>
-            </div>
+<body >
+    <header>
+        <hspan class="titre">Festiplan</span>
     </header>
     <div class="container">
         <div class="row">
@@ -21,7 +19,7 @@
 				<div class="offset-2 col-8 offset-sm-2 col-sm-8 offset-md-4 col-md-4 cadre">
 					<img src="../images/compte_utilisateur_ombre.png">
 					<form>
-						<div class="offset-2 col-8 offset-sm-2 col-sm-6 offset-md-2 col-md-6 formulaire">
+						<div class="offset-2 col-8 offset-sm-2 col-sm-6 offset-md-4 col-md-6 formulaire">
 							<label for="nom">nom:</label><br>
 							<input type="text" id="nom" name="nom"><br>
 							<label for="nom">prenom:</label><br>
@@ -33,8 +31,8 @@
 							<label for="email">email:</label><br>
 							<input type="text" id="email" name="email">
 						</div><br>
-						<div class="offset-3 col-6 offset-sm-3 col-sm-6 offset-md-3 col-md-6">
-							<button type="button" class="btn btn-primary btn-block"> Valider <i class="fa-solid fa-envelope"></i></button>
+						<div class="offset-3 col-6 offset-sm-3 col-sm-6 offset-md-3 col-md-6git status">
+							<button type="button" class="btn btn-primary btn-block"> Valider <i class="fa-solid fa-envelope"></i></button><br>
 							<a href="authentification.php" class="texte_lien">Se connecter</a><br>
 						</div>
 					</form>		
@@ -42,11 +40,17 @@
 			</div>
         </div>
     </div>
-    <footer class ="row fondbleu">
-            <div class="offset-10">
-				<!--- Logo et lien IUT -->
-				Réalisé par <br/><a href="http://www.iut-rodez.fr" target="_blank"><img src="../images/logo-iut.png" class ="image" id="logoIUT" alt="Logo IUT" /></a>
-		    </div>
-    </footer>
+    <footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6">
+                        <! ICI ON MET LE BOUTON DE DECONEXION>
+                    </div>
+                    <div class="col-6 contenue_droite">
+                        <img src="../images/logo-iut.png" class ="logo" id="logoIUT" alt="Logo IUT" href="http://www.iut-rodez.fr" target="_blank"/>
+                    </div>
+                </div>
+            </div>
+        </footer>
 </body>
 </html>
