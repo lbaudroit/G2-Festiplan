@@ -27,6 +27,7 @@
         <div class="contenue">
             bloups
         </div>
+
         <footer>
             <div class="container-fluid">
                 <div class="row">
