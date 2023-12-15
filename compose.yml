@@ -2,7 +2,7 @@ version: '1'
 
 services:
     website:
-        image: webdevops/php-apache-dev:8.2-alpine
+        image: webdevops/php-apache:8.2-alpine
         container_name: website
         working_dir: /app/
         ports:
@@ -10,8 +10,18 @@ services:
         volumes:
             - ./:/app/
         profiles:
-            - dev
             - prod
+    dev-website:
+        image: webdevops/php-apache-dev:8.2-alpine
+        container_name: dev-website
+        working_dir: /app/
+        ports:
+            - 9999:80
+        volumes:
+            - ./:/app/
+        profiles:
+            - dev
+            - dev-db
     database:
         image: mysql:8
         container_name: database
@@ -26,9 +36,9 @@ services:
             - ./sql/:/docker-entrypoint-initdb.d
         command: --character-set-server=utf8 --collation-server=utf8_general_ci
         profiles:
-            - db
+            - dev-db
             - prod
-    php-my-admin:
+    php-my-admin-distant:
         image: phpmyadmin:latest
         container_name: php-my-admin
         working_dir: /pma/
@@ -39,3 +49,14 @@ services:
             - 8888:80
         profiles:
             - dev
+    php-my-admin-local:
+        image: phpmyadmin:latest
+        container_name: php-my-admin
+        working_dir: /pma/
+        environment:
+            - PMA_HOST=database
+            - PMA_PORT=3306
+        ports:
+            - 8888:80
+        profiles:
+            - dev-db

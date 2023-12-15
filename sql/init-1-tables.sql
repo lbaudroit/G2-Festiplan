@@ -1,13 +1,14 @@
-DROP IF EXISTS TABLE esthorsscene;
-DROP IF EXISTS TABLE estsurscene;
-DROP IF EXISTS TABLE organise;
-DROP IF EXISTS TABLE intervenants;
-DROP IF EXISTS TABLE spectacles;
-DROP IF EXISTS TABLE festivals;
-DROP IF EXISTS TABLE taillescene;
-DROP IF EXISTS TABLE categoriefestival;
-DROP IF EXISTS TABLE grij;
-DROP IF EXISTS TABLE users;
+DROP TABLE IF EXISTS esthorsscene;
+DROP TABLE IF EXISTS estsurscene;
+DROP TABLE IF EXISTS organise;
+DROP TABLE IF EXISTS scenes;
+DROP TABLE IF EXISTS intervenants;
+DROP TABLE IF EXISTS spectacles;
+DROP TABLE IF EXISTS festivals;
+DROP TABLE IF EXISTS taillescene;
+DROP TABLE IF EXISTS categorie;
+DROP TABLE IF EXISTS grij;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id_login VARCHAR(35) NOT NULL,
@@ -43,8 +44,8 @@ CREATE TABLE festivals (
     titre VARCHAR(35) NOT NULL,
     description_f TEXT NOT NULL,
     lien_img VARCHAR(35),
-    date_deb TIME NOT NULL,
-    date_fin TIME NOT NULL,
+    date_deb DATE NOT NULL,
+    date_fin DATE NOT NULL,
     id_grij INTEGER NOT NULL,
     id_login VARCHAR(35) NOT NULL,
     id_cat INTEGER NOT NULL,
@@ -74,7 +75,7 @@ CREATE TABLE intervenants (
     nom VARCHAR(35) NOT NULL,
     prenom VARCHAR(35) NOT NULL,
     email VARCHAR(35) NOT NULL,
-    PRIMARY KEY key (id_intervenant)
+    PRIMARY KEY (id_intervenant)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE scenes (
