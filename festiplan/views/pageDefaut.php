@@ -19,19 +19,26 @@
         <link rel="stylesheet" href="..\css\style.css">
     </head>
     <body>
-        <header class="row fondbleu text-center">
-            <div class="col-1 titre">
-                <h3>Festiplan</h3>
-            </div>
+        <header>
+            
+                <span class="titre">Festiplan</span>
+            
         </header>
-        <div class="fondblanc col-12">
+        <div class="contenue">
             bloups
         </div>
-        <footer class ="row fondbleu">
-            <div class="offset-10">
-				<!--- Logo et lien IUT -->
-				Réalisé par <br/><a href="http://www.iut-rodez.fr" target="_blank"><img src="../images/logo-iut.png" class ="image" id="logoIUT" alt="Logo IUT" /></a>
-		    </div>
+
+        <footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6">
+                        <! ICI ON MET LE BOUTON DE DECONEXION>
+                    </div>
+                    <div class="col-6 contenue_droite">
+                        <img src="../images/logo-iut.png" class ="logo" id="logoIUT" alt="Logo IUT" href="http://www.iut-rodez.fr" target="_blank"/>
+                    </div>
+                </div>
+            </div>
         </footer>
     </body>
 </html>
