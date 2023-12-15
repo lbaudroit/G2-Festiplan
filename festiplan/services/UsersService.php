@@ -23,5 +23,18 @@ class UsersService
         return $searchStmt;
     }
 
+    /**
+     * Trouve les utilisateurs
+     *
+     * @param PDO $pdo the pdo object
+     * @return PDOStatement the statement referencing the result set
+     */
+    public function getUsersLoginAndMdp(PDO $pdo): PDOStatement
+    {
+        $sql = "SELECT id_login,hashed_pwd FROM users";
+        $searchStmt = $pdo->query($sql);
+        return $searchStmt;
+    }
+
 }
 ?>

@@ -17,11 +17,12 @@ class HomeController
         $this->usersService = $usersService;
     }
 
-    public function index($pdo): View
-    {
-        $searchStmt = $this->usersService->getUsers($pdo);
-        $view = new View("/views/users");
-        $view->setVar('searchStmt', $searchStmt);
+    
+    public function index($pdo): View {
+
+        $searchStmt = $this->usersService->getUsersLoginAndMdp($pdo);
+        $view = new View("/views/authentification");
+        $view->setVar('searchStmt',$searchStmt);
         return $view;
     }
 

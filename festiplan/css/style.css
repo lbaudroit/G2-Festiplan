@@ -7,7 +7,10 @@ body{
 
 body{ display:flex; flex-direction:column; }
 
-.contenue{ flex:1; }
+.contenue{ 
+    flex:1; 
+}
+
 
 .fondblanc {
     background-color: #ffffff;
@@ -19,15 +22,21 @@ body{ display:flex; flex-direction:column; }
     font-family: 'Kiwi Maru', serif;
     font-size: 40px;
 }
-.formulaire {
-    margin-right: 200px;
-    margin-left: 200px; 
+
+.formulaire > * {
+    margin: 5px;
 }
+
 .textFormulaire {
     padding: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
+
 .bordure {
+    max-width: 434px;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
     border: 1px solid black;
     border-radius: 5px;
 }
@@ -37,7 +46,6 @@ header{
     background-color : #4DD1C8;
     margin-bottom: 10px;
 }
-
 
 h3{
     text-align: center;
@@ -51,8 +59,6 @@ footer {
     width: 100%;
     height: auto;
 }
-
-
 
 .logo{
     width: 228px;
@@ -104,4 +110,3 @@ footer {
     text-align: center;
     align-items: center;
 }
-
