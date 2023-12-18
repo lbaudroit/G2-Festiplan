@@ -26,7 +26,7 @@
     <!--LISTE DES FESTIVALS-->
     <div class="container contenue">
         <?php if (isset($listeFestivals)) { ?>
-            <div class="row mb-3 h-50">
+            <div class="row mb-3 h-25">
                 <!-- Titre -->
                 <div class="col-12 col-sm-8 col-md-3 underline titre2">Mes Festivals&nbsp:</div>
 
@@ -40,7 +40,7 @@
                 // affichage des cartes de festivals  
                 foreach ($listeFestivals as $i => $fest) {
                     ?>
-                    <div class="col-12 col-sm-6 col-md-3 h-25
+                    <div class="col-12 col-sm-6 col-md-3 mh-100 h-100
                             <?php
                             if ($i == 1) {
                                 echo "d-none d-sm-flex";
@@ -52,8 +52,8 @@
                             ?>">
                         <a href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>"
                             class="text-decoration-none text-black">
-                            <div class="bordure">
-                                <div class="row p-2">
+                            <div class="bordure d-flex flex-column justify-content-between">
+                                <div class="p-2 row">
                                     <!-- TITRE -->
                                     <a class="col-9 text-decoration-none text-black"
                                         href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>">
@@ -66,7 +66,7 @@
                                     </a>
                                 </div>
                                 <!-- IMAGE -->
-                                <div class="col-12">
+                                <div class="">
                                     <?php
                                     echo "<img  alt='Image du festival " . htmlspecialchars($fest['titre']) . "' 
                                     src='images/festival/" . $fest['lien_img'] . "'
