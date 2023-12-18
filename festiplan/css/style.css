@@ -105,3 +105,24 @@ footer {
     text-align: center;
     align-items: center;
 }
+
+.texte-bleu {
+    color: #4dd1c8 !important;
+}
+
+.fond-bleu-clair {
+    background-color: #aff8f3 !important;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.titre2 {
+    font-family: 'Kiwi Maru', serif;
+    font-size: 30px;
+}
+
+.grande-icone {
+    font-size: 4em;
+}

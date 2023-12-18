@@ -27,6 +27,7 @@ class DashboardController
     public function showDashboard(PDO $pdo)
     {
         $user = HttpHelper::getParam("user");
+        // $user = $_SESSION["user"]; TODO code à utiliser une fois l'auth crée
         $listFestivals = $this->festivalsService->getListOfUser($pdo, $user);
         $listSpectacles = $this->spectaclesService->getListOfUser($pdo, $user);
         $vue = new View("/views/dashboard");
