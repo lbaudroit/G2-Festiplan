@@ -3,6 +3,7 @@ namespace controllers;
 
 use services\UsersService;
 use yasmf\View;
+use yasmf\HttpHelper;
 
 class HomeController
 {
@@ -17,11 +18,18 @@ class HomeController
         $this->usersService = $usersService;
     }
 
-    public function index($pdo): View
-    {
-        $searchStmt = $this->usersService->getUsers($pdo);
-        $view = new View("/views/users");
-        $view->setVar('searchStmt', $searchStmt);
+    
+    public function index($pdo): View {
+        $login = HttpHelper::getParam("identifiant");
+        $mdp = HttpHelper::getParam("pswd");
+        $user = $this->usersService->getUsersLoginAndMdp($pdo, $login, $mdp);
+        if ($user==null){
+            $view = new View("/views/authentification");
+        } else {
+            $view = new View("/views/dashboard");
+        }
+        $view->setVar('user',$user);
+
         return $view;
     }
 

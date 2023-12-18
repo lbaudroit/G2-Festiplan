@@ -23,5 +23,40 @@ class UsersService
         return $searchStmt;
     }
 
+    /**
+     * return true si la valeur existe et est non vide
+     */
+    public function valide($valeur){
+        if ($valeur!=null && $valeur!=""){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Trouve les utilisateurs
+     *
+     * @param PDO $pdo the pdo object
+     * @return user the statement referencing the result set
+     */
+    public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp)
+    {
+        if ($this::valide($login) && $this::valide($mdp)){
+            $searchStmt = $pdo->prepare('SELECT * FROM users WHERE id_login= ? AND hashed_pwd= ? ');
+            $searchStmt->bindParam(1,$login);
+            $searchStmt->bindParam(2,$mdp);
+            $searchStmt->execute();
+            $user = $searchStmt->fetch();
+            return $user;
+        }else {
+            return  null;
+        }
+    }
+
+
+    
+
 }
 ?>

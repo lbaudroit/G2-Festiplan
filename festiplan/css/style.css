@@ -3,9 +3,6 @@
 body {
     min-height: 100vh;
     margin: 0;
-}
-
-body {
     display: flex;
     flex-direction: column;
 }
@@ -23,15 +20,21 @@ body {
     font-family: 'Kiwi Maru', serif;
     font-size: 40px;
 }
-.formulaire {
-    margin-right: 200px;
-    margin-left: 200px;
+
+.formulaire > * {
+    margin: 5px;
 }
+
 .textFormulaire {
     padding: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
+
 .bordure {
+    max-width: 434px;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
     border: 1px solid black;
     border-radius: 5px;
 }
