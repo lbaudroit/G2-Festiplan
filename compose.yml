@@ -22,6 +22,8 @@ services:
         profiles:
             - dev
             - dev-db
+        environment:
+            - PHP_DISPLAY_ERRORS=1
     database:
         image: mysql:8
         container_name: database

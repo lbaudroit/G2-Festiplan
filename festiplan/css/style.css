@@ -1,22 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300&display=swap');
 
-body{
+body {
     min-height: 100vh;
-    margin:0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
-body{ display:flex; flex-direction:column; }
-
-.contenue{ 
-    flex:1; 
+.contenue {
+    flex: 1;
 }
-
 
 .fondblanc {
     background-color: #ffffff;
     text-align: center;
 }
-
 
 .titre {
     font-family: 'Kiwi Maru', serif;
@@ -41,42 +39,42 @@ body{ display:flex; flex-direction:column; }
     border-radius: 5px;
 }
 
-header{
+header {
     padding: 5px;
-    background-color : #4DD1C8;
+    background-color: #4dd1c8;
     margin-bottom: 10px;
 }
 
-h3{
+h3 {
     text-align: center;
 }
 
 footer {
-    bottom : 0;
+    bottom: 0;
     clear: both;
     position: relative;
-    background-color : #4DD1C8;
+    background-color: #4dd1c8;
     width: 100%;
     height: auto;
 }
 
-.logo{
+.logo {
     width: 228px;
     max-width: 33%;
     min-width: 183px;
 }
 
-.contenue_droite{
+.contenue_droite {
     display: flex;
     justify-content: right;
 }
 
-.part_form{
+.part_form {
     margin-bottom: 5%;
     font-size: 16px;
 }
 
-.btn-modif{
+.btn-modif {
     font-size: 20px;
     min-height: 50px;
     height: fit-content;
@@ -84,29 +82,50 @@ footer {
     max-width: 100%;
 }
 
-.btn-rouge{
-    background-color: #FF6161;
+.btn-rouge {
+    background-color: #ff6161;
     border: 1px;
     border-style: solid;
     border-radius: 5px;
 }
 
-.btn-rouge:hover{
+.btn-rouge:hover {
     background-color: #ed5959;
 }
 
-.btn-bleu{
-    background-color: #AFF8F3;
+.btn-bleu {
+    background-color: #aff8f3;
     border: 1px;
     border-style: solid;
     border-radius: 5px;
 }
 
-.btn-bleu:hover{
+.btn-bleu:hover {
     background-color: #a8eeea;
 }
 
-.bloc-centrer{
+.bloc-centrer {
     text-align: center;
     align-items: center;
+}
+
+.texte-bleu {
+    color: #4dd1c8 !important;
+}
+
+.fond-bleu-clair {
+    background-color: #aff8f3 !important;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.titre2 {
+    font-family: 'Kiwi Maru', serif;
+    font-size: 30px;
+}
+
+.grande-icone {
+    font-size: 4em;
 }

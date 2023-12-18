@@ -18,17 +18,18 @@ class HomeController
         $this->usersService = $usersService;
     }
 
-    
-    public function index($pdo): View {
+
+    public function index($pdo): View
+    {
         $login = HttpHelper::getParam("identifiant");
         $mdp = HttpHelper::getParam("pswd");
         $user = $this->usersService->getUsersLoginAndMdp($pdo, $login, $mdp);
-        if ($user==null){
+        if ($user == null) {
             $view = new View("/views/authentification");
         } else {
             $view = new View("/views/dashboard");
         }
-        $view->setVar('user',$user);
+        $view->setVar('user', $user);
 
         return $view;
     }

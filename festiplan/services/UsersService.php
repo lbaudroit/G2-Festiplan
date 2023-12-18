@@ -26,11 +26,11 @@ class UsersService
     /**
      * return true si la valeur existe et est non vide
      */
-    public function valide($valeur){
-        if ($valeur!=null && $valeur!=""){
+    public function valide($valeur)
+    {
+        if ($valeur != null && $valeur != "") {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -43,20 +43,20 @@ class UsersService
      */
     public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp)
     {
-        if ($this::valide($login) && $this::valide($mdp)){
+        if ($this::valide($login) && $this::valide($mdp)) {
             $searchStmt = $pdo->prepare('SELECT * FROM users WHERE id_login= ? AND hashed_pwd= ? ');
-            $searchStmt->bindParam(1,$login);
-            $searchStmt->bindParam(2,$mdp);
+            $searchStmt->bindParam(1, $login);
+            $searchStmt->bindParam(2, $mdp);
             $searchStmt->execute();
             $user = $searchStmt->fetch();
             return $user;
-        }else {
-            return  null;
+        } else {
+            return null;
         }
     }
 
 
-    
+
 
 }
 ?>
