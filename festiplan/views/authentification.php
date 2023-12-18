@@ -29,7 +29,7 @@
                 <h2>Connectez-vous pour reprendre la planification de vos festivals ou spectacle.<br/>
                 Ou inscrivez-vous pour commencer à créer !</h2>
             </div>
-            <form class="bordure formulaire">
+            <form method="post" class="bordure formulaire">
                 <div class ="col-12 text-center">
                     <i class="fa-solid fa-user fa-4x"></i>
                 </div>

@@ -19,8 +19,9 @@ class HomeController
 
     
     public function index($pdo): View {
-        
-        $searchStmt = $this->usersService->getUsersLoginAndMdp($pdo);
+        $login = HttpHelper::getParam("identifiant");
+        $mdp = HttpHelper::getParam("pswd");
+        $searchStmt = $this->usersService->getUsersLoginAndMdp($pdo, $login, $mdp);
         $view = new View("/views/authentification");
         $view->setVar('searchStmt',$searchStmt);
         return $view;
