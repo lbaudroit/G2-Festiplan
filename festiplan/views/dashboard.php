@@ -28,11 +28,11 @@
         <?php if (isset($listeFestivals)) { ?>
             <div class="row mb-3 h-50">
                 <!-- Titre -->
-                <div class="col-12 col-sm-8 col-md-4 underline titre2">Mes Festivals&nbsp:</div>
+                <div class="col-12 col-sm-8 col-md-3 underline titre2">Mes Festivals&nbsp:</div>
 
                 <!-- Accéder à la page des festivals -->
-                <div class="col-12 col-sm-4 col-md-8 text-start my-auto">
-                    <a href="./festiplan?controller=festivals&action=index" class="text-decoration-none col-12 texte-bleu">
+                <div class="col-12 col-sm-4 col-md-9 text-start my-auto">
+                    <a href="./index?controller=festivals&action=index" class="text-decoration-none col-12 texte-bleu">
                         Voir tous mes festivals...
                     </a>
                 </div>
@@ -50,9 +50,9 @@
                                 echo "d-none";
                             }
                             ?>">
-                        <a href="./festiplan?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>"
-                            class="text-decoration-none text-black">
-                            <div class="bordure">
+                        <div class="bordure">
+                            <a href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>"
+                                class="text-decoration-none text-black">
                                 <div class="row p-2">
                                     <!-- TITRE -->
                                     <div class="col-9">
@@ -61,7 +61,7 @@
                                     <!-- ICONE POUBELLE -->
                                     <div class="col-3 text-center">
                                         <a
-                                            href="./festiplan?controller=festivals&action=delete&festival=<?php echo $fest["id_festival"]; ?>">
+                                            href="./index?controller=festivals&action=delete&festival=<?php echo $fest["id_festival"]; ?>">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </div>
@@ -74,8 +74,8 @@
                                     class='img-fluid'>";
                                     ?>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
                     <?php
                 }
@@ -83,77 +83,9 @@
             <?php } ?>
             <!-- Créer un festival -->
             <div class="col-12 col-sm-6 col-md-3 fond-bleu-clair bordure text-center">
-                <a href="./festiplan?controller=festivals&action=create" class="text-decoration-none col-12 texte-bleu">
+                <a href="./index?controller=festivals&action=create" class="text-decoration-none col-12 texte-bleu">
                     <i class="fas fa-plus grande-icone"></i>
                 </a>
-            </div>
-        </div>
-
-        <!--LISTE DES SPECTACLES-->
-        <?php if (isset($listeSpectacles)) { ?>
-            <div class="row mb-3 h-50">
-                <!-- Titre -->
-                <div class="col-12 col-sm-8 underline titre2">Mes Spectacles&nbsp:</div>
-
-                <!-- Accès à la carte des autres spectacles-->
-                <div class="col-12 col-sm-4 text-start my-auto">
-                    <a href="./festiplan?controller=spectacles&action=index"
-                        class="col-12 texte-bleu text-decoration-none">Voir tous mes spectacles...</a>
-                </div>
-
-                <?php
-                // AFFICHAGE DES CARTES DE SPECTACLE
-                foreach ($listeSpectacles as $i => $spec) {
-                    ?>
-                    <div class="col-12 col-sm-6 col-md-3 h-25
-                            <?php
-                            if ($i == 1) {
-                                echo "d-none d-sm-flex";
-                            } else if ($i == 2) {
-                                echo "d-none d-md-flex";
-                            } else if ($i > 2) {
-                                echo "d-none";
-                            }
-                            ?>">
-                        <a href="./festiplan?controller=spectacles&action=modify&spectacle=<?php echo $spec["id_spectacle"]; ?>"
-                            class="text-decoration-none text-black">
-                            <div class="bordure">
-                                <div class="row p-2">
-                                    <div class="col-9">
-                                        <!-- TITRE -->
-                                        <?php echo "&nbsp" . $spec['titre']; ?>
-                                    </div>
-                                    <!-- ICONE POUBELLE -->
-                                    <div class="col-3 text-center">
-                                        <a
-                                            href="./festiplan?controller=spectacles&action=delete&spectacle=<?php echo $spec["id_spectacle"]; ?>">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- IMAGE -->
-                                <div class="col-12">
-                                    <?php
-                                    echo "<img  alt='Image du spectacle " . htmlspecialchars($spec['titre']) . "' 
-                                    src='images/spectacle/" . $spec['lien_img'] . "'
-                                    class='img-fluid'>";
-                                    ?>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <?php
-                }
-                ?>
-            <?php } ?>
-            <!-- Créer un spectacle -->
-            <div class="col-12 col-sm-6 col-md-3 fond-bleu-clair text-center bordure">
-                <div class="row">
-                    <a href="./festiplan?controller=spectacles&action=create"
-                        class="text-decoration-none col-12 texte-bleu">
-                        <i class="fas fa-plus grande-icone"></i>
-                    </a>
-                </div>
             </div>
         </div>
     </div>
