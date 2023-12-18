@@ -50,21 +50,20 @@
                                 echo "d-none";
                             }
                             ?>">
-                        <div class="bordure">
-                            <a href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>"
-                                class="text-decoration-none text-black">
+                        <a href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>"
+                            class="text-decoration-none text-black">
+                            <div class="bordure">
                                 <div class="row p-2">
                                     <!-- TITRE -->
-                                    <div class="col-9">
-                                        <?php echo "&nbsp" . $fest['titre']; ?>
-                                    </div>
+                                    <a class="col-9 text-decoration-none text-black"
+                                        href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>">
+                                        <?php echo $fest['titre']; ?>
+                                    </a>
                                     <!-- ICONE POUBELLE -->
-                                    <div class="col-3 text-center">
-                                        <a
-                                            href="./index?controller=festivals&action=delete&festival=<?php echo $fest["id_festival"]; ?>">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </div>
+                                    <a class="col-3 text-end text-decoration-none text-black"
+                                        href="./index?controller=festivals&action=delete&festival=<?php echo $fest["id_festival"]; ?>">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
                                 </div>
                                 <!-- IMAGE -->
                                 <div class="col-12">
@@ -74,17 +73,18 @@
                                     class='img-fluid'>";
                                     ?>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                     </div>
                     <?php
                 }
                 ?>
             <?php } ?>
             <!-- Créer un festival -->
-            <div class="col-12 col-sm-6 col-md-3 fond-bleu-clair bordure text-center">
-                <a href="./index?controller=festivals&action=create" class="text-decoration-none col-12 texte-bleu">
-                    <i class="fas fa-plus grande-icone"></i>
+            <div class="col-12 col-sm-6 col-md-3 fond-bleu-clair bordure text-center row">
+                <a href="./index?controller=festivals&action=create"
+                    class="text-decoration-none texte-bleu d-flex align-content-center">
+                    <i class="fas fa-plus grande-icone col-12 my-auto"></i>
                 </a>
             </div>
         </div>
