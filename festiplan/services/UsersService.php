@@ -31,9 +31,29 @@ class UsersService
      */
     public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp): PDOStatement
     {
-        $sql = 'SELECT * FROM users WHERE id_login=\''.$login.'\' AND hashed_pwd=\''.$mdp.'\'';
-        $searchStmt = $pdo->query($sql);
-        return $searchStmt;
+        if (valide($login) && valide($mdp)){
+            $searchStmt = $pdo->prepare('SELECT * FROM users WHERE id_login= ? AND hashed_pwd= ? ');
+            $searchStmt->bindParam(1,$login);
+            $searchStmt->bindParam(2,$mdp);
+            $searchStmt->execute();
+            $user = $searchStmt->fetch();
+            return $user;
+        }else {
+            return  null;
+        }
+    }
+
+
+    /**
+     * return true si la valeur existe et est non vide
+     */
+    public function valide($valeur){
+        if ($valeur!=null && $valeur!=""){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 }

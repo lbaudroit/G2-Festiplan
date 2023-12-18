@@ -23,10 +23,8 @@ class HomeController
         $login = HttpHelper::getParam("identifiant");
         $mdp = HttpHelper::getParam("pswd");
         $view = new View("/views/authentification");
-        if ($login!=null && $mdp!=null){
-            $searchStmt = $this->usersService->getUsersLoginAndMdp($pdo, $login, $mdp);
-            $view->setVar('searchStmt',$searchStmt);
-        }
+        $user = $this->usersService->getUsersLoginAndMdp($pdo, $login, $mdp);
+        $view->setVar('user',$user);
         return $view;
     }
 
