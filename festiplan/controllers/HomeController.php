@@ -22,9 +22,14 @@ class HomeController
     public function index($pdo): View {
         $login = HttpHelper::getParam("identifiant");
         $mdp = HttpHelper::getParam("pswd");
-        $view = new View("/views/authentification");
         $user = $this->usersService->getUsersLoginAndMdp($pdo, $login, $mdp);
+        if ($user==null){
+            $view = new View("/views/authentification");
+        } else {
+            $view = new View("/views/dashboard");
+        }
         $view->setVar('user',$user);
+
         return $view;
     }
 

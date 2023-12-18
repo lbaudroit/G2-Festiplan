@@ -24,14 +24,26 @@ class UsersService
     }
 
     /**
+     * return true si la valeur existe et est non vide
+     */
+    public function valide($valeur){
+        if ($valeur!=null && $valeur!=""){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
      * Trouve les utilisateurs
      *
      * @param PDO $pdo the pdo object
-     * @return PDOStatement the statement referencing the result set
+     * @return user the statement referencing the result set
      */
-    public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp): PDOStatement
+    public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp)
     {
-        if (valide($login) && valide($mdp)){
+        if ($this::valide($login) && $this::valide($mdp)){
             $searchStmt = $pdo->prepare('SELECT * FROM users WHERE id_login= ? AND hashed_pwd= ? ');
             $searchStmt->bindParam(1,$login);
             $searchStmt->bindParam(2,$mdp);
@@ -44,17 +56,7 @@ class UsersService
     }
 
 
-    /**
-     * return true si la valeur existe et est non vide
-     */
-    public function valide($valeur){
-        if ($valeur!=null && $valeur!=""){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    
 
 }
 ?>
