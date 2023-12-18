@@ -19,19 +19,52 @@
         <link rel="stylesheet" href="..\css\style.css">
     </head>
     <body>
-        <header class="row fondbleu text-center">
-            <div class="col-1 titre">
-                <h3>Festiplan</h3>
-            </div>
+        <header>
+            <hspan class="titre">Festiplan</span>
         </header>
-        <div class="fondblanc col-12">
-            bloups
+        <div class = "container container-fluid">
+            <div class="text-center col-12">
+                <h1>Bienvenue sur le site Festiplan</h1><br/>
+                <h2>Connectez-vous pour reprendre la planification de vos festivals ou spectacle.<br/>
+                Ou inscrivez-vous pour commencer à créer !</h2>
+            </div>
+            <form class="bordure formulaire">
+                <div class ="col-12 text-center">
+                    <i class="fa-solid fa-user fa-4x"></i>
+                </div>
+                <div class="row textFormulaire">
+                    <div class="col-12">
+                        Identifiant : 
+                        <br/>    
+                        <input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control"/>
+                    </div>
+                    <br/>
+                    <div class="col-12">
+                        Mot de passe : 
+                        <br/>
+                        <input type="text" name="pswd" placeholder="Tapez votre mot de passe" class="form-control"/>					
+                    </div>
+                    <br/>
+                    <div class="col-12 text-center">
+                        <input class="btn bordure" type="submit" value="Se connecter">
+                    </div>
+                    <div class="col-12 text-center">
+                        <a href = "creerCompte.php">Créer un compte</a>
+                    </div>
+                </div>
+            </form>
         </div>
-        <footer class ="row fondbleu">
-            <div class="offset-10">
-				<!--- Logo et lien IUT -->
-				Réalisé par <br/><a href="http://www.iut-rodez.fr" target="_blank"><img src="../images/logo-iut.png" class ="image" id="logoIUT" alt="Logo IUT" /></a>
-		    </div>
+        <footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6">
+                        <! ICI ON MET LE BOUTON DE DECONEXION>
+                    </div>
+                    <div class="col-6 contenue_droite">
+                        <img src="../images/logo-iut.png" class ="logo" id="logoIUT" alt="Logo IUT" href="http://www.iut-rodez.fr" target="_blank"/>
+                    </div>
+                </div>
+            </div>
         </footer>
     </body>
 </html>
