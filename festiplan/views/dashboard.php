@@ -30,7 +30,6 @@ if ($user!=null){
     <header>
         <span class="titre">Festiplan</span>
     </header>
-    <?php var_dump($user) ?>
     <!--LISTE DES FESTIVALS-->
     <div class="container contenue">
         <?php if (isset($listeFestivals)) { ?>

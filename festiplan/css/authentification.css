@@ -1,0 +1,23 @@
+.leFormulaire{
+    max-width: 434px;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.textFormulaire > * {
+    margin: 5px;
+}
+
+.textFormulaire {
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.btn-modif {
+    font-size: 16px;
+    min-height: 44px;
+    height: fit-content;
+    width: 167px;
+    max-width: 100%;
+}
