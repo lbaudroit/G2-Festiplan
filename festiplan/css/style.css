@@ -39,6 +39,11 @@ body {
     border-radius: 5px;
 }
 
+.bordure-basique {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
 header {
     padding: 5px;
     background-color: #4dd1c8;
@@ -128,4 +133,12 @@ footer {
 
 .grande-icone {
     font-size: 4em;
+}
+
+.min-card {
+    min-height: 10em;
+}
+
+.width-to-size {
+    width: fit-content;
 }
