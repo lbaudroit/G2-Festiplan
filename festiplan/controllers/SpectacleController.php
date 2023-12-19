@@ -2,9 +2,10 @@
 namespace controllers;
 
 use services\SpectaclesService;
+use yasmf\HttpHelper;
 use yasmf\View;
 
-class HomeController
+class SpectacleController
 {
 
     private SpectaclesService $spectaclesService;
@@ -20,8 +21,13 @@ class HomeController
 
     public function index($pdo): View
     {
-        // TODO
-        $view = new View("accueil_festivals");
+        $user = HttpHelper::getParam("user");
+        // TODO à changer en session
+        $view = new View("views/liste");
+        $resultSet = $this->spectaclesService->getListOfUser($pdo, $user);
+        $view->setVar("liste", $resultSet);
+        $view->setVar("nom", "spectacle");
+
         return $view;
     }
 
