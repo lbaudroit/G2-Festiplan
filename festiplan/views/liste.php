@@ -54,7 +54,7 @@
                                 </a>
                                 <!-- ICONE POUBELLE -->
                                 <a class="col-3 text-end text-decoration-none text-black my-auto"
-                                    href="<?php echo "./index?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>">
+                                    href="<?php echo "./index?controller=" . $nom . "&action=delete&" . $nom . "=" . $elt[$id]; ?>">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
@@ -77,7 +77,7 @@
             ?>
             <!-- Créer un festival -->
             <div class="col-6 col-sm-4 col-md-3 min-card">
-                <a href="./index?controller=<?php echo $nom ?>&action=create" class="text-decoration-none texte-bleu">
+                <a href="./index?controller=<?php echo $nom; ?>&action=create" class="text-decoration-none texte-bleu">
                     <div class="btn fond-bleu-clair bordure-basique h-100 d-flex justify-content-center">
                         <div class="row">
                             <span class="col-12 d-flex justify-content-center">

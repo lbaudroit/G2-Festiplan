@@ -2,8 +2,9 @@
 namespace controllers;
 
 use services\FestivalsService;
-use yasmf\HttpHelper;
 use yasmf\View;
+
+session_start();
 
 class FestivalController
 {
@@ -21,8 +22,7 @@ class FestivalController
 
     public function index($pdo): View
     {
-        $user = HttpHelper::getParam("user");
-        // TODO à changer en session
+        $user = $_SESSION["user"]["id_login"];
         $view = new View("views/liste");
         $resultSet = $this->festivalsService->getListOfUser($pdo, $user);
         $view->setVar("liste", $resultSet);

@@ -1,6 +1,8 @@
 <?php
 namespace controllers;
 
+session_start();
+
 use services\SpectaclesService;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -21,8 +23,7 @@ class SpectacleController
 
     public function index($pdo): View
     {
-        $user = HttpHelper::getParam("user");
-        // TODO à changer en session
+        $user = $_SESSION["user"]["id_login"];
         $view = new View("views/liste");
         $resultSet = $this->spectaclesService->getListOfUser($pdo, $user);
         $view->setVar("liste", $resultSet);

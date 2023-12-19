@@ -1,9 +1,5 @@
 <?php
 session_start();
-
-if ($user != null) {
-    $_SESSION['user'] = $user;
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -33,7 +29,6 @@ if ($user != null) {
 
     <?php
     $aAfficher = [$listeFestivals, $listeSpectacles];
-    var_dump($aAfficher);
     $nom = ["festival", "spectacle"];
     $nom_pluriel = ["festivals", "spectacles"];
     foreach ($aAfficher as $e => $liste) {
@@ -50,7 +45,7 @@ if ($user != null) {
 
                 <!-- Accéder à la page globale des éléments -->
                 <div class="text-start my-auto width-to-size">
-                    <a href="<?php echo "./index?controller=" . $nom[$e] . "&action=index" ?>"
+                    <a href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=index" ?>"
                         class="text-decoration-none col-12 texte-bleu">
                         Voir tous mes
                         <?php echo $nom_pluriel[$e] ?>...
@@ -71,24 +66,24 @@ if ($user != null) {
                                 echo "d-none";
                             }
                             ?>">
-                        <a href="<?php echo "./index?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>"
+                        <a href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>"
                             class="text-decoration-none text-black">
                             <div class="bordure-basique d-flex flex-column justify-content-between h-100">
                                 <div class="p-2 row">
                                     <!-- TITRE -->
                                     <a class="col-9 text-decoration-none text-black"
-                                        href="<?php echo "./index?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
+                                        href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
                                         <?php echo $elt['titre']; ?>
                                     </a>
                                     <!-- ICONE POUBELLE -->
                                     <a class="col-3 text-end text-decoration-none text-black my-auto"
-                                        href="<?php echo "./index?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
+                                        href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=delete&" . $nom[$e] . "=" . $elt[$id]; ?>">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </div>
                                 <!-- IMAGE -->
                                 <a
-                                    href="<?php echo "./index?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
+                                    href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
                                     <div class="">
                                         <?php
                                         echo "<img  alt='Image du " . $nom[$e] . htmlspecialchars($elt['titre']) . "' 
@@ -105,7 +100,7 @@ if ($user != null) {
                     ?>
                 <!-- Créer un festival -->
                 <div class="col-6 col-sm-4 col-md-3 min-card">
-                    <a href="./index?controller=<?php echo $nom[$e] ?>&action=create"
+                    <a href="./index.php?controller=<?php echo $nom[$e] ?>&action=create"
                         class="text-decoration-none texte-bleu">
                         <div class="btn fond-bleu-clair bordure-basique h-100 d-flex justify-content-center">
                             <div class="row">
