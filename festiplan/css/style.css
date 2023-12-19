@@ -39,6 +39,11 @@ body {
     border-radius: 5px;
 }
 
+.bordure-basique {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
 header {
     padding: 5px;
     background-color: #4dd1c8;

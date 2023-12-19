@@ -25,22 +25,23 @@
 
     <!--LISTE DES FESTIVALS-->
     <div class="container contenue">
-        <?php if (isset($listeFestivals)) { ?>
-            <div class="row mb-3 h-25">
-                <!-- Titre -->
-                <div class="col-12 col-sm-8 col-md-3 underline titre2">Mes Festivals&nbsp:</div>
+        <div class="row mb-2">
+            <!-- Titre -->
+            <div class="col-12 col-sm-8 col-md-4 underline titre2">Mes Festivals&nbsp:</div>
 
-                <!-- Accéder à la page des festivals -->
-                <div class="col-12 col-sm-4 col-md-9 text-start my-auto">
-                    <a href="./index?controller=festivals&action=index" class="text-decoration-none col-12 texte-bleu">
-                        Voir tous mes festivals...
-                    </a>
-                </div>
-                <?php
-                // affichage des cartes de festivals  
-                foreach ($listeFestivals as $i => $fest) {
-                    ?>
-                    <div class="col-12 col-sm-6 col-md-3 mh-100 h-100
+            <!-- Accéder à la page des festivals -->
+            <div class="col-12 col-sm-4 col-md-8 text-start my-auto">
+                <a href="./index?controller=festivals&action=index" class="text-decoration-none col-12 texte-bleu">
+                    Voir tous mes festivals...
+                </a>
+            </div>
+        </div>
+        <div class="row row-gap-2">
+            <?php
+            // affichage des cartes de festivals  
+            foreach ($listeFestivals as $i => $fest) {
+                ?>
+                <div class="col-6 col-sm-4 col-md-3
                             <?php
                             if ($i == 1) {
                                 echo "d-none d-sm-flex";
@@ -50,41 +51,45 @@
                                 echo "d-none";
                             }
                             ?>">
-                        <a href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>"
-                            class="text-decoration-none text-black">
-                            <div class="bordure d-flex flex-column justify-content-between">
-                                <div class="p-2 row">
-                                    <!-- TITRE -->
-                                    <a class="col-9 text-decoration-none text-black"
-                                        href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>">
-                                        <?php echo $fest['titre']; ?>
-                                    </a>
-                                    <!-- ICONE POUBELLE -->
-                                    <a class="col-3 text-end text-decoration-none text-black"
-                                        href="./index?controller=festivals&action=delete&festival=<?php echo $fest["id_festival"]; ?>">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </div>
-                                <!-- IMAGE -->
-                                <div class="">
-                                    <?php
-                                    echo "<img  alt='Image du festival " . htmlspecialchars($fest['titre']) . "' 
+                    <a href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>"
+                        class="text-decoration-none text-black">
+                        <div class="bordure-basique d-flex flex-column justify-content-between h-100">
+                            <div class="p-2 row">
+                                <!-- TITRE -->
+                                <a class="col-9 text-decoration-none text-black"
+                                    href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>">
+                                    <?php echo $fest['titre']; ?>
+                                </a>
+                                <!-- ICONE POUBELLE -->
+                                <a class="col-3 text-end text-decoration-none text-black my-auto"
+                                    href="./index?controller=festivals&action=delete&festival=<?php echo $fest["id_festival"]; ?>">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                            <!-- IMAGE -->
+                            <div class="">
+                                <?php
+                                echo "<img  alt='Image du festival " . htmlspecialchars($fest['titre']) . "' 
                                     src='images/festival/" . $fest['lien_img'] . "'
                                     class='img-fluid'>";
-                                    ?>
-                                </div>
+                                ?>
                             </div>
-                        </a>
-                    </div>
-                    <?php
-                }
-                ?>
-            <?php } ?>
+                        </div>
+                    </a>
+                </div>
+                <?php
+            }
+            ?>
             <!-- Créer un festival -->
-            <div class="col-12 col-sm-6 col-md-3 fond-bleu-clair bordure text-center row">
-                <a href="./index?controller=festivals&action=create"
-                    class="text-decoration-none texte-bleu d-flex align-content-center">
-                    <i class="fas fa-plus grande-icone col-12 my-auto"></i>
+            <div class="col-6 col-sm-4 col-md-3">
+                <a href="./index?controller=festivals&action=create" class="text-decoration-none texte-bleu">
+                    <div class="btn fond-bleu-clair bordure-basique h-100 d-flex justify-content-center">
+                        <div class="row">
+                            <span class="col-12 d-flex justify-content-center">
+                                <i class="fas fa-plus grande-icone col-12 my-auto texte-bleu"></i>
+                            </span>
+                        </div>
+                    </div>
                 </a>
             </div>
         </div>
