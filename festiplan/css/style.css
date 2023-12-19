@@ -21,6 +21,11 @@ body {
     font-size: 40px;
 }
 
+.secondTitre {
+    font-family: 'Kiwi Maru', serif;
+    font-size: 36px;
+}
+
 .formulaire > * {
     margin: 5px;
 }
@@ -28,6 +33,10 @@ body {
 .textFormulaire {
     padding: 5px;
     margin-bottom: 20px;
+}
+
+.fondFormulaire {
+    background-color: #9de1dc;
 }
 
 .bordure {
