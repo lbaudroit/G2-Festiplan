@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-		<title>FESTIPLAN - authentification</title>
+		<title>FESTIPLAN - Création de Spectacle</title>
 		
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
@@ -27,13 +27,33 @@
                     </div>
                     <div class="col-6 contenue_droite">
                         <i class="fa-solid fa-user fa-4x"></i>
+                        <hspan class="secondTitre">Mon Compte </hspan>
                     </div>
                 </div>
             </div>
         </header>
         <div class = "contenue container">
             <div class="text-center col-12">
-                
+                <form method="post" class="formulaire bordure">
+                    <div class = "row fondFormulaire textFormulaire">
+                        <div class ="col-md-4 col-sm-5 col-12">
+                            <i class="fa-regular fa-plus fa-4x"></i>
+                            Rajoutez une image (800x600 maximum) (optionnel)
+                        </div>
+                        <div class = "col-8">
+                            <div class ="col-12">
+                                <input type="text" name="nomSpectacle" placeholder="Tapez le titre (35 caractères max.)" class="form-control"/>
+                            </div>
+                            <br/>
+                            <div class ="col-12 d-none d-md-block">
+                                <input type="text" name="descSpectaclePC" placeholder="Tapez la description (1000 caractères max.)" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class = "col-12 d-md-none">
+                            <input type="text" name="descSpectacleTabletTel" placeholder="Tapez la description (1000 caractères max.)" class="form-control"/>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
         <footer>
