@@ -15,6 +15,14 @@ body {
     flex: 1;
 }
 
+.textecentre {
+    text-align: center;
+}
+
+.fondbleuplusclair {
+    background-color: #9DE1DC;
+}
+
 .fondblanc {
     background-color: #ffffff;
     text-align: center;
@@ -25,6 +33,7 @@ body {
     font-size: 40px;
 }
 
+<<<<<<< HEAD
 .secondTitre {
     font-family: 'Kiwi Maru', serif;
     font-size: 36px;
@@ -114,6 +123,17 @@ footer {
     background-color: #a8eeea;
 }
 
+.btn-blanc {
+    background-color: #f8f8f8;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+.btn-blanc:hover {
+    background-color: #e4fffe;
+}
+
 .bloc-centrer {
     text-align: center;
     align-items: center;
@@ -138,4 +158,17 @@ footer {
 
 .grande-icone {
     font-size: 4em;
+}
+
+.btn-deco-rond{
+    background-color: #ff6161;
+    height: 76;
+    width: 76;
+    border: 1px;
+    border-style: solid;
+    border-radius: 38px;
+}
+
+.btn-deoc-rond:hover{
+    background-color: #ed5959;
 }
