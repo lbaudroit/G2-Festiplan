@@ -1,5 +1,6 @@
 <?php
 namespace controllers;
+session_start();
 
 use services\FestivalsService;
 use services\SpectaclesService;
@@ -24,10 +25,10 @@ class DashboardController
         $this->spectaclesService = $specService;
     }
 
-    public function showDashboard(PDO $pdo)
+    public function index(PDO $pdo)
     {
-        $user = HttpHelper::getParam("user");
-        // $user = $_SESSION["user"]; TODO code à utiliser une fois l'auth crée
+        //$user = HttpHelper::getParam("user");
+        $user = $_SESSION['user']['id_login'];
         $listFestivals = $this->festivalsService->getListOfUser($pdo, $user);
         $listSpectacles = $this->spectaclesService->getListOfUser($pdo, $user);
         $vue = new View("/views/dashboard");
