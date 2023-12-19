@@ -16,8 +16,8 @@ $dataSource = new DataSource(
 );
 
 //Pour développer une page pas encore accessible, ajouter vos paramètres ici
-$_GET["controller"] = "Dashboard";
-$_GET["action"] = "showDashboard";
+$_GET["controller"] = "spectacle";
+$_GET["action"] = "index";
 $_GET["user"] = "francksilvestre";
 
 $router = new Router(new DefaultComponentFactory());
