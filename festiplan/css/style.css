@@ -128,6 +128,21 @@ footer {
     font-size: 4em;
 }
 
+.btn-deco{
+    font-family: 'Kiwi Maru', serif;
+    font-size: 32px;
+    background-color: #ff6161;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    width: 277px;
+    height: 55px;
+}
+
+.btn-deco:hover {
+    background-color: #ed5959;
+}
+
 .btn-deco-rond{
     background-color: #ff6161;
     height: 76;
@@ -137,6 +152,6 @@ footer {
     border-radius: 38px;
 }
 
-.btn-deoc-rond:hover{
+.btn-deco-rond:hover{
     background-color: #ed5959;
 }
