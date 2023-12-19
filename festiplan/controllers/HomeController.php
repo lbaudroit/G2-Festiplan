@@ -1,4 +1,4 @@
-<?php
+<?php 
 namespace controllers;
 
 use services\UsersService;
@@ -25,7 +25,7 @@ class HomeController
         $user = $this->usersService->getUsersLoginAndMdp($pdo, $login, $mdp);
         if ($user==null){
             $view = new View("/views/authentification");
-        } else {
+        } else {    
             $view = new View("/views/dashboard");
         }
         $view->setVar('user',$user);

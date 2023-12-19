@@ -26,7 +26,7 @@ class UsersService
     /**
      * return true si la valeur existe et est non vide
      */
-    public function valide($valeur){
+    public static function valide($valeur){
         if ($valeur!=null && $valeur!=""){
             return true;
         }
@@ -43,7 +43,7 @@ class UsersService
      */
     public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp)
     {
-        if ($this::valide($login) && $this::valide($mdp)){
+        if (UsersService::valide($login) && UsersService::valide($mdp)){
             $searchStmt = $pdo->prepare('SELECT * FROM users WHERE id_login= ? AND hashed_pwd= ? ');
             $searchStmt->bindParam(1,$login);
             $searchStmt->bindParam(2,$mdp);

@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+if ($user!=null){
+    $_SESSION['user']=$user;
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -22,7 +29,7 @@
     <header>
         <span class="titre">Festiplan</span>
     </header>
-
+    <?php var_dump($user) ?>
     <!--LISTE DES FESTIVALS-->
     <div class="container contenue">
         <?php if (isset($listeFestivals)) { ?>
