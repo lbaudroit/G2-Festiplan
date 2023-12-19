@@ -134,3 +134,11 @@ footer {
 .grande-icone {
     font-size: 4em;
 }
+
+.min-card {
+    min-height: 10em;
+}
+
+.width-to-size {
+    width: fit-content;
+}
