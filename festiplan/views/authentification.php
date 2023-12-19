@@ -39,13 +39,17 @@
                     <div class="col-12">
                         Identifiant : 
                         <br/>    
-                        <input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control"/>
+                        <input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control" <?php
+                        if (isset($_POST['identifiant'])){
+                            echo 'value="'.$_POST['identifiant'].'"';
+                        }
+                        ?>/>
                     </div>
                     <br/>
                     <div class="col-12">
                         Mot de passe : 
                         <br/>
-                        <input type="text" name="pswd" placeholder="Tapez votre mot de passe" class="form-control"/>					
+                        <input type="password" name="pswd" placeholder="Tapez votre mot de passe" class="form-control"/>					
                     </div>
                     <br/>
                     <div class="col-12 text-center">
