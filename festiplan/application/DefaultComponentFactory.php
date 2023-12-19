@@ -20,9 +20,11 @@
 namespace application;
 
 use controllers\DashboardController;
+use controllers\FestivalController;
 use controllers\HomeController;
 use controllers\DeconnexionController;
 use controllers\CreerUserController;
+use controllers\SpectacleController;
 use services\FestivalsService;
 use services\SpectaclesService;
 use services\UsersService;
@@ -47,11 +49,13 @@ class DefaultComponentFactory implements ComponentFactory
     public function buildControllerByName(string $controller_name): mixed
     {
         return match ($controller_name) {
-            default => $this->buildHomeController(),
+            "Home" => $this->buildHomeController(),
             "Dashboard" => $this->buildDashboardController(),
             "Deconnexion" => $this->buildDeconnexionController(),
             "CreerUser" => $this->buildCreerUserController(),
-        // TODO changer le default
+            "festival" => $this->buildFestivalController(),
+            "spectacle" => $this->buildSpectacleController(),
+            default => throw new NoControllerAvailableForNameException($controller_name)
         };
     }
 
@@ -99,12 +103,24 @@ class DefaultComponentFactory implements ComponentFactory
         return new DeconnexionController();
     }
 
+
     /**
      * @return CreerUserController
      */
     private function buildCreerUserController(): CreerUserController
     {
         return new CreerUserController($this->buildUsersService());
+    }
+    
+    private function buildFestivalController(): FestivalController
+    {
+        return new FestivalController(new FestivalsService());
+    }
+
+    private function buildSpectacleController(): SpectacleController
+    {
+        return new SpectacleController(new SpectaclesService());
+
     }
 }
 

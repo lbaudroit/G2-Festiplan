@@ -28,7 +28,6 @@ class DashboardController
 
     public function index(PDO $pdo)
     {
-        //$user = HttpHelper::getParam("user");
         $user = $_SESSION['user']['id_login'];
         $listFestivals = $this->festivalsService->getListOfUser($pdo, $user);
         $listSpectacles = $this->spectaclesService->getListOfUser($pdo, $user);

@@ -1,9 +1,5 @@
 <?php
 session_start();
-
-if ($user!=null){
-    $_SESSION['user']=$user;
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -30,25 +26,37 @@ if ($user!=null){
     <header>
         <span class="titre">Festiplan</span>
     </header>
-    <!--LISTE DES FESTIVALS-->
-    <div class="container contenue">
-        <div class="row mb-2">
-            <!-- Titre -->
-            <div class="underline titre2 width-to-size">Mes Festivals&nbsp:</div>
 
-            <!-- Accéder à la page des festivals -->
-            <div class="text-start my-auto width-to-size">
-                <a href="./index?controller=festival&action=index" class="text-decoration-none col-12 texte-bleu">
-                    Voir tous mes festivals...
-                </a>
+    <?php
+    $aAfficher = [$listeFestivals, $listeSpectacles];
+    $nom = ["festival", "spectacle"];
+    $nom_pluriel = ["festivals", "spectacles"];
+    foreach ($aAfficher as $e => $liste) {
+        $id = "id_" . $nom[$e];
+        ?>
+        <!--LISTE DES FESTIVALS OU SPECTACLES-->
+        <div class="container contenue">
+            <div class="row mb-2">
+                <!-- Titre -->
+                <div class="underline titre2 width-to-size">
+                    Mes
+                    <?php echo $nom_pluriel[$e]; ?>&nbsp:
+                </div>
+
+                <!-- Accéder à la page globale des éléments -->
+                <div class="text-start my-auto width-to-size">
+                    <a href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=index" ?>"
+                        class="text-decoration-none col-12 texte-bleu">
+                        Voir tous mes
+                        <?php echo $nom_pluriel[$e] ?>...
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="row row-gap-2">
-            <?php
-            // affichage des cartes de festivals  
-            foreach ($listeFestivals as $i => $fest) {
-                ?>
-                <div class="col-6 col-sm-4 col-md-3 min-card
+            <div class="row row-gap-2">
+                <?php // affichage des cartes  
+                    foreach ($liste as $i => $elt) {
+                        ?>
+                    <div class="col-6 col-sm-4 col-md-3 min-card
                             <?php
                             if ($i == 1) {
                                 echo "d-none d-sm-flex";
@@ -58,122 +66,56 @@ if ($user!=null){
                                 echo "d-none";
                             }
                             ?>">
-                    <a href="./index?controller=festival&action=modify&festival=<?php echo $fest["id_festival"]; ?>"
-                        class="text-decoration-none text-black">
-                        <div class="bordure-basique d-flex flex-column justify-content-between h-100">
-                            <div class="p-2 row">
-                                <!-- TITRE -->
-                                <a class="col-9 text-decoration-none text-black"
-                                    href="./index?controller=festival&action=modify&festival=<?php echo $fest["id_festival"]; ?>">
-                                    <?php echo $fest['titre']; ?>
-                                </a>
-                                <!-- ICONE POUBELLE -->
-                                <a class="col-3 text-end text-decoration-none text-black my-auto"
-                                    href="./index?controller=festival&action=delete&festival=<?php echo $fest["id_festival"]; ?>">
-                                    <i class="fas fa-trash-alt"></i>
+                        <a href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>"
+                            class="text-decoration-none text-black">
+                            <div class="bordure-basique d-flex flex-column justify-content-between h-100">
+                                <div class="p-2 row">
+                                    <!-- TITRE -->
+                                    <a class="col-9 text-decoration-none text-black"
+                                        href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
+                                        <?php echo $elt['titre']; ?>
+                                    </a>
+                                    <!-- ICONE POUBELLE -->
+                                    <a class="col-3 text-end text-decoration-none text-black my-auto"
+                                        href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=delete&" . $nom[$e] . "=" . $elt[$id]; ?>">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                                <!-- IMAGE -->
+                                <a
+                                    href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
+                                    <div class="">
+                                        <?php
+                                        echo "<img  alt='Image du " . $nom[$e] . htmlspecialchars($elt['titre']) . "' 
+                                    src='images/" . $nom[$e] . "/" . $elt['lien_img'] . "'
+                                    class='img-fluid'>";
+                                        ?>
+                                    </div>
                                 </a>
                             </div>
-                            <!-- IMAGE -->
-                            <div class="">
-                                <?php
-                                echo "<img  alt='Image du festival " . htmlspecialchars($fest['titre']) . "' 
-                                    src='images/festival/" . $fest['lien_img'] . "'
-                                    class='img-fluid'>";
-                                ?>
+                        </a>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                <!-- Créer un festival -->
+                <div class="col-6 col-sm-4 col-md-3 min-card">
+                    <a href="./index.php?controller=<?php echo $nom[$e] ?>&action=create"
+                        class="text-decoration-none texte-bleu">
+                        <div class="btn fond-bleu-clair bordure-basique h-100 d-flex justify-content-center">
+                            <div class="row">
+                                <span class="col-12 d-flex justify-content-center">
+                                    <i class="fas fa-plus grande-icone col-12 my-auto texte-bleu"></i>
+                                </span>
                             </div>
                         </div>
                     </a>
                 </div>
-                <?php
-            }
-            ?>
-            <!-- Créer un festival -->
-            <div class="col-6 col-sm-4 col-md-3 min-card">
-                <a href="./index?controller=festival&action=create" class="text-decoration-none texte-bleu">
-                    <div class="btn fond-bleu-clair bordure-basique h-100 d-flex justify-content-center">
-                        <div class="row">
-                            <span class="col-12 d-flex justify-content-center">
-                                <i class="fas fa-plus grande-icone col-12 my-auto texte-bleu"></i>
-                            </span>
-                        </div>
-                    </div>
-                </a>
             </div>
         </div>
-
-
-
-
-
-        <div class="row mb-2">
-            <!-- Titre -->
-            <div class="underline titre2 width-to-size">Mes Spectacles&nbsp:</div>
-
-            <!-- Accéder à la page des spectacles -->
-            <div class="text-start my-auto width-to-size">
-                <a href="./index?controller=spectacle&action=index" class="text-decoration-none col-12 texte-bleu">
-                    Voir tous mes spectacles...
-                </a>
-            </div>
-        </div>
-        <div class="row row-gap-2">
-            <?php
-            // affichage des cartes de spectacle  
-            foreach ($listeSpectacles as $i => $spec) {
-                ?>
-                <div class="col-6 col-sm-4 col-md-3 min-card
-                            <?php
-                            if ($i == 1) {
-                                echo "d-none d-sm-flex";
-                            } else if ($i == 2) {
-                                echo "d-none d-md-flex";
-                            } else if ($i > 2) {
-                                echo "d-none";
-                            }
-                            ?>">
-                    <a href="./index?controller=spectacle&action=modify&spectacle=<?php echo $spec["id_spectacle"]; ?>"
-                        class="text-decoration-none text-black">
-                        <div class="bordure-basique d-flex flex-column justify-content-between h-100">
-                            <div class="p-2 row">
-                                <!-- TITRE -->
-                                <a class="col-9 text-decoration-none text-black"
-                                    href="./index?controller=spectacle&action=modify&spectacle=<?php echo $spec["id_spectacle"]; ?>">
-                                    <?php echo $spec['titre']; ?>
-                                </a>
-                                <!-- ICONE POUBELLE -->
-                                <a class="col-3 text-end text-decoration-none text-black my-auto"
-                                    href="./index?controller=spectacle&action=delete&spectacle=<?php echo $spec["id_spectacle"]; ?>">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
-                            </div>
-                            <!-- IMAGE -->
-                            <div class="">
-                                <?php
-                                echo "<img  alt='Image du spectacle " . htmlspecialchars($spec['titre']) . "' 
-                                    src='images/spectacle/" . $spec['lien_img'] . "'
-                                    class='img-fluid'>";
-                                ?>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <?php
-            }
-            ?>
-            <!-- Créer un festival -->
-            <div class="col-6 col-sm-4 col-md-3 min-card">
-                <a href="./index?controller=spectacle&action=create" class="text-decoration-none texte-bleu">
-                    <div class="btn fond-bleu-clair bordure-basique h-100 d-flex justify-content-center">
-                        <div class="row">
-                            <span class="col-12 d-flex justify-content-center">
-                                <i class="fas fa-plus grande-icone col-12 my-auto texte-bleu"></i>
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
+        <?php
+    }
+    ?>
 
     <footer>
         <div class="container-fluid">

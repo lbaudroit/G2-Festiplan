@@ -4,7 +4,9 @@ namespace controllers;
 use services\FestivalsService;
 use yasmf\View;
 
-class HomeController
+session_start();
+
+class FestivalController
 {
 
     private FestivalsService $festivalsService;
@@ -20,8 +22,13 @@ class HomeController
 
     public function index($pdo): View
     {
-        // TODO
-        $view = new View("accueil_festivals");
+        $user = $_SESSION["user"]["id_login"];
+        $view = new View("views/liste");
+        $resultSet = $this->festivalsService->getListOfUser($pdo, $user);
+        $view->setVar("liste", $resultSet);
+        $view->setVar("nom", "festival");
+        $view->setVar("nom_pluriel", "festivals");
+
         return $view;
     }
 
