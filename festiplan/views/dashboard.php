@@ -31,7 +31,6 @@ if ($user!=null){
         <span class="titre">Festiplan</span>
     </header>
     <!--LISTE DES FESTIVALS-->
-    <?php var_dump($_SESSION)?>
     <div class="container contenue">
         <?php if (isset($listeFestivals)) { ?>
             <div class="row mb-3 h-50">
@@ -102,7 +101,7 @@ if ($user!=null){
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <form method="post">
+                    <form method="post" action="./index.php?controller=Deconnexion">
                         <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
                             <i class="fa-solid fa-power-off"></i>
                             Deconnexion

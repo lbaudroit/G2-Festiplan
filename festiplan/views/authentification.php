@@ -25,7 +25,6 @@
         <header>
             <hspan class="titre">Festiplan</span>
         </header>
-
         <div class = "contenue container">
             <div class="text-center col-12">
                 <h1>Bienvenue sur le site Festiplan</h1><br/>
