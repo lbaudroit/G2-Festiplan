@@ -20,6 +20,7 @@ $dataSource = new DataSource(
 //$_GET["action"] = "showDashboard";
 //$_GET["user"] = "francksilvestre";
 
+
 $router = new Router(new DefaultComponentFactory());
 $router->route(PREFIX_TO_RELATIVE_PATH, $dataSource);
 

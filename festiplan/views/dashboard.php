@@ -11,6 +11,7 @@ if ($user!=null){
 <head>
     <title>Dashboard - Festiplan</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
@@ -57,21 +58,20 @@ if ($user!=null){
                                 echo "d-none";
                             }
                             ?>">
-                        <div class="bordure">
-                            <a href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>"
-                                class="text-decoration-none text-black">
+                        <a href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>"
+                            class="text-decoration-none text-black">
+                            <div class="bordure">
                                 <div class="row p-2">
                                     <!-- TITRE -->
-                                    <div class="col-9">
-                                        <?php echo "&nbsp" . $fest['titre']; ?>
-                                    </div>
+                                    <a class="col-9 text-decoration-none text-black"
+                                        href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>">
+                                        <?php echo $fest['titre']; ?>
+                                    </a>
                                     <!-- ICONE POUBELLE -->
-                                    <div class="col-3 text-center">
-                                        <a
-                                            href="./index?controller=festivals&action=delete&festival=<?php echo $fest["id_festival"]; ?>">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </div>
+                                    <a class="col-3 text-end text-decoration-none text-black"
+                                        href="./index?controller=festivals&action=delete&festival=<?php echo $fest["id_festival"]; ?>">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
                                 </div>
                                 <!-- IMAGE -->
                                 <div class="col-12">
@@ -81,17 +81,18 @@ if ($user!=null){
                                     class='img-fluid'>";
                                     ?>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                     </div>
                     <?php
                 }
                 ?>
             <?php } ?>
             <!-- Créer un festival -->
-            <div class="col-12 col-sm-6 col-md-3 fond-bleu-clair bordure text-center">
-                <a href="./index?controller=festivals&action=create" class="text-decoration-none col-12 texte-bleu">
-                    <i class="fas fa-plus grande-icone"></i>
+            <div class="col-12 col-sm-6 col-md-3 fond-bleu-clair bordure text-center row">
+                <a href="./index?controller=festivals&action=create"
+                    class="text-decoration-none texte-bleu d-flex align-content-center">
+                    <i class="fas fa-plus grande-icone col-12 my-auto"></i>
                 </a>
             </div>
         </div>
