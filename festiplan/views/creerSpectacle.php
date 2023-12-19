@@ -1,6 +1,3 @@
-<?php
-
-?>
 <!DOCTYPE HTML>
 <html lang="fr">
     <head>
