@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300&display=swap');
 
+.aGauche {
+    text-align: left;
+}
+
 body {
     min-height: 100vh;
     margin: 0;
@@ -40,10 +44,7 @@ body {
 }
 
 .bordure {
-    max-width: 434px;
-    margin: auto;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    padding: 5px;
     border: 1px solid black;
     border-radius: 5px;
 }
