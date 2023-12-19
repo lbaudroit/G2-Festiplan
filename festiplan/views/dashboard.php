@@ -101,7 +101,15 @@ if ($user!=null){
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <! ICI ON MET LE BOUTON DE DECONEXION>
+                    <form method="post">
+                        <button name="deconnexion" class="btn-rouge">
+                            <i class="fa-solid fa-power-off"></i>
+                            Deconnexion
+                        </button>
+                        <button name="deconnexion" class="btn-deco-rond">
+                            <i class="fa-solid fa-power-off"></i>
+                        </button>
+                    </form>
                 </div>
                 <div class="col-6 contenue_droite">
                     <img src="./images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
