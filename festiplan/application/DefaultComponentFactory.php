@@ -22,6 +22,7 @@ namespace application;
 use controllers\DashboardController;
 use controllers\HomeController;
 use controllers\DeconnexionController;
+use controllers\CreerUserController;
 use services\FestivalsService;
 use services\SpectaclesService;
 use services\UsersService;
@@ -49,6 +50,7 @@ class DefaultComponentFactory implements ComponentFactory
             default => $this->buildHomeController(),
             "Dashboard" => $this->buildDashboardController(),
             "Deconnexion" => $this->buildDeconnexionController(),
+            "CreerUser" => $this->buildCreerUserController(),
         // TODO changer le default
         };
     }
@@ -95,6 +97,14 @@ class DefaultComponentFactory implements ComponentFactory
     private function buildDeconnexionController(): DeconnexionController
     {
         return new DeconnexionController();
+    }
+
+    /**
+     * @return CreerUserController
+     */
+    private function buildCreerUserController(): CreerUserController
+    {
+        return new CreerUserController($this->buildUsersService());
     }
 }
 

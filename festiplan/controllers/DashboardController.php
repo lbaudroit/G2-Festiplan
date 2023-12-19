@@ -1,5 +1,6 @@
 <?php
 namespace controllers;
+
 session_start();
 
 use services\FestivalsService;
