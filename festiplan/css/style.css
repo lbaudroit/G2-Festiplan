@@ -11,6 +11,14 @@ body {
     flex: 1;
 }
 
+.textecentre {
+    text-align: center;
+}
+
+.fondbleuplusclair {
+    background-color: #9DE1DC;
+}
+
 .fondblanc {
     background-color: #ffffff;
     text-align: center;
