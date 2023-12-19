@@ -127,3 +127,16 @@ footer {
 .grande-icone {
     font-size: 4em;
 }
+
+.btn-deco-rond{
+    background-color: #ff6161;
+    height: 76;
+    width: 76;
+    border: 1px;
+    border-style: solid;
+    border-radius: 38px;
+}
+
+.btn-deoc-rond:hover{
+    background-color: #ed5959;
+}
