@@ -21,20 +21,7 @@ body {
     font-size: 40px;
 }
 
-.formulaire > * {
-    margin: 5px;
-}
-
-.textFormulaire {
-    padding: 5px;
-    margin-bottom: 20px;
-}
-
 .bordure {
-    max-width: 434px;
-    margin: auto;
-    margin-bottom: 10px;
-    margin-top: 10px;
     border: 1px solid black;
     border-radius: 5px;
 }
@@ -102,6 +89,17 @@ footer {
 
 .btn-bleu:hover {
     background-color: #a8eeea;
+}
+
+.btn-blanc {
+    background-color: #f8f8f8;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+.btn-blanc:hover {
+    background-color: #e4fffe;
 }
 
 .bloc-centrer {

@@ -43,7 +43,8 @@ class UsersService
      */
     public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp)
     {
-        if ($this::valide($login) && $this::valide($mdp)) {
+        if (UsersService::valide($login) && UsersService::valide($mdp)){
+
             $searchStmt = $pdo->prepare('SELECT * FROM users WHERE id_login= ? AND hashed_pwd= ? ');
             $searchStmt->bindParam(1, $login);
             $searchStmt->bindParam(2, $mdp);
