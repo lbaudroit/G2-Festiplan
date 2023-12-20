@@ -15,7 +15,7 @@ CREATE TABLE users (
     nom VARCHAR(35) NOT NULL,
     prenom VARCHAR(35) NOT NULL,
     email VARCHAR(35) NOT NULL,
-    hashed_pwd VARCHAR(35) NOT NULL,
+    hashed_pwd VARCHAR(255) NOT NULL,
     PRIMARY KEY (id_login)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -27,7 +27,7 @@ CREATE TABLE grij (
     PRIMARY KEY (id_grij)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE categorie (
+CREATE TABLE categories (
     id_cat INTEGER NOT NULL AUTO_INCREMENT,
     libelle VARCHAR(35) NOT NULL,
     PRIMARY KEY (id_cat)
@@ -41,7 +41,7 @@ CREATE TABLE taillescene (
 
 CREATE TABLE festivals (
     id_festival INTEGER NOT NULL AUTO_INCREMENT,
-    titre VARCHAR(35) NOT NULL,
+    titre VARCHAR(100) NOT NULL,
     description_f TEXT NOT NULL,
     lien_img VARCHAR(35),
     date_deb DATE NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE festivals (
 
 CREATE TABLE spectacles (
     id_spectacle INTEGER NOT NULL AUTO_INCREMENT,
-    titre VARCHAR(35) NOT NULL,
+    titre VARCHAR(100) NOT NULL,
     description_s TEXT NOT NULL,
     lien_img VARCHAR(35),
     duree TIME NOT NULL,
@@ -109,4 +109,12 @@ CREATE TABLE esthorsscene (
     FOREIGN KEY (id_intervenant) REFERENCES intervenants(id_intervenant),
     FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
     PRIMARY KEY(id_intervenant, id_spectacle)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE contient (
+    id_festival INTEGER NOT NULL,
+    id_spectacle INTEGER NOT NULL,
+    FOREIGN KEY (id_festival) REFERENCES festivals(id_festival),
+    FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
+    PRIMARY KEY(id_festival, id_spectacle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

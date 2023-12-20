@@ -58,6 +58,11 @@ body {
     border-radius: 5px;
 }
 
+.bordure-basique {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
 header {
     padding: 5px;
     background-color: #4dd1c8;
@@ -160,15 +165,38 @@ footer {
     font-size: 4em;
 }
 
-.btn-deco-rond{
+.min-card {
+    min-height: 10em;
+}
+
+.width-to-size {
+    width: fit-content;
+}
+
+.btn-deco {
+    font-family: 'Kiwi Maru', serif;
+    font-size: 32px;
     background-color: #ff6161;
-    height: 76;
-    width: 76;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    width: 277px;
+    height: 55px;
+}
+
+.btn-deco:hover {
+    background-color: #ed5959;
+}
+
+.btn-deco-rond {
+    background-color: #ff6161;
+    height: 76px;
+    width: 76px;
     border: 1px;
     border-style: solid;
     border-radius: 38px;
 }
 
-.btn-deoc-rond:hover{
+.btn-deco-rond:hover {
     background-color: #ed5959;
 }

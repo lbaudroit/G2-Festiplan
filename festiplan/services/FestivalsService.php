@@ -41,5 +41,23 @@ class FestivalsService
         return $searchStmt;
     }
 
+    /**
+     * Trouve les spectacles liés à un festival.
+     *
+     * @param PDO $pdo the pdo object
+     * @param string $user l'utilisateur dont on cherche les spectacles
+     * @return PDOStatement the statement referencing the result set
+     */
+    public function getSpectaclesOfFestival(PDO $pdo, int $id_fest): PDOStatement
+    {
+        $sql = "SELECT * 
+            FROM spectacles
+            WHERE id_login = :login";
+        $searchStmt = $pdo->prepare($sql);
+        $searchStmt->bindParam(":login", $user);
+        $searchStmt->execute();
+        return $searchStmt;
+    }
+
 }
 ?>
