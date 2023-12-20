@@ -33,10 +33,10 @@
             </div>
         </header>
         <div class = "contenue container">
-            <div class="text-center col-12">
+            <div class="col-12">
                 <form method="post" class="formulaire">
-                    <div class = "row textFormulaire bordure fondFormulaire">
-                        <div class ="col-md-4 col-sm-5 col-12">
+                    <div class = "row text-center textFormulaire bordure fondFormulaire">
+                        <div class ="col-md-4 col-sm-5 col-12 bordure">
                             <i class="fa-regular fa-plus fa-4x"></i>
                             <br/>
                             Rajoutez une image (800x600 maximum) (optionnel)
@@ -57,9 +57,9 @@
                             <input type="text" name="descSpectacleTabletTel" placeholder="Tapez la description (1000 caractères max.)" class="form-control"/>
                         </div>
                     </div>
-                    <div class ="row textFormulaire">
-                        <div class="bordure col-md-4 col-sm-6 col-12">
-                            <u class ="aGauche">
+                    <div class ="row text-center">
+                        <div class="bordure col-md-3 col-sm-6 col-12">
+                            <u>
                                 Durée du Spectacle :    
                             </u>
                             <br/>
@@ -67,9 +67,9 @@
                             :
                             <input type="text" name="MinuteSpectacle" class="text-center col-3" placeholder="MM" class="form-control"/>
                         </div>
-                        <div class="bordure col-md-4 col-sm-6 col-12">
+                        <div class="bordure col-md-3 col-sm-6 col-12">
                             <label for="tailleSceneSelect">
-                                <u class = "aGauche">
+                                <u>
                                 Surface de la scène requise :
                                 </u>
                             </label>
@@ -80,8 +80,8 @@
                                 <option value="grande">Grande</option>
                             </select>
                         </div>
-                        <div class="bordure col-md-4 col-12">
-                            <u class ="aGauche">
+                        <div class="bordure col-md-6 col-12">
+                            <u>
                                 Categories :
                             </u> 
                             <br/>
@@ -95,14 +95,37 @@
                             <label for="btnCirque">Cirque</label>
 
                             <input type="radio" id="btnDanse" name="btnDanse" value="danse"/>
-                            <label for="brnDanse">Danse</label>
-
+                            <label for="btnDanse">Danse</label>
+                            
                             <input type="radio" id="btnProjFilm" name="btnProjFilm" value="projFilm"/>
                             <label for="btnProjFilm">Projection de film</label>
                         </div>
-                    </div>        
-                    <div class ="row bordure textFormulaire">
-
+                    </div>
+                    <div class = "row">
+                        <div class="text-center col-md-6 bordure">
+                            <u>
+                                Listes des intervenants sur scène :
+                            </u>
+                        </div>
+                        <div class="text-center col-md-6 bordure">
+                            <u>
+                                Listes des intervenants hors scène :
+                            </u>
+                        </div> 
+                        <div class="col-md-6 bordure">
+                            <h4>Intervenant 1</h4>
+                            <div class ="contenue_droite">
+                                <i class="espacementLargeur fa-solid fa-trash-can fa-2x"></i>
+                                <input class="btn btn-bleu" type="submit" value="Modifier">
+                            </div>
+                        </div>
+                        <div class="col-md-6 bordure d-flex justify-content-between">
+                            <h4>Intervenant 2</h4>
+                            <div class ="contenue_droite">
+                                <i class="espacementLargeur fa-solid fa-trash-can fa-2x"></i>
+                                <input class="btn btn-bleu" type="submit" value="Modifier">
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

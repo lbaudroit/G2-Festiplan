@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300&display=swap');
 
-.aGauche {
-    text-align: left;
+.aDroite {
+    text-align: right;
 }
 
 body {
@@ -40,6 +40,10 @@ body {
 
 .formulaire > * {
     margin: 5px;
+}
+
+.espacementLargeur {
+    margin-right: 5px;
 }
 
 .textFormulaire {
