@@ -35,21 +35,21 @@ class SpectacleController
     public function create($pdo): View
     {
         // TODO
-        $view = new View("accueil_festivals");
+        $view = new View("views/not_done");
         return $view;
     }
 
     public function modify($pdo): View
     {
         // TODO
-        $view = new View("accueil_festivals");
+        $view = new View("views/not_done");
         return $view;
     }
 
     public function delete($pdo): View
     {
         // TODO
-        $view = new View("accueil_festivals");
+        $view = new View("views/not_done");
         return $view;
     }
 

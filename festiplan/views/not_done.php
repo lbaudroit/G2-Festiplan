@@ -25,10 +25,14 @@
     </header>
 
     <div class="container contenue d-flex justify-content-center">
-        <p class="fs-1 bordure-basique bg-danger my-auto p-2 text-center">
-            Impossible d'accéder à la base de données.
-        </p>
-        </br>
+        <div class="fs-1 bordure-basique fond-bleu-clair my-auto p-2 text-center">
+            <p>
+                Cette fonctionnalité n'a pas encore été implémentée.
+            </p>
+            <p>
+                Retournez à la page précédente.
+            </p>
+        </div>
     </div>
 
     <footer>

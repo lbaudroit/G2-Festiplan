@@ -43,24 +43,24 @@
             foreach ($liste as $i => $elt) {
                 ?>
                 <div class="col-6 col-sm-4 col-md-3 min-card">
-                    <a href="<?php echo "./index?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>"
+                    <a href="<?php echo "./index.php?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>"
                         class="text-decoration-none text-black">
                         <div class="bordure-basique d-flex flex-column justify-content-between h-100">
                             <div class="p-2 row">
                                 <!-- TITRE -->
                                 <a class="col-9 text-decoration-none text-black"
-                                    href="<?php echo "./index?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>">
+                                    href="<?php echo "./index.php?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>">
                                     <?php echo $elt['titre']; ?>
                                 </a>
                                 <!-- ICONE POUBELLE -->
                                 <a class="col-3 text-end text-decoration-none text-black my-auto"
-                                    href="<?php echo "./index?controller=" . $nom . "&action=delete&" . $nom . "=" . $elt[$id]; ?>">
+                                    href="<?php echo "./index.php?controller=" . $nom . "&action=delete&" . $nom . "=" . $elt[$id]; ?>">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
                             <!-- IMAGE -->
                             <a
-                                href="<?php echo "./index?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>">
+                                href="<?php echo "./index.php?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>">
                                 <div class="">
                                     <?php
                                     echo "<img  alt='Image du " . $nom . htmlspecialchars($elt['titre']) . "' 
@@ -77,7 +77,8 @@
             ?>
             <!-- Créer un festival -->
             <div class="col-6 col-sm-4 col-md-3 min-card">
-                <a href="./index?controller=<?php echo $nom; ?>&action=create" class="text-decoration-none texte-bleu">
+                <a href="./index.php?controller=<?php echo $nom; ?>&action=create"
+                    class="text-decoration-none texte-bleu">
                     <div class="btn fond-bleu-clair bordure-basique h-100 d-flex justify-content-center">
                         <div class="row">
                             <span class="col-12 d-flex justify-content-center">
