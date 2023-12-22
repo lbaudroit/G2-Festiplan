@@ -56,7 +56,21 @@ class UsersService
         }
     }
 
-
+    /**
+     * Crée un utilisateur
+     *
+     * @param PDO $pdo the pdo object
+     * @return user the statement referencing the result set
+     */
+    public function addUsers(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp) {
+        if (UsersService::valide($login) && UsersService::valide($mdp) && UsersService::valide($lastname) && UsersService::valide($firstname) && UsersService::valide($mail)) {
+            $searchStmt = $pdo->prepare('INSERT INTO users VALUES ()');
+            $searchStmt->bindParam(1, $login);
+            $searchStmt->bindParam(2, $mdp);
+            $searchStmt->execute();
+            $user = $searchStmt->fetch();
+        }
+    }
 
 
 }
