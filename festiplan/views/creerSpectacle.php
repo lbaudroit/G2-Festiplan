@@ -33,10 +33,10 @@
             </div>
         </header>
         <div class = "contenue container">
-            <div class="text-center col-12">
+            <div class="col-12">
                 <form method="post" class="formulaire">
-                    <div class = "row textFormulaire bordure fondFormulaire">
-                        <div class ="col-md-4 col-sm-5 col-12">
+                    <div class = "row text-center textFormulaire bordure fondFormulaire">
+                        <div class ="col-md-4 col-sm-5 col-12 bordure">
                             <i class="fa-regular fa-plus fa-4x"></i>
                             <br/>
                             Rajoutez une image (800x600 maximum) (optionnel)
@@ -48,18 +48,19 @@
                             <div class ="col-12 d-sm-none d-md-block">
                                 <input type="text" name="nomSpectaclePCetTel" placeholder="Tapez le titre (35 caractères max.)" class="form-control"/>
                             </div>
-                            <br/>
                             <div class ="col-12 d-none d-md-block">
-                                <input type="text" name="descSpectaclePC" placeholder="Tapez la description (1000 caractères max.)" class="form-control"/>
+                                <label for="descSpectaclePC"></label>
+                            <textarea id="descSpectaclePC" name="descSpectaclePC" placeholder="Tapez la description (1000 caractères max.)" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class = "col-12 d-md-none">
-                            <input type="text" name="descSpectacleTabletTel" placeholder="Tapez la description (1000 caractères max.)" class="form-control"/>
+                            <label for="descSpectacleTabetTel"></label>
+                            <textarea id="descSpectacleTabetTel" name="descSpectacleTabetTel" placeholder="Tapez la description (1000 caractères max.)" class="form-control"></textarea>
                         </div>
                     </div>
-                    <div class ="row textFormulaire">
-                        <div class="bordure col-md-4 col-sm-6 col-12">
-                            <u class ="aGauche">
+                    <div class ="row text-center">
+                        <div class="bordure col-md-3 col-sm-6 col-12">
+                            <u>
                                 Durée du Spectacle :    
                             </u>
                             <br/>
@@ -67,9 +68,9 @@
                             :
                             <input type="text" name="MinuteSpectacle" class="text-center col-3" placeholder="MM" class="form-control"/>
                         </div>
-                        <div class="bordure col-md-4 col-sm-6 col-12">
+                        <div class="bordure col-md-3 col-sm-6 col-12">
                             <label for="tailleSceneSelect">
-                                <u class = "aGauche">
+                                <u>
                                 Surface de la scène requise :
                                 </u>
                             </label>
@@ -80,8 +81,8 @@
                                 <option value="grande">Grande</option>
                             </select>
                         </div>
-                        <div class="bordure col-md-4 col-12">
-                            <u class ="aGauche">
+                        <div class="bordure col-md-6 col-12">
+                            <u>
                                 Categories :
                             </u> 
                             <br/>
@@ -95,12 +96,78 @@
                             <label for="btnCirque">Cirque</label>
 
                             <input type="radio" id="btnDanse" name="btnDanse" value="danse"/>
-                            <label for="brnDanse">Danse</label>
-
+                            <label for="btnDanse">Danse</label>
+                            
                             <input type="radio" id="btnProjFilm" name="btnProjFilm" value="projFilm"/>
                             <label for="btnProjFilm">Projection de film</label>
                         </div>
-                    </div>        
+                    </div>
+                    <div class = "row">
+                        <div class="text-center col-md-6 bordure">
+                            <u>
+                                Listes des intervenants sur scène :
+                            </u>
+                        </div>
+                        <div class="text-center col-md-6 bordure">
+                            <u>
+                                Listes des intervenants hors scène :
+                            </u>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 bordure">
+                            <div class="row">
+                                <div class = "col-6">
+                                    <h4>Intervenant 1</h4>
+                                </div>
+                                <div class ="col-6 contenue_droite">
+                                    <i class="fa-solid fa-trash-can fa-2x"></i>
+                                    <input class="btn btn-bleu" type="submit" value="Modifier">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 bordure">
+                            <div class="row">
+                                <div class = "col-6">
+                                    <h4>Intervenant 1</h4>
+                                </div>
+                                <div class ="col-6 contenue_droite">
+                                    <i class="fa-solid fa-trash-can fa-2x"></i>
+                                    <input class="btn btn-bleu" type="submit" value="Modifier">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 bordure">
+                            <div class="row">
+                                <div class = "col-6">
+                                    <h4>Intervenant 2</h4>
+                                </div>
+                                <div class ="col-6 contenue_droite">
+                                    <i class="fa-solid fa-trash-can fa-2x"></i>
+                                    <input class="btn btn-bleu" type="submit" value="Modifier">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 bordure">
+                            <div class="row">
+                                <div class = "col-6">
+                                    <h4>Intervenant 2</h4>
+                                </div>
+                                <div class ="col-6 contenue_droite">
+                                    <i class="fa-solid fa-trash-can fa-2x"></i>
+                                    <input class="btn btn-bleu" type="submit" value="Modifier">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class ="row">
+                        <div class="col-md-6 bordure text-center">
+                                <i class="fa-regular fa-plus fa-2x"></i>                         
+                        </div>
+                        <div class="col-md-6 bordure text-center">
+                                <i class="fa-regular fa-plus fa-2x"></i>                     
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -108,7 +175,12 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-6">
-                        <! ICI ON MET LE BOUTON DE DECONEXION>
+                        <form method="post" action="./index.php?controller=Deconnexion">
+                            <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
+                                <i class="fa-solid fa-power-off"></i>
+                                Deconnexion
+                            </button>
+                        </form>
                     </div>
                     <div class="col-6 contenue_droite">
                         <img src="images/logo-iut.png" class ="logo" id="logoIUT" alt="Logo IUT" href="http://www.iut-rodez.fr" target="_blank"/>

@@ -15,7 +15,7 @@ CREATE TABLE users (
     nom VARCHAR(35) NOT NULL,
     prenom VARCHAR(35) NOT NULL,
     email VARCHAR(35) NOT NULL,
-    hashed_pwd VARCHAR(35) NOT NULL,
+    hashed_pwd VARCHAR(255) NOT NULL,
     PRIMARY KEY (id_login)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

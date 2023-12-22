@@ -16,12 +16,16 @@ $dataSource = new DataSource(
 );
 
 //Pour développer une page pas encore accessible, ajouter vos paramètres ici
-//$_GET["controller"] = "Dashboard";
-//$_GET["action"] = "showDashboard";
-//$_GET["user"] = "francksilvestre";
+/*
+$_GET["controller"] = "spectacle";
+$_GET["action"] = "index";
+$_GET["user"] = "francksilvestre";
+*/
 
-
-$router = new Router(new DefaultComponentFactory());
-$router->route(PREFIX_TO_RELATIVE_PATH, $dataSource);
-
+try {
+    $router = new Router(new DefaultComponentFactory());
+    $router->route(PREFIX_TO_RELATIVE_PATH, $dataSource);
+} catch (PDOException $e) {
+    header("Location: ./error.php");
+}
 

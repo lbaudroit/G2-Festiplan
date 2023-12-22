@@ -1,9 +1,5 @@
 <?php
 session_start();
-
-if ($user!=null){
-    $_SESSION['user']=$user;
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -22,7 +18,7 @@ if ($user!=null){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-
+    <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -30,24 +26,37 @@ if ($user!=null){
     <header>
         <span class="titre">Festiplan</span>
     </header>
-    <!--LISTE DES FESTIVALS-->
-    <div class="container contenue">
-        <?php if (isset($listeFestivals)) { ?>
-            <div class="row mb-3 h-50">
-                <!-- Titre -->
-                <div class="col-12 col-sm-8 col-md-3 underline titre2">Mes Festivals&nbsp:</div>
 
-                <!-- Accéder à la page des festivals -->
-                <div class="col-12 col-sm-4 col-md-9 text-start my-auto">
-                    <a href="./index?controller=festivals&action=index" class="text-decoration-none col-12 texte-bleu">
-                        Voir tous mes festivals...
+    <?php
+    $aAfficher = [$listeFestivals, $listeSpectacles];
+    $nom = ["festival", "spectacle"];
+    $nom_pluriel = ["festivals", "spectacles"];
+    foreach ($aAfficher as $e => $liste) {
+        $id = "id_" . $nom[$e];
+        ?>
+        <!--LISTE DES FESTIVALS OU SPECTACLES-->
+        <div class="container contenue">
+            <div class="row mb-2">
+                <!-- Titre -->
+                <div class="underline titre2 width-to-size">
+                    Mes
+                    <?php echo $nom_pluriel[$e]; ?>&nbsp:
+                </div>
+
+                <!-- Accéder à la page globale des éléments -->
+                <div class="text-start my-auto width-to-size">
+                    <a href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=index" ?>"
+                        class="text-decoration-none col-12 texte-bleu">
+                        Voir tous mes
+                        <?php echo $nom_pluriel[$e] ?>...
                     </a>
                 </div>
-                <?php
-                // affichage des cartes de festivals  
-                foreach ($listeFestivals as $i => $fest) {
-                    ?>
-                    <div class="col-12 col-sm-6 col-md-3 h-25
+            </div>
+            <div class="row row-gap-2">
+                <?php // affichage des cartes  
+                    foreach ($liste as $i => $elt) {
+                        ?>
+                    <div class="col-6 col-sm-4 col-md-3 min-card
                             <?php
                             if ($i == 1) {
                                 echo "d-none d-sm-flex";
@@ -57,56 +66,67 @@ if ($user!=null){
                                 echo "d-none";
                             }
                             ?>">
-                        <a href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>"
+                        <a href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>"
                             class="text-decoration-none text-black">
-                            <div class="bordure">
-                                <div class="row p-2">
+                            <div class="bordure-basique d-flex flex-column justify-content-between h-100">
+                                <div class="p-2 row">
                                     <!-- TITRE -->
                                     <a class="col-9 text-decoration-none text-black"
-                                        href="./index?controller=festivals&action=modify&festival=<?php echo $fest["id_festival"]; ?>">
-                                        <?php echo $fest['titre']; ?>
+                                        href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
+                                        <?php echo $elt['titre']; ?>
                                     </a>
                                     <!-- ICONE POUBELLE -->
-                                    <a class="col-3 text-end text-decoration-none text-black"
-                                        href="./index?controller=festivals&action=delete&festival=<?php echo $fest["id_festival"]; ?>">
+                                    <a class="col-3 text-end text-decoration-none text-black my-auto"
+                                        href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=delete&" . $nom[$e] . "=" . $elt[$id]; ?>">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </div>
                                 <!-- IMAGE -->
-                                <div class="col-12">
-                                    <?php
-                                    echo "<img  alt='Image du festival " . htmlspecialchars($fest['titre']) . "' 
-                                    src='images/festival/" . $fest['lien_img'] . "'
+                                <a
+                                    href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
+                                    <div class="">
+                                        <?php
+                                        echo "<img  alt='Image du " . $nom[$e] . htmlspecialchars($elt['titre']) . "' 
+                                    src='images/" . $nom[$e] . "/" . $elt['lien_img'] . "'
                                     class='img-fluid'>";
-                                    ?>
-                                </div>
+                                        ?>
+                                    </div>
+                                </a>
                             </div>
                         </a>
                     </div>
                     <?php
-                }
-                ?>
-            <?php } ?>
-            <!-- Créer un festival -->
-            <div class="col-12 col-sm-6 col-md-3 fond-bleu-clair bordure text-center row">
-                <a href="./index?controller=festivals&action=create"
-                    class="text-decoration-none texte-bleu d-flex align-content-center">
-                    <i class="fas fa-plus grande-icone col-12 my-auto"></i>
-                </a>
+                    }
+                    ?>
+                <!-- Créer un festival -->
+                <div class="col-6 col-sm-4 col-md-3 min-card">
+                    <a href="./index.php?controller=<?php echo $nom[$e] ?>&action=create"
+                        class="text-decoration-none texte-bleu">
+                        <div class="btn fond-bleu-clair bordure-basique h-100 d-flex justify-content-center">
+                            <div class="row">
+                                <span class="col-12 d-flex justify-content-center">
+                                    <i class="fas fa-plus grande-icone col-12 my-auto texte-bleu"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
+        <?php
+    }
+    ?>
 
     <footer>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <form method="post">
-                        <button name="deconnexion" class="btn-rouge">
+                    <form method="post" action="./index.php?controller=Deconnexion">
+                        <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
                             <i class="fa-solid fa-power-off"></i>
                             Deconnexion
                         </button>
-                        <button name="deconnexion" class="btn-deco-rond">
+                        <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
                             <i class="fa-solid fa-power-off"></i>
                         </button>
                     </form>
