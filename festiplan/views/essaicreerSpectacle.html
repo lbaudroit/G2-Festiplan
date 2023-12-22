@@ -48,13 +48,14 @@
                             <div class ="col-12 d-sm-none d-md-block">
                                 <input type="text" name="nomSpectaclePCetTel" placeholder="Tapez le titre (35 caractères max.)" class="form-control"/>
                             </div>
-                            <br/>
                             <div class ="col-12 d-none d-md-block">
-                                <input type="text" name="descSpectaclePC" placeholder="Tapez la description (1000 caractères max.)" class="form-control"/>
+                                <label for="descSpectaclePC"></label>
+                            <textarea id="descSpectaclePC" name="descSpectaclePC" placeholder="Tapez la description (1000 caractères max.)" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class = "col-12 d-md-none">
-                            <input type="text" name="descSpectacleTabletTel" placeholder="Tapez la description (1000 caractères max.)" class="form-control"/>
+                            <label for="descSpectacleTabetTel"></label>
+                            <textarea id="descSpectacleTabetTel" name="descSpectacleTabetTel" placeholder="Tapez la description (1000 caractères max.)" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class ="row text-center">
@@ -112,19 +113,59 @@
                                 Listes des intervenants hors scène :
                             </u>
                         </div> 
+                    </div>
+                    <div class="row">
                         <div class="col-md-6 bordure">
-                            <h4>Intervenant 1</h4>
-                            <div class ="contenue_droite">
-                                <i class="espacementLargeur fa-solid fa-trash-can fa-2x"></i>
-                                <input class="btn btn-bleu" type="submit" value="Modifier">
+                            <div class="row">
+                                <div class = "col-6">
+                                    <h4>Intervenant 1</h4>
+                                </div>
+                                <div class ="col-6 contenue_droite">
+                                    <i class="fa-solid fa-trash-can fa-2x"></i>
+                                    <input class="btn btn-bleu" type="submit" value="Modifier">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 bordure d-flex justify-content-between">
-                            <h4>Intervenant 2</h4>
-                            <div class ="contenue_droite">
-                                <i class="espacementLargeur fa-solid fa-trash-can fa-2x"></i>
-                                <input class="btn btn-bleu" type="submit" value="Modifier">
+                        <div class="col-md-6 bordure">
+                            <div class="row">
+                                <div class = "col-6">
+                                    <h4>Intervenant 1</h4>
+                                </div>
+                                <div class ="col-6 contenue_droite">
+                                    <i class="fa-solid fa-trash-can fa-2x"></i>
+                                    <input class="btn btn-bleu" type="submit" value="Modifier">
+                                </div>
                             </div>
+                        </div>
+                        <div class="col-md-6 bordure">
+                            <div class="row">
+                                <div class = "col-6">
+                                    <h4>Intervenant 2</h4>
+                                </div>
+                                <div class ="col-6 contenue_droite">
+                                    <i class="fa-solid fa-trash-can fa-2x"></i>
+                                    <input class="btn btn-bleu" type="submit" value="Modifier">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 bordure">
+                            <div class="row">
+                                <div class = "col-6">
+                                    <h4>Intervenant 2</h4>
+                                </div>
+                                <div class ="col-6 contenue_droite">
+                                    <i class="fa-solid fa-trash-can fa-2x"></i>
+                                    <input class="btn btn-bleu" type="submit" value="Modifier">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class ="row">
+                        <div class="col-md-6 bordure text-center">
+                                <i class="fa-regular fa-plus fa-2x"></i>                         
+                        </div>
+                        <div class="col-md-6 bordure text-center">
+                                <i class="fa-regular fa-plus fa-2x"></i>                     
                         </div>
                     </div>
                 </form>
@@ -134,7 +175,12 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-6">
-                        <! ICI ON MET LE BOUTON DE DECONEXION>
+                        <form method="post">
+                            <button name="deconnexion" class="btn-rouge">
+                                <i class="fa-solid fa-power-off"></i>
+                                Deconnexion
+                            </button>
+                        </form>
                     </div>
                     <div class="col-6 contenue_droite">
                         <img src="../images/logo-iut.png" class ="logo" id="logoIUT" alt="Logo IUT" href="http://www.iut-rodez.fr" target="_blank"/>
