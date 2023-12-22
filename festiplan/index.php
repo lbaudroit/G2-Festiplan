@@ -22,10 +22,10 @@ $_GET["action"] = "index";
 $_GET["user"] = "francksilvestre";
 */
 
-try {
+/* try { */
     $router = new Router(new DefaultComponentFactory());
     $router->route(PREFIX_TO_RELATIVE_PATH, $dataSource);
-} catch (PDOException $e) {
+/* } catch (PDOException $e) {
     header("Location: ./error.php");
-}
+} */
 

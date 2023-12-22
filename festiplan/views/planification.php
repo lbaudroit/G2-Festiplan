@@ -28,7 +28,10 @@
 
     </header>
     <div class="contenue">
-        bloups
+        <div class="underline titre2 width-to-size">
+            Planification du <?php echo $nomFestival?> 
+        </div>
+        
     </div>
 
     <footer>

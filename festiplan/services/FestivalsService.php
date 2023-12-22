@@ -62,17 +62,21 @@ class FestivalsService
     }
 
     /**
-     * 
+     * Renvvoie le nom du festivale de l'ID
+     * @param PDO $pdo the pdo object
+     * @param string $festival l'ID du festival dont on cherche le nom
+     * @return string the statement referencing the result set
      */
-    public function getNomFestivalByID(PDO $pdo, string $festival): PDOStatement
+    public function getNomFestivalByID(PDO $pdo, string $festival): string
     {
-        $sql = "SELECT nom
+        $sql = "SELECT titre
                 FROM festivals
                 WHERE id_festival = :festival";
         $searchStmt = $pdo->prepare($sql);
         $searchStmt->bindParam(":festival", $festival);
         $searchStmt->execute();
-        return $searchStmt;
+        $nom = $searchStmt->fetch();
+        return $nom[0];
     }
 
 }
