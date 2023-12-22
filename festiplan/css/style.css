@@ -168,3 +168,7 @@ footer {
 .btn-deco-rond:hover {
     background-color: #ed5959;
 }
+
+.enRouge{
+    color:red;
+}

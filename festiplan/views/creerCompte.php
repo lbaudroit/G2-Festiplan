@@ -26,13 +26,24 @@
             <hspan class="titre">Festiplan</span>
         </header>
         <div class = "contenue container">
-            <form method="post" class="bordure formulaire leFormulaire">
+            <form method="post" class="bordure formulaire leFormulaire" >
                 <div class ="col-12 text-center">
                     <i class="fa-solid fa-user fa-4x"></i>
                 </div>
                 <div class="row textFormulaire">
-                <div class="col-12">
-                        Nom : 
+                    <div class="col-12">
+                        <span class="<?php
+                            $formulaireValide = true;
+                            $leBool=preg_match("/^.{1,35}$/", $_POST['nom'])==1;
+                            
+                            if (isset($_POST['nom']) && !$leBool){
+                                echo "enRouge";
+                                $formulaireValide = false;
+                            }?>">Nom :<?php
+                            if (isset($_POST['nom']) && !$leBool){
+                                echo " <br/> le nom ne dois pas etre vide ou depasser 35 charactere";
+                            }?>
+                        </span> 
                         <br/>    
                         <input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" <?php
                         if (isset($_POST['nom'])){
@@ -41,7 +52,17 @@
                         ?>/>
                     </div>
                     <div class="col-12">
-                        Prenom : 
+                        <span class="<?php
+                            $leBool=preg_match("/^.{1,35}$/", $_POST['prenom'])==1;
+                            
+                            if (isset($_POST['prenom']) && !$leBool){
+                                $formulaireValide = false;
+                                echo "enRouge";
+                            }?>">Prenom :<?php
+                            if (isset($_POST['prenom']) && !$leBool){
+                                echo " <br/> le prenom ne dois pas etre vide ou depasser 35 charactere";
+                            }?>
+                        </span>  
                         <br/>    
                         <input type="text" name="prenom" placeholder="Entrez votre Prenom" class="form-control" <?php
                         if (isset($_POST['prenom'])){
@@ -50,16 +71,34 @@
                         ?>/>
                     </div>
                     <div class="col-12">
-                        Email : 
+                        <span class="<?php
+                            if (isset($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+                                echo "enRouge";
+                                $formulaireValide = false;
+                            }?>">Email :<?php
+                            if (isset($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+                                echo " <br/> cet email est incorecte";
+                            }?></span>
                         <br/>    
-                        <input type="email" name="email" placeholder="Entrez votre email" class="form-control" <?php
-                        if (isset($_POST['email'])){
-                            echo 'value="'.$_POST['email'].'"';
-                        }
+                        
+                        <input type="text" name="email" placeholder="Entrez votre email" class="form-control" <?php
+                            if (isset($_POST['email'])){
+                                echo 'value="'.$_POST['email'].'"';
+                            }
                         ?>/>
                     </div>
                     <div class="col-12">
-                        Identifiant : 
+                        <span class="<?php
+                            $leBool=preg_match("/^.{1,35}$/", $_POST['identifiant'])==1;
+                            
+                            if (isset($_POST['identifiant']) && !$leBool){
+                                echo "enRouge";
+                                $formulaireValide = false;
+                            }?>">Identifiant :<?php
+                            if (isset($_POST['identifiant']) && !$leBool){
+                                echo " <br/> l'identifiant ne dois pas etre vide ou depasser 35 charactere";
+                            }?>
+                        </span>  
                         <br/>    
                         <input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control" <?php
                         if (isset($_POST['identifiant'])){
@@ -69,13 +108,29 @@
                     </div>
                     <br/>
                     <div class="col-12">
-                        Mot de passe : 
+                        <span class="<?php
+                            $leBool=preg_match("/^.{1,255}$/", $_POST['pswd'])==1;
+                            
+                            if (isset($_POST['pswd']) && !$leBool){
+                                echo "enRouge";
+                                $formulaireValide = false;
+                            }?>">Mot de passe :<?php
+                            if (isset($_POST['pswd']) && !$leBool){
+                                echo " <br/> le mot de passe ne dois pas etre vide ou depasser 255 charactere";
+                            }?>
+                        </span>
                         <br/>
                         <input type="password" name="pswd" placeholder="Tapez votre mot de passe" class="form-control"/>					
                     </div>
+                    <?php 
+                        if ($formulaireValide){
+                            header('Location: ./index.php?controller=CreerUser&action=formulaireValide');
+                            exit;
+                        }
+                    ?>
                     <br/>
                     <div class="col-12 text-center">
-                        <input class="btn-blanc btn-modif" type="submit" value="Se connecter">
+                        <input class="btn-blanc btn-modif" type="submit" value="S'inscrire">
                     </div>
                     <div class="col-12 text-center">
                         <a href="./index.php" class="text-decoration-none col-12 texte-bleu">Se connecter</a>

@@ -20,7 +20,7 @@ class CreerUserController
     }
 
 
-    public function index($pdo): View
+    public function index(): View
     {
         /* $login = HttpHelper::getParam("identifiant");
         $mdp = HttpHelper::getParam("pswd");
@@ -30,9 +30,19 @@ class CreerUserController
             header('Location: ./index.php?controller=Dashboard');
             exit;
         }     */
+        $nom = HttpHelper::getParam("nom");
+        $prenom = HttpHelper::getParam("prenom");
+        $email = HttpHelper::getParam("email");
+        $login = HttpHelper::getParam("identifiant");
+        $mdp = HttpHelper::getParam("pswd");
+
         $view = new View("/views/creerCompte");
 
         return $view;
+    }
+
+    public function formulaireValide($pdo){
+
     }
 
 }
