@@ -81,8 +81,11 @@ CREATE TABLE intervenants (
 CREATE TABLE scenes (
     id_scene INTEGER NOT NULL AUTO_INCREMENT,
     capacite INTEGER NOT NULL,
-    GPS POINT NOT NULL,
+    longitude DOUBLE NOT NULL,
+    latitude DOUBLE NOT NULL,
+    id_festival INTEGER NOT NULL,
     id_taille INTEGER NOT NULL,
+    FOREIGN KEY (id_festival) REFERENCES festivals(id_festival),
     FOREIGN KEY (id_taille) REFERENCES taillescene(id_taille),
     PRIMARY KEY (id_scene)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

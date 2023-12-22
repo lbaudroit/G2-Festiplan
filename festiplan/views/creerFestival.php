@@ -100,10 +100,36 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <div class="bordure">Scènes</div>
+                        <div class="bordure">
+                            <div>Scènes</div>
+                            <?php
+                            while ($sc = $scenes->fetch()) {
+                                $lat = (double) $sc["latitude"];
+                                $long = (double) $sc["longitude"];
+                                $gps = "[" . round($lat, 4) . " ; " . round($long, 4) . "]";
+                                $cap = $sc['capacite'];
+                                echo "<div class='col-12'>$gps - $cap personnes</div>";
+                            }
+                            ?>
+                            <a href="index.php?controller=festival&action=createscene"
+                                class="btn fond-bleu-clair col-12 p-0">
+                                <i class="fas fa-plus texte-bleu"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="col-6">
-                        <div class="bordure">Membres</div>
+                        <div class="bordure">
+                            <div>Organisateurs</div>
+                            <?php
+                            while ($org = $organisateurs->fetch()) {
+                                echo "<div class='col-12'>" . $org["nom"] . " " . $org["prenom"] . "</div>";
+                            }
+                            ?>
+                            <a href="index.php?controller=festival&action=createscene"
+                                class="btn fond-bleu-clair col-12 p-0">
+                                <i class="fas fa-plus texte-bleu"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </form>

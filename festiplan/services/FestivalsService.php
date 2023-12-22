@@ -24,7 +24,7 @@ class FestivalsService
     }
 
     /**
-     * Liste les festivals de cet utilisateur.
+     * Liste les festivals dont cet utilisateur est responsable.
      *
      * @param PDO $pdo the pdo object
      * @param string $user l'utilisateur dont on cherche les spectacles
@@ -35,6 +35,26 @@ class FestivalsService
         $sql = "SELECT * 
             FROM festivals
             WHERE id_login = :login";
+        $searchStmt = $pdo->prepare($sql);
+        $searchStmt->bindParam(":login", $user);
+        $searchStmt->execute();
+        return $searchStmt;
+    }
+
+    /**
+     * Liste les festivals de cet utilisateur.
+     *
+     * @param PDO $pdo the pdo object
+     * @param string $user l'utilisateur dont on cherche les spectacles
+     * @return PDOStatement the statement referencing the result set
+     */
+    public function getListThatUserOrganizes(PDO $pdo, string $user): PDOStatement
+    {
+        $sql = "
+            SELECT * FROM festivals
+            INNER JOIN `organise` 
+            ON organise.id_festival = festivals.id_festival
+            WHERE organise.id_login = :login;";
         $searchStmt = $pdo->prepare($sql);
         $searchStmt->bindParam(":login", $user);
         $searchStmt->execute();
@@ -55,6 +75,42 @@ class FestivalsService
             WHERE id_login = :login";
         $searchStmt = $pdo->prepare($sql);
         $searchStmt->bindParam(":login", $user);
+        $searchStmt->execute();
+        return $searchStmt;
+    }
+
+    /**
+     * Trouve les scènes liées à un festival.
+     *
+     * @param PDO $pdo the pdo object
+     * @param string $id_fest l'id du festival que l'on recherche
+     * @return PDOStatement the statement referencing the result set
+     */
+    public function getScenesOfFestival(PDO $pdo, int $id_fest): PDOStatement
+    {
+        $sql = "SELECT * 
+            FROM scenes
+            WHERE id_festival = :fest";
+        $searchStmt = $pdo->prepare($sql);
+        $searchStmt->bindParam(":fest", $id_fest);
+        $searchStmt->execute();
+        return $searchStmt;
+    }
+
+    /**
+     * Trouve les scènes liées à un festival.
+     *
+     * @param PDO $pdo the pdo object
+     * @param string $id_fest l'id du festival que l'on recherche
+     * @return PDOStatement the statement referencing the result set
+     */
+    public function getOrganisateursOfFestival(PDO $pdo, int $id_fest): PDOStatement
+    {
+        $sql = "SELECT * 
+            FROM organise
+            WHERE id_festival = :fest";
+        $searchStmt = $pdo->prepare($sql);
+        $searchStmt->bindParam(":fest", $id_fest);
         $searchStmt->execute();
         return $searchStmt;
     }
