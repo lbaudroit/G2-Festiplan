@@ -4,34 +4,33 @@ namespace controllers;
 session_start();
 
 use services\FestivalsService;
-use services\SpectaclesService;
+use services\PlanificationService;
 use yasmf\HttpHelper;
 use yasmf\View;
 
 use PDO;
 
-class DashboardController
+class PlanificationController
 {
 
     private PlanificationService $planificationService;
-
+    private FestivalsService $festivalsService;
 
     /**
      * Create a new default controller
      */
-    public function __construct($planifService)
+    public function __construct($planifService, $festiService)
     {
         $this->planificationService = $planifService;
+        $this->festivalsService = $festiService;
     }
 
     public function index(PDO $pdo)
     {
-        $user = $_SESSION['user']['id_login'];
-        $listFestivals = $this->festivalsService->getListOfUser($pdo, $user);
-        $listSpectacles = $this->spectaclesService->getListOfUser($pdo, $user);
-        $vue = new View("/views/dashboard");
-        $vue->setVar("listeFestivals", $listFestivals);
-        $vue->setVar("listeSpectacles", $listSpectacles);
+        $festival = "1";
+        $listSpectacle = $this->festivalsService->getListOfSpectacle($pdo, $festival);
+        $vue = new View("/views/planification");
+        $vue->setVar("listeFestivals", $listSpectacle);
         return $vue;
     }
 

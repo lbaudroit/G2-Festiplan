@@ -23,7 +23,11 @@ class HomeController
 
     public function index($pdo): View
     {
-        $login = HttpHelper::getParam("identifiant");
+
+        header('Location: ./index.php?controller=planification');
+        exit;
+
+        /* $login = HttpHelper::getParam("identifiant");
         $mdp = HttpHelper::getParam("pswd");
         $user = $this->usersService->getUsersLoginAndMdp($pdo, $login, $mdp);
         if ($user != null) {
@@ -33,7 +37,8 @@ class HomeController
         }
         $view = new View("/views/authentification");
 
-        return $view;
+        return $view; */
+        
     }
 
 }

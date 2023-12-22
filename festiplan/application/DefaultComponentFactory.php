@@ -27,6 +27,7 @@ use controllers\CreerUserController;
 use controllers\SpectacleController;
 use controllers\PlanificationController;
 use services\FestivalsService;
+use services\PlanificationService;
 use services\SpectaclesService;
 use services\UsersService;
 
@@ -127,7 +128,7 @@ class DefaultComponentFactory implements ComponentFactory
 
     private function buildPlanificationController(): PlanificationController
     {
-        return new PlanificationController(new SpectaclesService());
+        return new PlanificationController( new PlanificationService(), new FestivalsService());
 
     }
 }

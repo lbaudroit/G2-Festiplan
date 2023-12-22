@@ -18,7 +18,7 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <link rel="icon" href="favicon.ico" />
-    <link rel="stylesheet" href="..\css\style.css">
+    <link rel="stylesheet" href=".\css\style.css">
 </head>
 
 <body>
@@ -46,7 +46,7 @@
                     </form>
                 </div>
                 <div class="col-6 contenue_droite">
-                    <img src="../images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
+                    <img src="./images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
                         href="http://www.iut-rodez.fr" target="_blank" />
                 </div>
             </div>
