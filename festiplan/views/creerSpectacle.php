@@ -176,9 +176,12 @@
                 <div class="row">
                     <div class="col-6">
                         <form method="post" action="./index.php?controller=Deconnexion">
-                            <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
+                            <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block my-auto">
                                 <i class="fa-solid fa-power-off"></i>
                                 Deconnexion
+                            </button>
+                            <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
+                                <i class="fa-solid fa-power-off"></i>
                             </button>
                         </form>
                     </div>
