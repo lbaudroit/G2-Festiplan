@@ -107,13 +107,14 @@ class FestivalsService
     public function getOrganisateursOfFestival(PDO $pdo, int $id_fest): PDOStatement
     {
         $sql = "SELECT * 
-            FROM organise
-            WHERE id_festival = :fest";
+            FROM users
+            INNER JOIN organise
+            ON organise.id_login = users.id_login
+            WHERE organise.id_festival = :fest";
         $searchStmt = $pdo->prepare($sql);
         $searchStmt->bindParam(":fest", $id_fest);
         $searchStmt->execute();
         return $searchStmt;
     }
-
 }
 ?>

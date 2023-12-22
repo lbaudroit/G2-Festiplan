@@ -39,12 +39,25 @@ class FestivalController
 
     public function create($pdo): View
     {
-        $view = new View("views/creerFestival");
+        $aAjouter = (boolean) HttpHelper::getParam("ajouter");
+        if ($aAjouter) {
+            $titre = HttpHelper::getParam("titre");
+            $desc = HttpHelper::getParam("desc");
+        } else {
+
+        }
+
         $cat = $this->categoriesService->getList($pdo);
+        $view = new View("views/creerFestival");
         $view->setVar("categories", $cat);
         $view->setVar("scenes", array());
         $view->setVar("organisateurs", array());
         return $view;
+    }
+
+    private function ajouterFestival()
+    {
+
     }
 
     public function modify($pdo): View
@@ -54,6 +67,7 @@ class FestivalController
         $sc = $this->festivalsService->getScenesOfFestival($pdo, $fest);
         $org = $this->festivalsService->getOrganisateursOfFestival($pdo, $fest);
         $view = new View("views/creerFestival");
+        $view->setVar("fest", $fest);
         $view->setVar("categories", $cat);
         $view->setVar("scenes", $sc);
         $view->setVar("organisateurs", $org);
@@ -69,7 +83,21 @@ class FestivalController
 
     public function createScene($pdo): View
     {
-        // TODO
+        // TODO création d'une scène
+        $view = new View("views/not_done");
+        return $view;
+    }
+
+    public function addOrg($pdo): View
+    {
+        // TODO ajout d'un organisateur
+        $view = new View("views/not_done");
+        return $view;
+    }
+
+    public function seeSpectacles($pdo): View
+    {
+        // TODO voir la liste des spectacles
         $view = new View("views/not_done");
         return $view;
     }

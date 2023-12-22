@@ -35,13 +35,19 @@
         </div>
     </header>
     <div class="contenue container">
-        <div class="text-center col-12">
-            <form method="post" class="formulaire">
-                <div class="row textFormulaire bordure fondFormulaire">
+        <div class="col-12">
+            <form method="post" action="./index.php" class="formulaire">
+                <button hidden name="controller" value="festival"></button>
+                <button hidden name="action" value="create"></button>
+                <button hidden name="ajouter" value="true"></button>
+                <div class="text-center row textFormulaire bordure fondFormulaire">
                     <div class="col-md-4 col-sm-5 col-12">
                         <i class="fa-regular fa-plus fa-4x"></i>
                         <br />
-                        Rajoutez une image (800x600 maximum) (optionnel)
+                        <input type="file" id="img_fest" name="img_fest" accept="image/png, image/jpeg" />
+                        <label for="image_uploads">
+                            Rajoutez une image (PNG, JPG 800x600 maximum) (optionnel)
+                        </label>
                     </div>
                     <div class="col-sm-7 d-none d-sm-block d-md-none my-auto">
                         <input type="text" name="nomSpectacleTab" placeholder="Tapez le titre (35 caractères max.)"
@@ -63,7 +69,7 @@
                             placeholder="Tapez la description (1000 caractères max.)" class="form-control" />
                     </div>
                 </div>
-                <div class="row textFormulaire">
+                <div class="m-0 text-center row textFormulaire">
                     <div class="bordure col-md-6 col-12">
                         <u class="aGauche">
                             Categories :
@@ -98,17 +104,19 @@
                         <input type="date" id="fin" name="fin" />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="bordure">
+                <div class="m-0 text-center row textFormulaire">
+                    <div class="col-6 bordure">
+                        <div>
                             <div>Scènes</div>
                             <?php
-                            while ($sc = $scenes->fetch()) {
-                                $lat = (double) $sc["latitude"];
-                                $long = (double) $sc["longitude"];
-                                $gps = "[" . round($lat, 4) . " ; " . round($long, 4) . "]";
-                                $cap = $sc['capacite'];
-                                echo "<div class='col-12'>$gps - $cap personnes</div>";
+                            if (!is_array($scenes)) {
+                                while ($sc = $scenes->fetch()) {
+                                    $lat = (double) $sc["latitude"];
+                                    $long = (double) $sc["longitude"];
+                                    $gps = "[" . round($lat, 4) . " ; " . round($long, 4) . "]";
+                                    $cap = $sc['capacite'];
+                                    echo "<div class='col-12'>$gps - $cap personnes</div>";
+                                }
                             }
                             ?>
                             <a href="index.php?controller=festival&action=createscene"
@@ -117,19 +125,62 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="bordure">
+                    <div class="col-6 bordure">
+                        <div>
                             <div>Organisateurs</div>
                             <?php
-                            while ($org = $organisateurs->fetch()) {
-                                echo "<div class='col-12'>" . $org["nom"] . " " . $org["prenom"] . "</div>";
+                            if (!is_array($organisateurs)) {
+                                while ($org = $organisateurs->fetch()) {
+                                    echo "<div class='col-12'>" . $org["nom"] . " " . $org["prenom"] . "</div>";
+                                }
                             }
                             ?>
-                            <a href="index.php?controller=festival&action=createscene"
+                            <a href="index.php?controller=festival&action=addorg"
                                 class="btn fond-bleu-clair col-12 p-0">
                                 <i class="fas fa-plus texte-bleu"></i>
                             </a>
                         </div>
+                    </div>
+                </div>
+                <div class="m-0 text-center row textFormulaire">
+                    <div class="col-12 bordure">
+                        Grille journalière contrainte
+                    </div>
+                    <div class="col-4 bordure">
+                        <div class="underline">
+                            Heure de début du festival
+                        </div>
+                        <input type="time">
+                    </div>
+                    <div class="col-4 bordure">
+                        <div class="underline">
+                            Heure de fin du festival
+                        </div>
+                        <input type="time">
+                    </div>
+                    <div class="col-4 bordure">
+                        <div class="underline">
+                            Durée minimale entre spectacles
+                        </div>
+                        <input type="time">
+                    </div>
+                </div>
+                <div class="text-left row row-gap-2">
+                    <div class="col-3 p-0">
+                        <a class="btn btn-bleu form-control"
+                            href="./index.php?controller=festival&action=seeSpectacles&festival=<?php echo $fest; ?>">
+                            Gérer les spectacles
+                        </a>
+                    </div>
+                    <div class="col-3 p-0 offset-6">
+                        <a class="btn btn-rouge form-control"> <!--TODO-->
+                            Annuler
+                        </a>
+                    </div>
+                    <div class="col-3 p-0 offset-9">
+                        <input class="btn btn-bleu form-control"
+                            href="./index.php?controller=festival&action=create&festival=<?php echo $fest; ?>"
+                            type="submit" value="Créer">
                     </div>
                 </div>
             </form>
