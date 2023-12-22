@@ -25,6 +25,7 @@ use controllers\HomeController;
 use controllers\DeconnexionController;
 use controllers\CreerUserController;
 use controllers\SpectacleController;
+use controllers\PlanificationController;
 use services\FestivalsService;
 use services\SpectaclesService;
 use services\UsersService;
@@ -55,6 +56,7 @@ class DefaultComponentFactory implements ComponentFactory
             "CreerUser" => $this->buildCreerUserController(),
             "festival" => $this->buildFestivalController(),
             "spectacle" => $this->buildSpectacleController(),
+            "planification" => $this->buildPlanificationController(),
             default => throw new NoControllerAvailableForNameException($controller_name)
         };
     }
@@ -120,6 +122,12 @@ class DefaultComponentFactory implements ComponentFactory
     private function buildSpectacleController(): SpectacleController
     {
         return new SpectacleController(new SpectaclesService());
+
+    }
+
+    private function buildPlanificationController(): PlanificationController
+    {
+        return new PlanificationController(new SpectaclesService());
 
     }
 }
