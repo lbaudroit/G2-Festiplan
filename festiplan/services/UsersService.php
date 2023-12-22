@@ -72,6 +72,33 @@ class UsersService
         }
     }
 
+    /**
+     * Vérifie la taille
+     * @return user the statement referencing the result set
+     */
+    public function valideTaille($verif) {
+        $regex = "/^.{1,35}$/";
+        return preg_match($regex, $verif);
+    }
+
+    /**
+     * Vérifie la taille
+     * @return user the statement referencing the result set
+     */
+    public function valideMail($mail) {
+        $regex = "/^.{1,35}$/";
+        return preg_match($regex, $mail)  && filter_var($mdp, FILTER_VALIDATE_EMAIL);
+    }
+    /**
+     * Vérifie la taille
+     * @return user the statement referencing the result set
+     */
+    public function valideMdp($mdp) {
+        $patternTaille = "/^.{1,255}$/";
+        $patterncompose = "/{A-Z}{a-z}{0-9}/";
+        $reserve = "/(?:[A-Z][a-z]{0,9})/"; //A reprendre : regex101.com
+        return preg_match($regex, $mdp);
+    }
 
 }
 ?>
