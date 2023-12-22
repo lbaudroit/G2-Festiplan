@@ -118,7 +118,7 @@
                         <div class="col-md-6 bordure">
                             <div class="row">
                                 <div class = "col-6">
-                                    <h4>Intervenant 1</h4>
+                                    <h5>Intervenant 1</h5>
                                 </div>
                                 <div class ="col-6 contenue_droite">
                                     <i class="fa-solid fa-trash-can fa-2x"></i>
@@ -129,7 +129,7 @@
                         <div class="col-md-6 bordure">
                             <div class="row">
                                 <div class = "col-6">
-                                    <h4>Intervenant 1</h4>
+                                    <h5>Intervenant 1</h5>
                                 </div>
                                 <div class ="col-6 contenue_droite">
                                     <i class="fa-solid fa-trash-can fa-2x"></i>
@@ -140,7 +140,7 @@
                         <div class="col-md-6 bordure">
                             <div class="row">
                                 <div class = "col-6">
-                                    <h4>Intervenant 2</h4>
+                                    <h5>Intervenant 2</h5>
                                 </div>
                                 <div class ="col-6 contenue_droite">
                                     <i class="fa-solid fa-trash-can fa-2x"></i>
@@ -151,7 +151,7 @@
                         <div class="col-md-6 bordure">
                             <div class="row">
                                 <div class = "col-6">
-                                    <h4>Intervenant 2</h4>
+                                    <h5>Intervenant 2</h5>
                                 </div>
                                 <div class ="col-6 contenue_droite">
                                     <i class="fa-solid fa-trash-can fa-2x"></i>
@@ -166,6 +166,18 @@
                         </div>
                         <div class="col-md-6 bordure text-center">
                                 <i class="fa-regular fa-plus fa-2x"></i>                     
+                        </div>
+                    </div>
+                    <div class ="row">
+                        <div class=" offset-6 col-3 contenue_droite">
+                            <button name="suppr" class="btn-rouge btn form-control">
+                                Supprimer
+                            </button>
+                        </div>
+                        <div class="col-3 contenue_droite">
+                            <button name="save" class="btn-bleu btn form-control">
+                                Sauvegarder les changements
+                            </button>
                         </div>
                     </div>
                 </form>
