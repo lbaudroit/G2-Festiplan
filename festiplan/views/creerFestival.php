@@ -46,7 +46,7 @@
                         <br />
                         <input type="file" id="img_fest" name="img_fest" accept="image/png, image/jpeg" />
                         <label for="image_uploads">
-                            Rajoutez une image (PNG, JPG 800x600 maximum) (optionnel)
+                            Rajoutez une image (PNG, 800x600 maximum) (optionnel)
                         </label>
                     </div>
                     <div class="col-sm-7 d-none d-sm-block d-md-none my-auto">
@@ -150,19 +150,19 @@
                         <div class="underline">
                             Heure de début du festival
                         </div>
-                        <input type="time">
+                        <input name="grij_deb" type="time">
                     </div>
                     <div class="col-4 bordure">
                         <div class="underline">
                             Heure de fin du festival
                         </div>
-                        <input type="time">
+                        <input name="grij_fin" type="time">
                     </div>
                     <div class="col-4 bordure">
                         <div class="underline">
                             Durée minimale entre spectacles
                         </div>
-                        <input type="time">
+                        <input name="grij_delai" type="time">
                     </div>
                 </div>
                 <div class="text-left row row-gap-2">

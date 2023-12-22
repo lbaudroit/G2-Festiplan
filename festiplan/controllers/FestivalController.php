@@ -39,17 +39,30 @@ class FestivalController
 
     public function create($pdo): View
     {
+        $user = $_SESSION["user"]["id_login"];
         $aAjouter = (boolean) HttpHelper::getParam("ajouter");
-        if ($aAjouter) {
+        if ($aAjouter && isset($user)) {
+            $grij_deb = HttpHelper::getParam("grij_deb");
+            $grij_fin = HttpHelper::getParam("grij_fin");
+            $grij_delai = HttpHelper::getParam("grij_delai");
+            $id_grij = $this->festivalsService->addGrij($pdo, $grij_deb, $grij_fin, $grij_delai);
+
+
             $titre = HttpHelper::getParam("titre");
             $desc = HttpHelper::getParam("desc");
+            $contenu_img = HttpHelper::getParam("img_fest");
+            $cat = HttpHelper::getParam("cat");
+            $deb = HttpHelper::getParam("deb");
+            $fin = HttpHelper::getParam("fin");
+
+            $id_fest = $this->festivalsService->addFestival($pdo, $titre, $desc, $contenu_img, $deb, $fin, $id_grij, $user, $cat);
         } else {
 
         }
 
-        $cat = $this->categoriesService->getList($pdo);
+        $listcat = $this->categoriesService->getList($pdo);
         $view = new View("views/creerFestival");
-        $view->setVar("categories", $cat);
+        $view->setVar("categories", $listcat);
         $view->setVar("scenes", array());
         $view->setVar("organisateurs", array());
         return $view;
