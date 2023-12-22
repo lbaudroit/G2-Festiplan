@@ -1,11 +1,11 @@
-.leFormulaire{
+.leFormulaire {
     max-width: 434px;
     margin: auto;
     margin-bottom: 10px;
     margin-top: 10px;
 }
 
-.textFormulaire > * {
+.textFormulaire>* {
     margin: 5px;
 }
 

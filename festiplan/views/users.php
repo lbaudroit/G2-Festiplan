@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Festiplan</title>
     <link rel="stylesheet" href="/mezabi/static/css/mezabi.css">
 </head>
