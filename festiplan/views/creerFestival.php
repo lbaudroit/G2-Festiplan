@@ -117,40 +117,106 @@
                     </div>
                 </div>
                 <div class="m-0 text-center row textFormulaire">
-                    <div class="col-6 bordure">
-                        <div>
+                    <div class="col-6 bordure p-0">
+                        <table class="table table-striped">
                             <div>Scènes</div>
                             <?php
                             if (!is_array($scenes)) {
+                                $i = 0;
                                 while ($sc = $scenes->fetch()) {
-                                    $lat = (double) $sc["latitude"];
-                                    $long = (double) $sc["longitude"];
+                                    $i++;
+                                    $lat = (float) $sc["latitude"];
+                                    $long = (float) $sc["longitude"];
                                     $gps = "[" . round($lat, 4) . " ; " . round($long, 4) . "]";
-                                    $cap = $sc['capacite'];
-                                    echo "<div class='col-12'>$gps - $cap personnes</div>";
+                                    $cap = $sc['capacite']; ?>
+
+                                    <tr>
+                                        <td class="row m-0 w-100">
+                                            <div class="col-4 text-left">
+                                                Scène
+                                                <?php echo $i; ?>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Coordonnées GPS</label>
+                                                <div class="row">
+                                                    <input class="col-6" type=" number" value="<?php echo $lat; ?>"
+                                                        class="form-control">
+                                                    <input class="col-6" type="number" value="<?php echo $long; ?>"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <a href="./index.php?controller=festival&action=deleteScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>"
+                                                    <i class="fas fa-trash-alt text-black"></i>
+                                                </a>
+                                            </div>
+                                            <div class="col-4 m-auto">
+                                                <select>
+                                                    <?php
+                                                    while ($taille = $tailles->fetch()) {
+                                                        if ($taille["id_taille"] == $sc["id_taille"]) {
+                                                            $selected = "selected";
+                                                        } else {
+                                                            $selected = "";
+                                                        }
+                                                        echo "<option $selected>" . $taille["libelle"] . "</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-6 m-auto">
+                                                <label class="form-label">Spectateurs max : </label>
+                                                <input type="number" value=<?php echo $cap; ?> class="form-control">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
                                 }
                             }
                             ?>
-                            <a href="index.php?controller=festival&action=createscene"
-                                class="btn fond-bleu-clair col-12 p-0">
-                                <i class="fas fa-plus texte-bleu"></i>
-                            </a>
-                        </div>
+                            <tr>
+                                <td>
+                                    <a href="index.php?controller=festival&action=addorg"
+                                        class="btn fond-bleu-clair col-12 p-0">
+                                        <i class="fas fa-plus texte-bleu"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <div class="col-6 bordure">
+                    <div class="col-6 bordure p-0">
                         <div>
                             <div>Organisateurs</div>
-                            <?php
-                            if (!is_array($organisateurs)) {
-                                while ($org = $organisateurs->fetch()) {
-                                    echo "<div class='col-12'>" . $org["nom"] . " " . $org["prenom"] . "</div>";
+                            <table class="table table-striped">
+                                <?php
+                                if (!is_array($organisateurs)) {
+                                    while ($org = $organisateurs->fetch()) {
+                                        ?>
+
+                                        <tr>
+                                            <td class='row m-0 w-100'>
+                                                <?php
+                                                echo "<div class='col-10 text-start'>" . $org["nom"] . " " . $org["prenom"] . "</div>";
+                                                echo "<div class='col-2'>";
+                                                echo "<a href='./index.php?controller=festival&action=remoreOrg&festival=$fest&org=" . $org["id_login"] . "'>";
+                                                echo "<i class='fas fa-trash-alt text-black'></i>";
+                                                echo "</a></div>";
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
                                 }
-                            }
-                            ?>
-                            <a href="index.php?controller=festival&action=addorg"
-                                class="btn fond-bleu-clair col-12 p-0">
-                                <i class="fas fa-plus texte-bleu"></i>
-                            </a>
+                                ?>
+                                <tr>
+                                    <td>
+                                        <a href="index.php?controller=festival&action=addorg"
+                                            class="btn fond-bleu-clair col-12 p-0">
+                                            <i class="fas fa-plus texte-bleu"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -185,7 +251,7 @@
                         } else {
                             echo "disabled";
                         } ?>>
-                            Gérer les spectacles
+                    Gérer les spectacles
                         </a>
                     </div>
                     <div class="col-3 p-0 offset-6">

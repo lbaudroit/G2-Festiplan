@@ -89,6 +89,8 @@ class FestivalsService
     {
         $sql = "SELECT * 
             FROM scenes
+            INNER JOIN taillescene
+            ON scenes.id_taille = taillescene.id_taille
             WHERE id_festival = :fest";
         $searchStmt = $pdo->prepare($sql);
         $searchStmt->bindParam(":fest", $id_fest);

@@ -3,6 +3,7 @@ namespace controllers;
 
 use services\CategoriesService;
 use services\FestivalsService;
+use services\TaillesService;
 use yasmf\HttpHelper;
 use yasmf\View;
 
@@ -95,11 +96,13 @@ class FestivalController
         $cat = $this->categoriesService->getList($pdo);
         $sc = $this->festivalsService->getScenesOfFestival($pdo, $fest);
         $org = $this->festivalsService->getOrganisateursOfFestival($pdo, $fest);
+        $tailles = TaillesService::getList($pdo);
         $view = new View("views/creerFestival");
         $view->setVar("fest", $fest);
         $view->setVar("categories", $cat);
         $view->setVar("scenes", $sc);
         $view->setVar("organisateurs", $org);
+        $view->setVar("tailles", $tailles);
         return $view;
     }
 
@@ -117,9 +120,23 @@ class FestivalController
         return $view;
     }
 
+    public function deleteScene($pdo): View
+    {
+        // TODO suppression d'une scène
+        $view = new View("views/not_done");
+        return $view;
+    }
+
     public function addOrg($pdo): View
     {
         // TODO ajout d'un organisateur
+        $view = new View("views/not_done");
+        return $view;
+    }
+
+    public function removeOrg($pdo): View
+    {
+        // TODO retrait d'un organisateur
         $view = new View("views/not_done");
         return $view;
     }
