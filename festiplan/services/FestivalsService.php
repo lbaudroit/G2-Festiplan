@@ -192,5 +192,47 @@ class FestivalsService
 
         return $searchStmt;
     }
+
+    /**
+     * Vérifie que l'utilisateur est RESPONSABLE du festival.
+     * 
+     * @param PDO $pdo l'objet pdo
+     * @param string $user l'utilisateur qu'on souhaite vérifier
+     * @param int $spec l'id du festival qu'on recherche
+     */
+    public function checkOwner(PDO $pdo, string $user, int $fest): bool
+    {
+        $sql = "SELECT * 
+            FROM festivals
+            WHERE id_login = :login
+            AND id_festival = :fest;";
+        $searchStmt = $pdo->prepare($sql);
+        $searchStmt->bindParam(":login", $user);
+        $searchStmt->bindParam(":fest", $fest);
+        $searchStmt->execute();
+        return $searchStmt->rowCount() > 0;
+    }
+
+    /**
+     * Vérifie que l'utilisateur est bien ORGANISATEUR du festival.
+     * 
+     * @param PDO $pdo l'objet pdo
+     * @param string $user l'utilisateur qu'on souhaite vérifier
+     * @param int $fest l'id du festival qu'on recherche
+     */
+    public function checkOrganisateur(PDO $pdo, string $user, int $fest): bool
+    {
+        $sql = "SELECT * 
+            FROM users
+            INNER JOIN organise
+            ON organise.id_login = users.id_login
+            WHERE organise.id_festival = :fest
+            AND users.id_login = :login;";
+        $searchStmt = $pdo->prepare($sql);
+        $searchStmt->bindParam(":login", $user);
+        $searchStmt->bindParam(":fest", $fest);
+        $searchStmt->execute();
+        return $searchStmt->rowCount() > 0;
+    }
 }
 ?>
