@@ -1,8 +1,6 @@
 <?php
 namespace controllers;
 
-session_start();
-
 use services\SpectaclesService;
 use yasmf\HttpHelper;
 use yasmf\View;

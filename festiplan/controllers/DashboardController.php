@@ -1,8 +1,6 @@
 <?php
 namespace controllers;
 
-session_start();
-
 use services\FestivalsService;
 use services\SpectaclesService;
 use yasmf\HttpHelper;

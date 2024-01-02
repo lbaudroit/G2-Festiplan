@@ -6,8 +6,6 @@ use services\FestivalsService;
 use yasmf\HttpHelper;
 use yasmf\View;
 
-session_start();
-
 class FestivalController
 {
 
@@ -40,18 +38,26 @@ class FestivalController
     public function create($pdo): View
     {
         $user = $_SESSION["user"]["id_login"];
-        $aAjouter = (boolean) HttpHelper::getParam("ajouter");
+
+        /*
+        if (isset($user)) {
+            header("Location: ./index.php");
+            exit();
+        }*/
 
         // création de la vue commune aux différents cas
         $view = new View("views/creerFestival");
         $view->setVar("categories", $this->categoriesService->getList($pdo));
 
-        if ($aAjouter && isset($user)) {
+        $aAjouter = (boolean) HttpHelper::getParam("ajouter");
+        if ($aAjouter) {
+            // Création de la grij
             $grij_deb = HttpHelper::getParam("grij_deb");
             $grij_fin = HttpHelper::getParam("grij_fin");
             $grij_delai = HttpHelper::getParam("grij_delai");
             $id_grij = $this->festivalsService->addGrij($pdo, $grij_deb, $grij_fin, $grij_delai);
 
+            // Création des champs simples
             $titre = HttpHelper::getParam("titre");
             $desc = HttpHelper::getParam("desc");
             $contenu_img = HttpHelper::getParam("img_fest");
@@ -59,14 +65,14 @@ class FestivalController
             $deb = HttpHelper::getParam("deb");
             $fin = HttpHelper::getParam("fin");
 
+            // Création des associations avec scènes et organisateurs
+
             $this->festivalsService->addFestival($pdo, $titre, $desc, $contenu_img, $deb, $fin, $id_grij, $user, $cat);
             $view->setVar("titre", $titre);
             $view->setVar("desc", $desc);
             $view->setVar("cat", $cat);
             $view->setVar("deb", $deb);
             $view->setVar("fin", $fin);
-            // remplissage des variables
-
         } else {
             // variables vides pour afficher une première fois
             $view->setVar("scenes", array());

@@ -37,9 +37,9 @@
     <div class="contenue container">
         <div class="col-12">
             <form method="post" action="./index.php" class="formulaire">
-                <button hidden name="controller" value="festival"></button>
-                <button hidden name="action" value="create"></button>
-                <button hidden name="ajouter" value="true"></button>
+                <input hidden name="controller" value="festival">
+                <input hidden name="action" value="create">
+                <input hidden name="ajouter" value="true">
                 <div class="text-center row textFormulaire bordure fondFormulaire">
                     <div class="col-md-4 col-sm-5 col-12">
                         <i class="fa-regular fa-plus fa-4x"></i>
@@ -194,8 +194,6 @@
                         </a>
                     </div>
                     <div class="col-3 p-0 offset-9">
-                        <input type="hidden" name="controller" value="festival">
-                        <input type="hidden" name="action" value="create">
                         <?php
                         if (isset($fest)) {
                             echo "<input type='hidden' name='festival' value='$fest'>";

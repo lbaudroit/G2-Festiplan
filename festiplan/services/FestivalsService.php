@@ -1,7 +1,6 @@
 <?php
 namespace services;
 
-
 use PDO;
 use PDOStatement;
 
@@ -130,10 +129,10 @@ class FestivalsService
      */
     public function addGrij(PDO $pdo, string $heuredeb, string $heurefin, string $delai): int|null
     {
-        $time_regex = "^(\d{1,2}:\d{1,2}(:\d{1,2})?)$";
+        $time_regex = "/^(\d{1,2}:\d{1,2}(:\d{1,2})?)$/";
         if (preg_match($time_regex, $heuredeb) && preg_match($time_regex, $heurefin) && preg_match($time_regex, $delai)) {
             $pdo->beginTransaction();
-            $sql = "INSERT INTO (heure_deb, heure_fin, temps_pause) VALUES (TIME(:deb), TIME(:fin), TIME(:delai))";
+            $sql = "INSERT INTO grij (heure_deb, heure_fin, temps_pause) VALUES (:deb, :fin, :delai);";
             $insertStmt = $pdo->prepare($sql);
             $insertStmt->bindParam(":deb", $heuredeb);
             $insertStmt->bindParam(":fin", $heurefin);
@@ -169,13 +168,12 @@ class FestivalsService
         string $cat
     ): PDOStatement {
         $sql = "
-        INSERT INTO festivals (titre, description_f, lien_img, date_deb, date_fin, id_grij, id_login, id_cat)
+        INSERT INTO festivals (titre, description_f, date_deb, date_fin, id_grij, id_login, id_cat)
         VALUES 
-        (:nom, :desc, CONCAT('f',id,'.png') , :deb, :fin, :grij, :user, :cat),";
+        (:nom, :desc, :deb, :fin, :grij, :user, :cat);";
         $searchStmt = $pdo->prepare($sql);
         $searchStmt->bindParam(":nom", $nom);
         $searchStmt->bindParam(":desc", $desc);
-        $searchStmt->bindParam(":img", $img);
         $searchStmt->bindParam(":deb", $debut);
         $searchStmt->bindParam(":fin", $fin);
         $searchStmt->bindParam(":grij", $grij);
@@ -186,7 +184,7 @@ class FestivalsService
 
         // Création du fichier d'image
         // le lien est créé parallèlement dans la BD avec un trigger
-        $nomFich = "f" + $id + ".png";
+        $nomFich = "f" . $id . ".png";
         $file = fopen("./images/festival/" . $nomFich, "w");
         fwrite($file, $img);
 
