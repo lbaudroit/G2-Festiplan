@@ -157,9 +157,17 @@ class FestivalsService
      * @param string $nom la catégorie du festival
      * @return PDOStatement the statement referencing the result set
      */
-    public function addFestival(PDO $pdo, string $nom, string $desc, string $img,
-        string $debut, string $fin, int $grij, string $login, string $cat): PDOStatement
-    {
+    public function addFestival(
+        PDO $pdo,
+        string $nom,
+        string $desc,
+        string $img,
+        string $debut,
+        string $fin,
+        int $grij,
+        string $login,
+        string $cat
+    ): PDOStatement {
         $sql = "
         INSERT INTO festivals (titre, description_f, lien_img, date_deb, date_fin, id_grij, id_login, id_cat)
         VALUES 
@@ -174,9 +182,15 @@ class FestivalsService
         $searchStmt->bindParam(":user", $login);
         $searchStmt->bindParam(":cat", $cat);
         $searchStmt->execute();
+        $id = $pdo->lastInsertId();
 
-        $nomFich = "f" + $id_fest + ".png";
-        fopen("./f");
+        // Création du fichier d'image
+        // le lien est créé parallèlement dans la BD avec un trigger
+        $nomFich = "f" + $id + ".png";
+        $file = fopen("./images/festival/" . $nomFich, "w");
+        fwrite($file, $img);
+
+        // TODO créer un fichier temporaire pour en vérifier la taille avant de l'insérer
 
         return $searchStmt;
     }

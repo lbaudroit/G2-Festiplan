@@ -25,11 +25,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <hspan class="titre">Festiplan</span>
+                    <span class="titre">Festiplan</span>
                 </div>
                 <div class="col-6 contenue_droite">
                     <i class="fa-solid fa-user fa-4x"></i>
-                    <hspan class="secondTitre">Mon Compte </hspan>
+                    <span class="secondTitre">Mon Compte </span>
                 </div>
             </div>
         </div>
@@ -50,23 +50,31 @@
                         </label>
                     </div>
                     <div class="col-sm-7 d-none d-sm-block d-md-none my-auto">
-                        <input type="text" name="nomSpectacleTab" placeholder="Tapez le titre (35 caractères max.)"
-                            class="form-control" />
+                        <input type="text" name="titre" placeholder="Tapez le titre (35 caractères max.)"
+                            class="form-control" <?php if (isset($titre)) {
+                                echo "value='$titre'";
+                            } ?> />
                     </div>
                     <div class="col-8">
                         <div class="col-12 d-sm-none d-md-block">
-                            <input type="text" name="nomSpectaclePCetTel"
-                                placeholder="Tapez le titre (35 caractères max.)" class="form-control" />
+                            <input type="text" name="titre" placeholder="Tapez le titre (35 caractères max.)"
+                                class="form-control" <?php if (isset($titre)) {
+                                    echo "value='$titre'";
+                                } ?> />
                         </div>
                         <br />
                         <div class="col-12 d-none d-md-block">
-                            <input type="text" name="descSpectaclePC"
-                                placeholder="Tapez la description (1000 caractères max.)" class="form-control" />
+                            <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
+                                class="form-control" <?php if (isset($desc)) {
+                                    echo "value='$desc'";
+                                } ?> />
                         </div>
                     </div>
                     <div class="col-12 d-md-none">
-                        <input type="text" name="descSpectacleTabletTel"
-                            placeholder="Tapez la description (1000 caractères max.)" class="form-control" />
+                        <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
+                            class="form-control" <?php if (isset($desc)) {
+                                echo "value='$desc'";
+                            } ?> />
                     </div>
                 </div>
                 <div class="m-0 text-center row textFormulaire">
@@ -92,7 +100,9 @@
                             Date de début du Festival :
                         </u>
                         <br />
-                        <input type="date" id="deb" name="deb" />
+                        <input type="date" id="deb" name="deb" <?php if (isset($deb)) {
+                            echo "value='$deb'";
+                        } ?> />
                     </div>
                     <div class="bordure col-md-3 col-sm-6 col-12">
                         <label for="tailleSceneSelect">
@@ -101,7 +111,9 @@
                             </u>
                         </label>
                         <br />
-                        <input type="date" id="fin" name="fin" />
+                        <input type="date" id="fin" name="fin" <?php if (isset($fin)) {
+                            echo "value='$fin'";
+                        } ?> />
                     </div>
                 </div>
                 <div class="m-0 text-center row textFormulaire">
@@ -167,8 +179,12 @@
                 </div>
                 <div class="text-left row row-gap-2">
                     <div class="col-3 p-0">
-                        <a class="btn btn-bleu form-control"
-                            href="./index.php?controller=festival&action=seeSpectacles&festival=<?php echo $fest; ?>">
+                        <a class="btn btn-bleu form-control" <?php
+                        if (isset($fest)) {
+                            echo "href='./index.php?controller=festival&action=seeSpectacles&festival=$fest'";
+                        } else {
+                            echo "disabled";
+                        } ?>>
                             Gérer les spectacles
                         </a>
                     </div>
@@ -178,9 +194,14 @@
                         </a>
                     </div>
                     <div class="col-3 p-0 offset-9">
-                        <input class="btn btn-bleu form-control"
-                            href="./index.php?controller=festival&action=create&festival=<?php echo $fest; ?>"
-                            type="submit" value="Créer">
+                        <input type="hidden" name="controller" value="festival">
+                        <input type="hidden" name="action" value="create">
+                        <?php
+                        if (isset($fest)) {
+                            echo "<input type='hidden' name='festival' value='$fest'>";
+                        }
+                        ?>
+                        <input class="btn btn-bleu form-control" type="submit" value="Créer">
                     </div>
                 </div>
             </form>
@@ -190,7 +211,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <! ICI ON MET LE BOUTON DE DECONEXION>
+                    <!-- ICI ON MET LE BOUTON DE DECONEXION-->
                 </div>
                 <div class="col-6 contenue_droite">
                     <img src="images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
