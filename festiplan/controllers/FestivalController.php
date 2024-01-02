@@ -65,7 +65,10 @@ class FestivalController
             $deb = HttpHelper::getParam("deb");
             $fin = HttpHelper::getParam("fin");
 
-            // Création des associations avec scènes et organisateurs
+            // Création des associations avec scènes
+            // TODO
+            // Création des organisateurs
+            // TODO
 
             $this->festivalsService->addFestival($pdo, $titre, $desc, $contenu_img, $deb, $fin, $id_grij, $user, $cat);
             $view->setVar("titre", $titre);
