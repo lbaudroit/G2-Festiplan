@@ -142,20 +142,20 @@
                                             <!--GPS-->
                                             <div class="col-8 col-sm-5 col-md-6 order-4 order-sm-2 py-2">
                                                 <div class="d-flex">
-                                                    <label class="my-auto">GPS&nbsp</label>
-                                                    <input class="form-control" type="number" value="<?php echo $lat; ?>">
-                                                    <input class="form-control" type="number" value="<?php echo $long; ?>">
+                                                    <label class="my-auto">Coordonnées GPS&nbsp</label>
+                                                    <input disabled class="form-control"
+                                                        value="<?php echo round($lat, 3) . " : " . round($long, 3); ?>">
                                                 </div>
                                             </div>
                                             <!--SUPPR-->
-                                            <div class="col-2 col-sm-2 order-2 order-sm-3 text-end py-2">
+                                            <div class="col-2 col-2 order-2 order-sm-3 text-end py-2">
                                                 <a href="./index.php?controller=festival&action=deleteScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>"
                                                     <i class="fas fa-trash-alt text-black"></i>
                                                 </a>
                                             </div>
                                             <!--TAILLE-->
                                             <div class="col-4 col-md-4 order-5 my-auto py-2">
-                                                <select>
+                                                <select disabled>
                                                     <?php
                                                     while ($taille = $tailles->fetch()) {
                                                         if ($taille["id_taille"] == $sc["id_taille"]) {
@@ -175,7 +175,8 @@
                                                         <label class="form-label">Spectateurs max&nbsp</label>
                                                     </span>
                                                     <span class="flex-grow-1">
-                                                        <input type="number" value=<?php echo $cap; ?> class="form-control">
+                                                        <input disabled type="number" value=<?php echo $cap; ?>
+                                                            class="form-control">
                                                     </span>
                                                 </div>
                                             </div>
