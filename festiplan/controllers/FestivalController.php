@@ -1,6 +1,8 @@
 <?php
 namespace controllers;
 
+use Exception;
+use PDOException;
 use services\CategoriesService;
 use services\FestivalsService;
 use services\TaillesService;
@@ -52,42 +54,74 @@ class FestivalController
 
         $aAjouter = (boolean) HttpHelper::getParam("ajouter");
         if ($aAjouter) {
-            // Création de la grij
-            $grij_deb = HttpHelper::getParam("grij_deb");
-            $grij_fin = HttpHelper::getParam("grij_fin");
-            $grij_delai = HttpHelper::getParam("grij_delai");
-            $id_grij = $this->festivalsService->addGrij($pdo, $grij_deb, $grij_fin, $grij_delai);
+            try {
+                $pdo->beginTransaction();
+                // Création de la grij
+                $grij_deb = HttpHelper::getParam("grij_deb");
+                $grij_fin = HttpHelper::getParam("grij_fin");
+                $grij_delai = HttpHelper::getParam("grij_delai");
+                $id_grij = $this->festivalsService->addGrij($pdo, $grij_deb, $grij_fin, $grij_delai);
 
-            // Création des champs simples
-            $titre = HttpHelper::getParam("titre");
-            $desc = HttpHelper::getParam("desc");
-            $contenu_img = HttpHelper::getParam("img_fest");
-            $cat = HttpHelper::getParam("cat");
-            $deb = HttpHelper::getParam("deb");
-            $fin = HttpHelper::getParam("fin");
+                // Création des champs simples
+                $titre = HttpHelper::getParam("titre");
+                $desc = HttpHelper::getParam("desc");
+                $cat = HttpHelper::getParam("cat");
+                $deb = HttpHelper::getParam("deb");
+                $fin = HttpHelper::getParam("fin");
 
-            // Création des associations avec scènes
-            // TODO
-            // Création des organisateurs
-            // TODO
+                $img = $_FILES["img_fest"];
+                $ext = $this->extractExtension($img);
 
-            $this->festivalsService->addFestival($pdo, $titre, $desc, $contenu_img, $deb, $fin, $id_grij, $user, $cat);
-            $view->setVar("titre", $titre);
-            $view->setVar("desc", $desc);
-            $view->setVar("cat", $cat);
-            $view->setVar("deb", $deb);
-            $view->setVar("fin", $fin);
-        } else {
-            // variables vides pour afficher une première fois
-            $view->setVar("scenes", array());
-            $view->setVar("organisateurs", array());
+                // Création des associations avec scènes et des organisateurs
+                // Le créateur est automatiquement ajouté avec un trigger
+                // TODO Pas disponibles lors de la création mais disponible après dans l'interface de modification
+
+                $id = $this->festivalsService->addFestival($pdo, $titre, $desc, $deb, $fin, $id_grij, $user, $cat, $ext);
+                $view->setVar("titre", $titre);
+                $view->setVar("desc", $desc);
+                $view->setVar("cat", $cat);
+                $view->setVar("deb", $deb);
+                $view->setVar("fin", $fin);
+
+                // Récupère l'image et la stocke
+                $size = $this->ajouterImage($id, $img, $ext);
+                $pdo->commit();
+            } catch (Exception $e) {
+                $pdo->rollback();
+            }
+
         }
+        // variables vides pour afficher une première fois
+        $view->setVar("scenes", array());
+        $view->setVar("organisateurs", array());
         return $view;
     }
 
-    private function ajouterFestival()
+    public function ajouterImage(int $id_fest, array $img, string $ext)
     {
+        // Vérification du type de fichier
+        $accepted_types = [".png", ".gif", ".jpg"];
+        if (!in_array($ext, $accepted_types)) {
+            throw new Exception("Le type du fichier est invalide.");
+        }
+        $target_dir = "./images/festival/";
+        $target_file = $target_dir . "f" . $id_fest . $ext;
+        $check = getimagesize($img["tmp_name"]);
+        if ($check == false || $check[0] > 800 || $check[1] > 600) {
+            throw new Exception("Les dimensions du fichier sont invalides.");
+        }
+        return move_uploaded_file($img["tmp_name"], $target_file);
+    }
 
+    /**
+     * Récupère l'extension du fichier depuis son tableau extrait de $_FILES.
+     */
+    public function extractExtension(array $img): string
+    {
+        $extraction_regex = "/\.[^\.]{3}$/";
+        $extension = array();
+        preg_match($extraction_regex, $img["name"], $extension);
+        return $extension[0];
     }
 
     public function modify($pdo): View
@@ -97,12 +131,15 @@ class FestivalController
         $sc = $this->festivalsService->getScenesOfFestival($pdo, $fest);
         $org = $this->festivalsService->getOrganisateursOfFestival($pdo, $fest);
         $tailles = TaillesService::getList($pdo);
+        $info = $this->festivalsService->getInfo($pdo, $fest);
+
         $view = new View("views/creerFestival");
         $view->setVar("fest", $fest);
         $view->setVar("categories", $cat);
         $view->setVar("scenes", $sc);
         $view->setVar("organisateurs", $org);
         $view->setVar("tailles", $tailles);
+        $view->setVar("ext", $info["lien_img"]);
         return $view;
     }
 

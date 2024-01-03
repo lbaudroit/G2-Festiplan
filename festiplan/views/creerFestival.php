@@ -36,18 +36,26 @@
     </header>
     <div class="contenue container">
         <div class="col-12">
-            <form method="post" action="./index.php" class="formulaire">
+            <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
                 <input hidden name="controller" value="festival">
                 <input hidden name="action" value="create">
                 <input hidden name="ajouter" value="true">
                 <!--INFOS GENERALES-->
                 <div class="text-center row textFormulaire bordure fondFormulaire">
                     <div class="col-md-4 col-sm-5 col-12">
-                        <i class="fa-regular fa-plus fa-4x"></i>
-                        <br />
-                        <input type="file" id="img_fest" name="img_fest" accept="image/png, image/jpeg" />
-                        <label for="image_uploads">
-                            Rajoutez une image (PNG, 800x600 maximum) (optionnel)
+                        <input type="file" id="img_fest" name="img_fest" accept="image/png, image/jpeg, image/gif"
+                            class="d-none" />
+                        <label for="img_fest" class="">
+                            <?php
+                            if (isset($fest)) {
+                                echo "<img src='images/festival/f$fest$ext' alt='Image du festival' class='img-fluid'>";
+                            } else {
+                                ?>
+                                <i class="fa-regular fa-plus fa-4x"></i><br>
+                                Rajoutez une image (GIF, JPEG ou PNG, 800x600 maximum) (optionnel)
+                                <?php
+                            }
+                            ?>
                         </label>
                     </div>
                     <div class="col-sm-7 d-none d-sm-block d-md-none my-auto">
@@ -155,7 +163,7 @@
                                             </div>
                                             <!--TAILLE-->
                                             <div class="col-4 col-md-4 order-5 my-auto py-2">
-                                                <select disabled>
+                                                <select disabled class="form-select">
                                                     <?php
                                                     while ($taille = $tailles->fetch()) {
                                                         if ($taille["id_taille"] == $sc["id_taille"]) {

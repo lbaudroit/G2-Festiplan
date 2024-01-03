@@ -133,7 +133,6 @@ class FestivalsService
     {
         $time_regex = "/^(\d{1,2}:\d{1,2}(:\d{1,2})?)$/";
         if (preg_match($time_regex, $heuredeb) && preg_match($time_regex, $heurefin) && preg_match($time_regex, $delai)) {
-            $pdo->beginTransaction();
             $sql = "INSERT INTO grij (heure_deb, heure_fin, temps_pause) VALUES (:deb, :fin, :delai);";
             $insertStmt = $pdo->prepare($sql);
             $insertStmt->bindParam(":deb", $heuredeb);
@@ -141,7 +140,6 @@ class FestivalsService
             $insertStmt->bindParam(":delai", $delai);
             $insertStmt->execute();
             $id = $pdo->lastInsertId();
-            $pdo->commit();
             return $id;
         }
         return null;
@@ -162,17 +160,17 @@ class FestivalsService
         PDO $pdo,
         string $nom,
         string $desc,
-        string $img,
         string $debut,
         string $fin,
         int $grij,
         string $login,
-        string $cat
-    ): PDOStatement {
+        string $cat,
+        string $ext
+    ): int {
         $sql = "
-        INSERT INTO festivals (titre, description_f, date_deb, date_fin, id_grij, id_login, id_cat)
+        INSERT INTO festivals (titre, description_f, date_deb, date_fin, id_grij, id_login, id_cat, lien_img)
         VALUES 
-        (:nom, :desc, :deb, :fin, :grij, :user, :cat);";
+        (:nom, :desc, :deb, :fin, :grij, :user, :cat, :img);";
         $searchStmt = $pdo->prepare($sql);
         $searchStmt->bindParam(":nom", $nom);
         $searchStmt->bindParam(":desc", $desc);
@@ -181,18 +179,27 @@ class FestivalsService
         $searchStmt->bindParam(":grij", $grij);
         $searchStmt->bindParam(":user", $login);
         $searchStmt->bindParam(":cat", $cat);
+        $searchStmt->bindParam(":img", $ext);
         $searchStmt->execute();
         $id = $pdo->lastInsertId();
 
-        // Création du fichier d'image
-        // le lien est créé parallèlement dans la BD avec un trigger
-        $nomFich = "f" . $id . ".png";
-        $file = fopen("./images/festival/" . $nomFich, "w");
-        fwrite($file, $img);
+        return $id;
+    }
 
-        // TODO créer un fichier temporaire pour en vérifier la taille avant de l'insérer
-
-        return $searchStmt;
+    /**
+     * Récupère les infos d'un festival
+     *
+     * @param PDO $pdo the pdo object
+     * @param string $fest l'ID du festival
+     * @return array les données du festival
+     */
+    public function getInfo(PDO $pdo, int $fest): array
+    {
+        $sql = "SELECT * FROM festivals WHERE id_festival=:id;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":id", $fest);
+        $stmt->execute();
+        return $stmt->fetch();
     }
 }
 ?>

@@ -27,6 +27,7 @@
     <?php
     $nom_pluriel = $nom . "s";
     $id = "id_" . $nom;
+    $prefixe_img = $nom[0];
     ?>
     <!--LISTE DES FESTIVALS OU SPECTACLES-->
     <div class="container contenue">
@@ -64,7 +65,7 @@
                                 <div class="">
                                     <?php
                                     echo "<img  alt='Image du " . $nom . htmlspecialchars($elt['titre']) . "' 
-                                    src='images/" . $nom . "/" . $elt['lien_img'] . "'
+                                    src='images/" . $nom . "/" . $prefixe_img . $elt[$id] . $elt['lien_img'] . "'
                                     class='img-fluid'>";
                                     ?>
                                 </div>

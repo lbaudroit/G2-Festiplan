@@ -28,6 +28,7 @@
     $aAfficher = [$listeFestivals, $listeSpectacles];
     $nom = ["festival", "spectacle"];
     $nom_pluriel = ["festivals", "spectacles"];
+    $chemin_img = ["f", "s"];
     foreach ($aAfficher as $e => $liste) {
         $id = "id_" . $nom[$e];
         ?>
@@ -84,7 +85,7 @@
                                     <div class="">
                                         <?php
                                         echo "<img  alt='Image du " . $nom[$e] . htmlspecialchars($elt['titre']) . "' 
-                                    src='images/" . $nom[$e] . "/" . $elt['lien_img'] . "'
+                                    src='images/" . $nom[$e] . "/" . $chemin_img[$e] . $elt[$id] . $elt['lien_img'] . "'
                                     class='img-fluid'>";
                                         ?>
                                     </div>
