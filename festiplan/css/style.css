@@ -42,6 +42,10 @@ body {
     margin: 5px;
 }
 
+.espacementLargeurGauche {
+    margin-left: 150px;
+}
+
 .espacementLargeur {
     margin-right: 5px;
 }
