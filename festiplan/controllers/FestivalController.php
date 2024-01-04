@@ -42,18 +42,19 @@ class FestivalController
     {
         $user = $_SESSION["user"]["id_login"];
 
-        /*
-        if (isset($user)) {
+        if (!isset($user)) {
             header("Location: ./index.php");
             exit();
-        }*/
+        }
 
         // création de la vue commune aux différents cas
         $view = new View("views/creerFestival");
         $view->setVar("categories", $this->categoriesService->getList($pdo));
 
-        $aAjouter = (boolean) HttpHelper::getParam("ajouter");
-        if ($aAjouter) {
+        $mode = HttpHelper::getParam("mode");
+
+        // cas où le formulaire a déjà été affiché et rempli
+        if ($mode == "ajout") {
             try {
                 $pdo->beginTransaction();
                 // Création de la grij
@@ -90,8 +91,10 @@ class FestivalController
                 $pdo->rollback();
             }
 
+        } else {
+            $view->setVar("mode", "ajout");
         }
-        // variables vides pour afficher une première fois
+        // variables vides pour afficher une première fois le formulaire
         $view->setVar("scenes", array());
         $view->setVar("organisateurs", array());
         return $view;
@@ -140,6 +143,7 @@ class FestivalController
         $view->setVar("organisateurs", $org);
         $view->setVar("tailles", $tailles);
         $view->setVar("ext", $info["lien_img"]);
+        $view->setVar("mode", "modif");
         return $view;
     }
 
@@ -160,6 +164,13 @@ class FestivalController
     public function deleteScene($pdo): View
     {
         // TODO suppression d'une scène
+        $view = new View("views/not_done");
+        return $view;
+    }
+
+    public function modifyScene($pdo): View
+    {
+        // TODO voir la liste des spectacles
         $view = new View("views/not_done");
         return $view;
     }

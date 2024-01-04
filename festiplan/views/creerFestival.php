@@ -39,7 +39,8 @@
             <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
                 <input hidden name="controller" value="festival">
                 <input hidden name="action" value="create">
-                <input hidden name="ajouter" value="true">
+                <!--Soit ajout, soit modif-->
+                <input hidden name="mode" value="<?php echo $mode; ?>">
                 <!--INFOS GENERALES-->
                 <div class="text-center row textFormulaire bordure fondFormulaire">
                     <div class="col-md-4 col-sm-5 col-12">
@@ -86,7 +87,7 @@
                             } ?> />
                     </div>
                 </div>
-                <!--CATEGORIES-->
+                <!--CATEGORIES & DATES-->
                 <div class="m-0 text-center row textFormulaire">
                     <div class="bordure col-md-6 col-12">
                         <u class="aGauche">
@@ -107,7 +108,7 @@
                     </div>
                     <div class="bordure col-md-3 col-sm-6 col-12">
                         <u class="aGauche">
-                            Date de début du Festival :
+                            Date de début du Festival&nbsp:
                         </u>
                         <br />
                         <input type="date" id="deb" name="deb" <?php if (isset($deb)) {
@@ -117,7 +118,7 @@
                     <div class="bordure col-md-3 col-sm-6 col-12">
                         <label for="tailleSceneSelect">
                             <u class="aGauche">
-                                Date de fin du Festival :
+                                Date de fin du Festival&nbsp:
                             </u>
                         </label>
                         <br />
@@ -143,26 +144,29 @@
                                     <tr>
                                         <td class="row m-0 w-100 text-start">
                                             <!--NOM-->
-                                            <div class="col-10 col-sm-5 col-md-4 order-1 py-2 text-left fs-3">
-                                                Scène&nbsp
-                                                <?php echo $i; ?>
+                                            <div
+                                                class="col-11 order-1     col-sm-4           col-md-4     py-2 px-1 text-left fs-3">
+                                                <a href="./index.php?controller=festival&action=modifyScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>"
+                                                    class="text-decoration-none text-black">
+                                                    <?php echo "Scène&nbsp$i"; ?>
+                                                </a>
                                             </div>
                                             <!--GPS-->
-                                            <div class="col-8 col-sm-5 col-md-6 order-4 order-sm-2 py-2">
+                                            <div class="col-8 order-4   col-sm-7 order-sm-2   col-md-7     py-2 px-1">
                                                 <div class="d-flex">
-                                                    <label class="my-auto">Coordonnées GPS&nbsp</label>
+                                                    <label class="my-auto">GPS&nbsp</label>
                                                     <input disabled class="form-control"
                                                         value="<?php echo round($lat, 3) . " : " . round($long, 3); ?>">
                                                 </div>
                                             </div>
                                             <!--SUPPR-->
-                                            <div class="col-2 col-2 order-2 order-sm-3 text-end py-2">
+                                            <div class="col-1 order-2   order-sm-3            text-end     py-2 px-1">
                                                 <a href="./index.php?controller=festival&action=deleteScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>"
                                                     <i class="fas fa-trash-alt text-black"></i>
                                                 </a>
                                             </div>
                                             <!--TAILLE-->
-                                            <div class="col-4 col-md-4 order-5 my-auto py-2">
+                                            <div class="col-4 order-5    col-sm-4 order-sm-4   col-md-5     my-auto py-2 px-1">
                                                 <select disabled class="form-select">
                                                     <?php
                                                     while ($taille = $tailles->fetch()) {
@@ -177,7 +181,7 @@
                                                 </select>
                                             </div>
                                             <!--CAPACITE-->
-                                            <div class="col-12 col-md-6 order-3 my-auto py-2">
+                                            <div class="col-12 order-3   col-sm-8 order-sm-5   col-md-7     my-auto py-2 px-1">
                                                 <div class="d-flex">
                                                     <span class="my-auto">
                                                         <label class="form-label">Spectateurs max&nbsp</label>
@@ -194,10 +198,14 @@
                                 }
                             }
                             ?>
+                            <!--Bouton d'ajout de scène-->
                             <tr>
                                 <td>
-                                    <a href="index.php?controller=festival&action=addorg"
-                                        class="btn fond-bleu-clair col-12 p-0">
+                                    <a class="btn fond-bleu-clair col-12 p-0 wait_till_change" <?php
+                                    if ($mode == "modif") {
+                                        echo "href='index.php?controller=festival&action=modifyScene&festival=$fest' ";
+                                    }
+                                    ?>>
                                         <i class="fas fa-plus texte-bleu"></i>
                                     </a>
                                 </td>
@@ -228,10 +236,14 @@
                                     }
                                 }
                                 ?>
+                                <!--Bouton d'ajout d'organisateurs-->
                                 <tr>
                                     <td>
-                                        <a href="index.php?controller=festival&action=addorg"
-                                            class="btn fond-bleu-clair col-12 p-0">
+                                        <a class="btn fond-bleu-clair col-12 p-0 wait_till_change" <?php
+                                        if ($mode == "modif") {
+                                            echo "href='index.php?controller=festival&action=addOrg&festival=$fest' ";
+                                        }
+                                        ?>>
                                             <i class="fas fa-plus texte-bleu"></i>
                                         </a>
                                     </td>
@@ -307,5 +319,6 @@
         </div>
     </footer>
 </body>
+<script src="./js/creerFestival.js" defer></script>
 
 </html>
