@@ -1,6 +1,7 @@
 <?php
 namespace services;
 
+use Exception;
 use PDO;
 use PDOStatement;
 
@@ -142,7 +143,7 @@ class FestivalsService
             $id = $pdo->lastInsertId();
             return $id;
         }
-        return null;
+        throw new Exception("La GriJ contient des valeurs invalides.");
     }
 
     /**

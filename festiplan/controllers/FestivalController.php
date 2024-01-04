@@ -62,11 +62,6 @@ class FestivalController
                 $grij_deb = HttpHelper::getParam("grij_deb");
                 $grij_fin = HttpHelper::getParam("grij_fin");
                 $grij_delai = HttpHelper::getParam("grij_delai");
-                if (!isset($grij_deb, $grij_fin, $grij_delai)) {
-                    $erreur = "On est rentré dans la boucle";
-                    throw new Exception("La GriJ n'est pas entièrement remplie.");
-                }
-                $id_grij = $this->festivalsService->addGrij($pdo, $grij_deb, $grij_fin, $grij_delai);
 
                 // Création des champs simples
                 $titre = HttpHelper::getParam("titre");
@@ -80,6 +75,12 @@ class FestivalController
                 if (isset($img)) {
                     $ext = $this->extractExtension($img);
                 }
+
+                if (!isset($grij_deb, $grij_fin, $grij_delai)) {
+                    $erreur = "On est rentré dans la boucle";
+                    throw new Exception("La GriJ n'est pas entièrement remplie.");
+                }
+                $id_grij = $this->festivalsService->addGrij($pdo, $grij_deb, $grij_fin, $grij_delai);
 
                 // Le créateur est automatiquement ajouté avec un trigger
                 // Pas disponibles lors de la création mais disponible après dans l'interface de modification
@@ -156,7 +157,7 @@ class FestivalController
 
     }
 
-    public function setChampsGeneraux(View $view, string $titre, string $desc, int $cat, string $deb, string $fin)
+    public function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
     {
         $view->setVar("titre", $titre);
         $view->setVar("desc", $desc);
@@ -165,7 +166,7 @@ class FestivalController
         $view->setVar("fin", $fin);
     }
 
-    public function setGrij(View $view, string $heure_deb, string $heure_fin, string $delai)
+    public function setGrij(View $view, ?string $heure_deb, ?string $heure_fin, ?string $delai)
     {
         $view->setVar("grij_deb", $heure_deb);
         $view->setVar("grij_fin", $heure_fin);

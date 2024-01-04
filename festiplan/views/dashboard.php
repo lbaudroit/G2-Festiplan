@@ -28,7 +28,7 @@
     $aAfficher = [$listeFestivals, $listeSpectacles];
     $nom = ["festival", "spectacle"];
     $nom_pluriel = ["festivals", "spectacles"];
-    $chemin_img = ["f", "s"];
+    $prefixe_img = ["f", "s"];
     foreach ($aAfficher as $e => $liste) {
         $id = "id_" . $nom[$e];
         ?>
@@ -84,9 +84,10 @@
                                     href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
                                     <div class="">
                                         <?php
-                                        echo "<img  alt='Image du " . $nom[$e] . htmlspecialchars($elt['titre']) . "' 
-                                    src='images/" . $nom[$e] . "/" . $chemin_img[$e] . $elt[$id] . $elt['lien_img'] . "'
-                                    class='img-fluid'>";
+                                        $ext = $elt["lien_img"];
+                                        $url = "images/" . $nom[$e] . "/" . $prefixe_img[$e] . (isset($ext) ? $elt[$id] . $ext : "0.jpg");
+                                        echo "<img  alt='Image du " . $nom[$e] . " " . htmlspecialchars($elt['titre']) . "' 
+                                    src='$url' class='img-fluid'>";
                                         ?>
                                     </div>
                                 </a>
