@@ -19,35 +19,80 @@
         <link rel="stylesheet" href="css\style.css">
     </head>
     <body>
-    <div class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <u><h2 class="modal-title">
-                        Ajout d'une scène :    
-                    </h2></u>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class = "container text-center">
-                        <div class = "row grandEspacementHauteur">
-                            <div class ="col-6">
-                                Nom de la scène :
-                            </div>
-                            <div class = "col-6">
-                                <input type="text" id="nomScene" name="nomScene" placeholder="Entrer le nom de la scène (35 caractères max.)">
-                            </div>
-                        </div>
+        <header>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6">
+                        <hspan class="titre">Festiplan</span>
+                    </div>
+                    <div class="col-6 contenue_droite">
+                        <i class="fa-solid fa-user fa-4x"></i>
+                        <hspan class="secondTitre">Mon Compte </hspan>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-rouge">Annuler</button>
-                    <button type="button" class="btn btn-bleu" data-dismiss="modal">Ajouter la scène</button>
-                </div>
+            </div>
+        </header>
+        <div class = "contenue container">
+            <div class="col-12">
+                <form method="post" class="formulaire">
+                    <div class ="row">
+                        <u class ="text-center textFormulaire"><hspan class="titre">
+                            Ajout d'une scène
+                        </span></u>
+                        <u class ="offset-2 col-4"><h5>
+                            Nom de la scène :
+                        </h5></u>
+                        <input type="text" id="nomScene" name="nomScene" class="offset-1 col-3 textFormulaire" placeholder="Entrer le nom de la scène (35 caractères max.)">
+                    </div>
+                    <div class ="row textFormulaire">
+                        <u class ="offset-2 col-4"><h5>
+                            Coordonnées GPS :
+                        </h5></u>
+                        <input type="text" id="coordGPS" name="coordGPS" class ="textFormulaire offset-1 col-3">
+                    </div>
+                    <div class ="row">
+                        <u class ="offset-2 col-4"><h5>
+                            Nombre de specteteurs maximum :
+                        </h5></u>
+                        <input type="text" id="nbMaxSpec" name="nbMaxSpec" class ="textFormulaire offset-1 col-3">
+                    </div>
+                    <div class ="row">
+                        <u class ="offset-2 col-4"><h5>
+                            Taille minimum requise :
+                        </h5></u>
+                        <select name="tailleScene" id="tailleSceneSelect" class ="textFormulaire text-center offset-1 col-3 ">
+                            <option value="default">Choisir une taille de scène</option>
+                            <option value="petite">Petite</option>
+                            <option value="moyenne">Moyenne</option>
+                            <option value="grande">Grande</option>
+                        </select>
+                    </div>
+                    <div class ="row">
+                        <button type="button" class="offset-2 col-3 btn btn-rouge">Annuler</button>
+                        <button type="button" class="offset-2 col-3 btn btn-bleu">Ajouter la scène</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
+        <footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6">
+                        <form method="post" action="./index.php?controller=Deconnexion">
+                            <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block my-auto">
+                                <i class="fa-solid fa-power-off"></i>
+                                Deconnexion
+                            </button>
+                            <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
+                                <i class="fa-solid fa-power-off"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-6 contenue_droite">
+                        <img src="images/logo-iut.png" class ="logo" id="logoIUT" alt="Logo IUT" href="http://www.iut-rodez.fr" target="_blank"/>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>
