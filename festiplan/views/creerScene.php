@@ -42,19 +42,31 @@
                         <u class ="offset-2 col-4"><h5>
                             Nom de la scène :
                         </h5></u>
-                        <input type="text" id="nomScene" name="nomScene" class="offset-1 col-3 textFormulaire" placeholder="Entrer le nom de la scène (35 caractères max.)">
+                        <input type="text" id="nomScene" name="nomScene" class="offset-1 col-3 textFormulaire" placeholder="Entrer le nom de la scène (35 caractères max.)" <?php
+                            if (isset($_POST['nomScene']) && strlen($nomScene < 35)) {
+                                echo 'value="'. $_POST['nomScene'] .'"';
+                            }?>
+                        />
                     </div>
                     <div class ="row textFormulaire">
                         <u class ="offset-2 col-4"><h5>
                             Coordonnées GPS :
                         </h5></u>
-                        <input type="text" id="coordGPS" name="coordGPS" class ="textFormulaire offset-1 col-3">
+                        <input type="text" id="coordGPS" name="coordGPS" class ="textFormulaire offset-1 col-3" <?php
+                            if (isset($_POST['coordGPS'])) {
+                                echo 'value="' . $_POST['coordGPS'] . '"';
+                            }?>
+                        />
                     </div>
                     <div class ="row">
                         <u class ="offset-2 col-4"><h5>
                             Nombre de specteteurs maximum :
                         </h5></u>
-                        <input type="text" id="nbMaxSpec" name="nbMaxSpec" class ="textFormulaire offset-1 col-3">
+                        <input type="text" id="nbMaxSpec" name="nbMaxSpec" class ="textFormulaire offset-1 col-3" <?php
+                            if (isset($_POST['nbMaxSpec'])) {
+                                echo 'value="' . $_POST['nbMaxSpec'] . '"';
+                            }?>
+                        />
                     </div>
                     <div class ="row">
                         <u class ="offset-2 col-4"><h5>
