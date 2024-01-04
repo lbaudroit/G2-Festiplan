@@ -199,3 +199,12 @@ footer {
 .btn-deco-rond:hover {
     background-color: #ed5959;
 }
+
+.wrap {
+    white-space: break;
+    word-break: break-word;
+}
+
+.fond-rouge {
+    background-color: #ff6161;
+}

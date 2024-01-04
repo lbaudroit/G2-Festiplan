@@ -56,11 +56,16 @@ class FestivalController
         // cas où le formulaire a déjà été affiché et rempli
         if ($mode == "ajout") {
             try {
+                $erreur = false;
                 $pdo->beginTransaction();
                 // Création de la grij
                 $grij_deb = HttpHelper::getParam("grij_deb");
                 $grij_fin = HttpHelper::getParam("grij_fin");
                 $grij_delai = HttpHelper::getParam("grij_delai");
+                if (!isset($grij_deb, $grij_fin, $grij_delai)) {
+                    $erreur = "On est rentré dans la boucle";
+                    throw new Exception("La GriJ n'est pas entièrement remplie.");
+                }
                 $id_grij = $this->festivalsService->addGrij($pdo, $grij_deb, $grij_fin, $grij_delai);
 
                 // Création des champs simples
@@ -70,36 +75,54 @@ class FestivalController
                 $deb = HttpHelper::getParam("deb");
                 $fin = HttpHelper::getParam("fin");
 
+                // Récupération de l'extension de fichier
                 $img = $_FILES["img_fest"];
-                $ext = $this->extractExtension($img);
+                if (isset($img)) {
+                    $ext = $this->extractExtension($img);
+                }
 
-                // Création des associations avec scènes et des organisateurs
                 // Le créateur est automatiquement ajouté avec un trigger
-                // TODO Pas disponibles lors de la création mais disponible après dans l'interface de modification
-
-                $id = $this->festivalsService->addFestival($pdo, $titre, $desc, $deb, $fin, $id_grij, $user, $cat, $ext);
-                $view->setVar("titre", $titre);
-                $view->setVar("desc", $desc);
-                $view->setVar("cat", $cat);
-                $view->setVar("deb", $deb);
-                $view->setVar("fin", $fin);
+                // Pas disponibles lors de la création mais disponible après dans l'interface de modification
+                if (!isset($titre, $desc, $cat, $deb, $fin)) {
+                    throw new Exception("Les champs du festivals ne sont pas saisis correctement.");
+                }
+                $id = $this->festivalsService->addFestival($pdo, $titre, $desc, $deb, $fin, $id_grij, $user, $cat);
 
                 // Récupère l'image et la stocke
-                $size = $this->ajouterImage($id, $img, $ext);
+                if ($ext) {
+                    $this->ajouterImage($id, $img, $ext);
+                }
                 $pdo->commit();
+                $view->setVar("fest", $id);
+                $view->setVar("ext", $ext);
+                $view->setVar("mode", "modif");
+                $view->setVar("organisateurs", $this->festivalsService->getOrganisateursOfFestival($pdo, $id));
             } catch (Exception $e) {
                 $pdo->rollback();
+                $view->setVar("mode", "ajout");
+                $view->setVar("organisateurs", array());
+                $view->setVar("erreur", $e->getMessage());
             }
-
+            $this->setChampsGeneraux($view, $titre, $desc, $cat, $deb, $fin);
+            $this->setGrij($view, $grij_deb, $grij_fin, $grij_delai);
         } else {
             $view->setVar("mode", "ajout");
+            $view->setVar("organisateurs", array());
         }
         // variables vides pour afficher une première fois le formulaire
         $view->setVar("scenes", array());
-        $view->setVar("organisateurs", array());
         return $view;
     }
 
+    /**
+     * Récupère l'image telle que passée dans $_FILES et son extension pour la renommer
+     * et la rajouter dans le dossier des images
+     * @param int $id_fest l'identifiant du spectacle auquel on ajoute une image
+     * @param array $img l'image telle que passée dans $_FILES
+     * @param string $ext l'extension sous la forme ".png" par exemple
+     * Lance une exception si le format ou les dimensions sont invalides ou si le fichier 
+     * ne peut être créé.
+     */
     public function ajouterImage(int $id_fest, array $img, string $ext)
     {
         // Vérification du type de fichier
@@ -113,18 +136,40 @@ class FestivalController
         if ($check == false || $check[0] > 800 || $check[1] > 600) {
             throw new Exception("Les dimensions du fichier sont invalides.");
         }
-        return move_uploaded_file($img["tmp_name"], $target_file);
+        if (!move_uploaded_file($img["tmp_name"], $target_file)) {
+            throw new Exception("Impossible d'uploader l'image.");
+        }
     }
 
     /**
      * Récupère l'extension du fichier depuis son tableau extrait de $_FILES.
      */
-    public function extractExtension(array $img): string
+    public function extractExtension(array $img): string|null
     {
         $extraction_regex = "/\.[^\.]{3}$/";
         $extension = array();
         preg_match($extraction_regex, $img["name"], $extension);
-        return $extension[0];
+        if (isset($extension)) {
+            return $extension[0];
+        }
+        return null;
+
+    }
+
+    public function setChampsGeneraux(View $view, string $titre, string $desc, int $cat, string $deb, string $fin)
+    {
+        $view->setVar("titre", $titre);
+        $view->setVar("desc", $desc);
+        $view->setVar("cat", $cat);
+        $view->setVar("deb", $deb);
+        $view->setVar("fin", $fin);
+    }
+
+    public function setGrij(View $view, string $heure_deb, string $heure_fin, string $delai)
+    {
+        $view->setVar("grij_deb", $heure_deb);
+        $view->setVar("grij_fin", $heure_fin);
+        $view->setVar("grij_delai", $delai);
     }
 
     public function modify($pdo): View
@@ -137,6 +182,20 @@ class FestivalController
         $info = $this->festivalsService->getInfo($pdo, $fest);
 
         $view = new View("views/creerFestival");
+        $this->setChampsGeneraux(
+            $view,
+            $info["titre"],
+            $info["description_f"],
+            $info["id_cat"],
+            $info["date_deb"],
+            $info["date_fin"]
+        );
+        $this->setGrij(
+            $view,
+            $info["heure_deb"],
+            $info["heure_fin"],
+            $info["temps_pause"]
+        );
         $view->setVar("fest", $fest);
         $view->setVar("categories", $cat);
         $view->setVar("scenes", $sc);
@@ -195,7 +254,6 @@ class FestivalController
         $view = new View("views/not_done");
         return $view;
     }
-
 }
 
 

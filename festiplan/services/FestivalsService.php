@@ -165,7 +165,7 @@ class FestivalsService
         int $grij,
         string $login,
         string $cat,
-        string $ext
+        string|null $ext = null
     ): int {
         $sql = "
         INSERT INTO festivals (titre, description_f, date_deb, date_fin, id_grij, id_login, id_cat, lien_img)
@@ -187,7 +187,7 @@ class FestivalsService
     }
 
     /**
-     * Récupère les infos d'un festival
+     * Récupère les infos d'un festival avec sa grij
      *
      * @param PDO $pdo the pdo object
      * @param string $fest l'ID du festival
@@ -195,7 +195,10 @@ class FestivalsService
      */
     public function getInfo(PDO $pdo, int $fest): array
     {
-        $sql = "SELECT * FROM festivals WHERE id_festival=:id;";
+        $sql = "SELECT * FROM festivals
+            INNER JOIN grij
+            ON grij.id_grij = festivals.id_grij
+            WHERE id_festival=:id;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":id", $fest);
         $stmt->execute();

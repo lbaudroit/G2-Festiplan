@@ -1,3 +1,24 @@
+<?php
+/*
+Variables utilisées
+- mode
+- fest (identifiant)
+- scenes
+- organisateurs
+- titre
+- desc
+- grij_debut
+- grij_fin
+- grij_delai
+- ext (extension de fichier)
+- categories
+- cat
+- deb
+- fin
+- tailles
+*/
+?>
+
 <!DOCTYPE HTML>
 <html lang="fr">
 
@@ -38,10 +59,22 @@
         <div class="col-12">
             <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
                 <input hidden name="controller" value="festival">
-                <input hidden name="action" value="create">
+                <input hidden name="action" value="<?php echo $mode == "ajout" ? "create" : "modify"; ?>">
+                <?php
+                if (isset($fest)) {
+                    echo "<input type='hidden' name='festival' value='$fest'>";
+                }
+                ?>
                 <!--Soit ajout, soit modif-->
                 <input hidden name="mode" value="<?php echo $mode; ?>">
                 <!--INFOS GENERALES-->
+                <?php if (isset($erreur)) { ?>
+                    <div class="text-center bordure fond-rouge">
+                        <?php echo $erreur; ?>
+                    </div>
+                    <?php
+                }
+                ?>
                 <div class="text-center row textFormulaire bordure fondFormulaire">
                     <div class="col-md-4 col-sm-5 col-12">
                         <input type="file" id="img_fest" name="img_fest" accept="image/png, image/jpeg, image/gif"
@@ -49,7 +82,8 @@
                         <label for="img_fest" class="">
                             <?php
                             if (isset($fest)) {
-                                echo "<img src='images/festival/f$fest$ext' alt='Image du festival' class='img-fluid'>";
+                                $url = "images/festival/" . (isset($ext) ? "f$fest$ext" : "f0.jpg");
+                                echo "<img src='$url' alt='Image du festival' class='img-fluid'>";
                             } else {
                                 ?>
                                 <i class="fa-regular fa-plus fa-4x"></i><br>
@@ -62,28 +96,28 @@
                     <div class="col-sm-7 d-none d-sm-block d-md-none my-auto">
                         <input type="text" name="titre" placeholder="Tapez le titre (35 caractères max.)"
                             class="form-control" <?php if (isset($titre)) {
-                                echo "value='$titre'";
+                                echo "value='" . htmlspecialchars($titre) . "'";
                             } ?> />
                     </div>
                     <div class="col-8">
                         <div class="col-12 d-sm-none d-md-block">
                             <input type="text" name="titre" placeholder="Tapez le titre (35 caractères max.)"
                                 class="form-control" <?php if (isset($titre)) {
-                                    echo "value='$titre'";
+                                    echo "value='" . htmlspecialchars($titre) . "'";
                                 } ?> />
                         </div>
                         <br />
                         <div class="col-12 d-none d-md-block">
                             <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
                                 class="form-control" <?php if (isset($desc)) {
-                                    echo "value='$desc'";
+                                    echo "value='" . htmlspecialchars($desc) . "'";
                                 } ?> />
                         </div>
                     </div>
                     <div class="col-12 d-md-none">
                         <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
                             class="form-control" <?php if (isset($desc)) {
-                                echo "value='$desc'";
+                                echo "value='" . htmlspecialchars($desc) . "'";
                             } ?> />
                     </div>
                 </div>
@@ -91,16 +125,17 @@
                 <div class="m-0 text-center row textFormulaire">
                     <div class="bordure col-md-6 col-12">
                         <u class="aGauche">
-                            Categories :
+                            Catégorie :
                         </u>
                         <br />
                         <?php
-                        foreach ($categories as $cat) {
-                            $name = ucfirst($cat["libelle"]);
-                            $id = $cat["id_cat"];
+                        foreach ($categories as $categ) {
+                            $name = ucfirst($categ["libelle"]);
+                            $id = $categ["id_cat"];
+                            $selected = isset($cat) && $cat === $id ? "checked" : "";
                             echo
                                 "<span class='me-3 width-to-size d-inline-block'>
-                                    <input type='radio' id='btnCat$id' name='cat' value='$id' />
+                                    <input type='radio' id='btnCat$id' name='cat' value='$id' $selected/>
                                     <label for='btnCat$id'>$name </label>
                                 </span>";
                         }
@@ -161,7 +196,8 @@
                                             </div>
                                             <!--SUPPR-->
                                             <div class="col-1 order-2   order-sm-3            text-end     py-2 px-1">
-                                                <a href="./index.php?controller=festival&action=deleteScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>"
+                                                <a
+                                                    href="./index.php?controller=festival&action=deleteScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>">
                                                     <i class="fas fa-trash-alt text-black"></i>
                                                 </a>
                                             </div>
@@ -201,7 +237,7 @@
                             <!--Bouton d'ajout de scène-->
                             <tr>
                                 <td>
-                                    <a class="btn fond-bleu-clair col-12 p-0 wait_till_change" <?php
+                                    <a class="btn fond-bleu-clair col-12 p-0 not_now" <?php
                                     if ($mode == "modif") {
                                         echo "href='index.php?controller=festival&action=modifyScene&festival=$fest' ";
                                     }
@@ -239,7 +275,7 @@
                                 <!--Bouton d'ajout d'organisateurs-->
                                 <tr>
                                     <td>
-                                        <a class="btn fond-bleu-clair col-12 p-0 wait_till_change" <?php
+                                        <a class="btn fond-bleu-clair col-12 p-0 not_now" <?php
                                         if ($mode == "modif") {
                                             echo "href='index.php?controller=festival&action=addOrg&festival=$fest' ";
                                         }
@@ -261,45 +297,60 @@
                         <div class="underline">
                             Heure de début du festival
                         </div>
-                        <input name="grij_deb" type="time">
+                        <input name="grij_deb" type="time" <?php if (isset($grij_deb))
+                            echo "value=" . $grij_deb; ?>>
                     </div>
                     <div class="col-4 bordure">
                         <div class="underline">
                             Heure de fin du festival
                         </div>
-                        <input name="grij_fin" type="time">
+                        <input name="grij_fin" type="time" <?php if (isset($grij_fin))
+                            echo "value=" . $grij_fin; ?>>
                     </div>
                     <div class="col-4 bordure">
                         <div class="underline">
                             Durée minimale entre spectacles
                         </div>
-                        <input name="grij_delai" type="time">
+                        <input name="grij_delai" type="time" <?php if (isset($grij_delai))
+                            echo "value=" . $grij_delai; ?>>
                     </div>
                 </div>
                 <!--BOUTONS-->
                 <div class="text-left row row-gap-2">
-                    <div class="col-3 p-0">
-                        <a class="btn btn-bleu form-control" <?php
+                    <!--spectacles-->
+                    <div class="col-3 p-0 h-100 <?php echo $mode == "modif" ? "order-2" : ""; ?>">
+                        <a class=" btn btn-bleu form-control text-wrap wrap" <?php
                         if (isset($fest)) {
                             echo "href='./index.php?controller=festival&action=seeSpectacles&festival=$fest'";
                         } else {
                             echo "disabled";
                         } ?>>
-                    Gérer les spectacles
+                            Gérer les spectacles
                         </a>
                     </div>
-                    <div class="col-3 p-0 offset-6">
-                        <a class="btn btn-rouge form-control"> <!--TODO-->
-                            Annuler
-                        </a>
-                    </div>
-                    <div class="col-3 p-0 offset-9">
+                    <!--supprimer-->
+                    <div class=" col-3 p-0 <?php echo $mode == "modif" ? "offset-6 order-3" : "offset-6"; ?>">
                         <?php
-                        if (isset($fest)) {
-                            echo "<input type='hidden' name='festival' value='$fest'>";
-                        }
+                        if ($mode == "ajout") {
+                            echo "<a name='page_precedente' class='btn btn-rouge form-control'>Annuler</a>";
+                        } else {
+                            echo "<a href='index.php?controller=festival&action=delete&festival=$fest' class='btn btn-rouge form-control'>Supprimer</a>";
+                        } ?>
+                    </div>
+                    <!--planif-->
+                    <?php if ($mode == "modif") {
                         ?>
-                        <input class="btn btn-bleu form-control" type="submit" value="Créer">
+                        <div class="col-3 p-0 <?php echo $mode == "modif" ? "offset-6 order-1" : "offset-9"; ?>">
+                            <a class="btn btn-bleu form-control wrap text-wrap">
+                                Consulter la planification
+                            </a>
+                        </div>
+                        <?php
+                    } ?>
+                    <!--sauvegarder-->
+                    <div class="col-3 p-0 <?php echo $mode == "modif" ? "order-4" : "offset-9"; ?>">
+                        <input class="btn btn-bleu form-control wrap text-wrap" type="submit"
+                            value="<?php echo $mode == "ajout" ? "Créer" : "Sauvegarder les changements"; ?>">
                     </div>
                 </div>
             </form>
@@ -319,6 +370,7 @@
         </div>
     </footer>
 </body>
+<script src="./js/common.js" defer></script>
 <script src="./js/creerFestival.js" defer></script>
 
 </html>
