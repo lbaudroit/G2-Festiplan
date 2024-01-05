@@ -42,19 +42,7 @@ Variables utilisées
 </head>
 
 <body>
-    <header>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-6">
-                    <span class="titre">Festiplan</span>
-                </div>
-                <div class="col-6 contenue_droite">
-                    <i class="fa-solid fa-user fa-4x"></i>
-                    <span class="secondTitre">Mon Compte </span>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php include("./views/header.php"); ?>
     <div class="contenue container">
         <div class="col-12">
             <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
@@ -356,19 +344,7 @@ Variables utilisées
             </form>
         </div>
     </div>
-    <footer>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-6">
-                    <!-- ICI ON MET LE BOUTON DE DECONEXION-->
-                </div>
-                <div class="col-6 contenue_droite">
-                    <img src="images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
-                        href="http://www.iut-rodez.fr" target="_blank" />
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include("./views/footer.php"); ?>
 </body>
 <script src="./js/common.js" defer></script>
 <script src="./js/creerFestival.js" defer></script>
