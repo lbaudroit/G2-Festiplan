@@ -175,6 +175,10 @@ class FestivalController
 
     public function modify($pdo): View
     {
+        $aModifier = HttpHelper::getParam("mode") == "modif"; // n'existe que si le formulaire a été validé
+        if ($aModifier) {
+            return new View("views/not_done");
+        }
         $fest = (int) HttpHelper::getParam("festival");
         $cat = $this->categoriesService->getList($pdo);
         $sc = $this->festivalsService->getScenesOfFestival($pdo, $fest);
