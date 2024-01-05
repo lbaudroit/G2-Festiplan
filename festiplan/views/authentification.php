@@ -38,7 +38,6 @@
                 <i class="fa-solid fa-user fa-4x"></i>
             </div>
             <div class="row textFormulaire">
-                <?php var_dump($_SESSION); ?>
                 <div class="col-12">
                     Identifiant :
                     <br />
