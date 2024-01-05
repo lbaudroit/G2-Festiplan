@@ -208,3 +208,7 @@ footer {
 .fond-rouge {
     background-color: #ff6161;
 }
+
+.enRouge {
+    color: red;
+}

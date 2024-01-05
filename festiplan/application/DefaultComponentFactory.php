@@ -1,22 +1,4 @@
 <?php
-/*
- * yasmf - Yet Another Simple MVC Framework (For PHP)
- *     Copyright (C) 2023   Franck SILVESTRE
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Affero General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- *
- *     You should have received a copy of the GNU Affero General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 namespace application;
 
 use controllers\DashboardController;
@@ -25,8 +7,11 @@ use controllers\HomeController;
 use controllers\DeconnexionController;
 use controllers\CreerUserController;
 use controllers\SpectacleController;
+use controllers\PlanificationController;
+
 use services\CategoriesService;
 use services\FestivalsService;
+use services\PlanificationService;
 use services\SpectaclesService;
 use services\UsersService;
 
@@ -56,6 +41,7 @@ class DefaultComponentFactory implements ComponentFactory
             "CreerUser" => $this->buildCreerUserController(),
             "festival" => $this->buildFestivalController(),
             "spectacle" => $this->buildSpectacleController(),
+            "planification" => $this->buildPlanificationController(),
             default => throw new NoControllerAvailableForNameException($controller_name)
         };
     }
@@ -121,6 +107,12 @@ class DefaultComponentFactory implements ComponentFactory
     private function buildSpectacleController(): SpectacleController
     {
         return new SpectacleController(new SpectaclesService());
+
+    }
+
+    private function buildPlanificationController(): PlanificationController
+    {
+        return new PlanificationController(new PlanificationService(), new FestivalsService());
 
     }
 }
