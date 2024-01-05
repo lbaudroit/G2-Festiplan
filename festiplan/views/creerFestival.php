@@ -329,7 +329,8 @@ Variables utilisées
                     <?php if ($mode == "modif") {
                         ?>
                         <div class="col-3 p-0 <?php echo $mode == "modif" ? "offset-6 order-1" : "offset-9"; ?>">
-                            <a class="btn btn-bleu form-control wrap text-wrap">
+                            <a class="btn btn-bleu form-control wrap text-wrap"
+                                href="index.php?controller=planification&festival=<?php echo $fest ?>">
                                 Consulter la planification
                             </a>
                         </div>
