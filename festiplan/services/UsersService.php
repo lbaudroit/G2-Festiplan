@@ -94,9 +94,7 @@ class UsersService
      * @return user the statement referencing the result set
      */
     public function valideMdp($mdp) {
-        $patternTaille = "/^.{1,255}$/";
-        $patterncompose = "/{A-Z}{a-z}{0-9}/";
-        $reserve = "/(?:[A-Z][a-z]{0,9})/"; //A reprendre : regex101.com
+        $reserve = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=])[A-Za-z\d!@#$%^&*()_+=]$/'; //A reprendre : regex101.com
         return preg_match($regex, $mdp);
     }
 
