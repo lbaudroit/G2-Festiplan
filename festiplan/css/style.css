@@ -20,7 +20,7 @@ body {
 }
 
 .fondbleuplusclair {
-    background-color: #9DE1DC;
+    background-color: #9de1dc;
 }
 
 .fondblanc {
@@ -208,6 +208,15 @@ footer {
     background-color: #ed5959;
 }
 
-.enRouge{
-    color:red;
+.wrap {
+    white-space: break;
+    word-break: break-word;
+}
+
+.fond-rouge {
+    background-color: #ff6161;
+}
+
+.enRouge {
+    color: red;
 }

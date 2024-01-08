@@ -40,6 +40,5 @@ class SpectaclesService
         $searchStmt->execute();
         return $searchStmt;
     }
-
 }
 ?>
