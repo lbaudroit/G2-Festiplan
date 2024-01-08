@@ -62,8 +62,9 @@
                                 href="<?php echo "./index.php?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>">
                                 <div class="">
                                     <?php
+                                    $url = $prefixe_img . (isset($elt["lien_img"]) ? ($elt[$id] . $elt['lien_img']) : "0.jpg");
                                     echo "<img  alt='Image du " . $nom . htmlspecialchars($elt['titre']) . "' 
-                                    src='images/" . $nom . "/" . $prefixe_img . $elt[$id] . $elt['lien_img'] . "'
+                                    src='images/$nom/" . $url . "'
                                     class='img-fluid'>";
                                     ?>
                                 </div>
