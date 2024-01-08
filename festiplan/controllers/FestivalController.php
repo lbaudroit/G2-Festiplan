@@ -1,6 +1,7 @@
 <?php
 namespace controllers;
 
+use DateInterval;
 use Exception;
 use PDOException;
 use services\CategoriesService;
@@ -113,6 +114,30 @@ class FestivalController
         // variables vides pour afficher une première fois le formulaire
         $view->setVar("scenes", array());
         return $view;
+    }
+
+    /**
+     * Vérifie les informations de base du festival
+     */
+    public function checkInfo(?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
+    {
+        return isset($titre, $desc, $cat, $deb, $fin)
+            && strlen($titre) > 0 && strlen($titre) <= 100
+            && $cat >= 1 && $cat <= 5
+            && date_create($deb) != false && date_create($fin) != false;
+    }
+
+    /**
+     * Vérifie les informations de la Grij
+     */
+    public function checkGrijData(?string $deb, ?string $fin, ?string $delai)
+    {
+        try {
+            new DateInterval($delai);
+        } catch (Exception $e) {
+            return false;
+        }
+        return date_create($deb) != false && date_create($fin) != false;
     }
 
     /**
