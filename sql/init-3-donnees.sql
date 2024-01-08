@@ -54,13 +54,13 @@ VALUES
 ("LBATH", "Redouane", "redouane.lbath@gmal.com");
 
 -- Création des scènes
-INSERT INTO scenes (capacite, GPS, id_taille)
+INSERT INTO scenes (capacite, latitude, longitude, id_festival, id_taille)
 VALUES
-(500, POINT(43.6044622,1.4442469), 2),
-(1000, POINT(43.6044622,1.4442469), 3),
-(50, POINT(43.6044622,1.4442469), 1),
-(600, POINT(43.6044622,1.4442469), 2),
-(900, POINT(43.6044622,1.4442469), 3);
+(500, 43.6044622, 1.4442469, 1, 2),
+(1000, 43.6044622, 1.4442469, 2, 3),
+(50, 43.6044622, 1.4442469, 3, 1),
+(600, 43.6044622, 1.4442469, 4, 2),
+(900, 43.6044622, 1.4442469, 5, 3);
 
 -- Création de la table des organisateurs d'un festival
 INSERT INTO organise (id_festival,id_login)
