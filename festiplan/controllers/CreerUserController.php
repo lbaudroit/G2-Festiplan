@@ -1,6 +1,5 @@
-<?php 
+<?php
 namespace controllers;
-session_start();
 
 use services\UsersService;
 use yasmf\View;
@@ -30,11 +29,7 @@ class CreerUserController
             header('Location: ./index.php?controller=Dashboard');
             exit;
         }     */
-        $nom = HttpHelper::getParam("nom");
-        $prenom = HttpHelper::getParam("prenom");
-        $email = HttpHelper::getParam("email");
-        $login = HttpHelper::getParam("identifiant");
-        $mdp = HttpHelper::getParam("pswd");
+        
 
         $view = new View("/views/creerCompte");
 
@@ -42,7 +37,13 @@ class CreerUserController
     }
 
     public function formulaireValide($pdo){
+        $nom = HttpHelper::getParam("nom");
+        $prenom = HttpHelper::getParam("prenom");
+        $email = HttpHelper::getParam("email");
+        $login = HttpHelper::getParam("identifiant");
+        $mdp = HttpHelper::getParam("pswd");
 
+        
     }
 
 }

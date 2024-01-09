@@ -1,8 +1,6 @@
 <?php
 namespace controllers;
 
-session_start();
-
 use services\SpectaclesService;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -35,7 +33,7 @@ class SpectacleController
     public function create($pdo): View
     {
         // TODO
-        $view = new View("views/not_done");
+        $view = new View("views/creerSpectacle");
         return $view;
     }
 
