@@ -3,6 +3,7 @@ namespace services;
 
 use Exception;
 use PDO;
+use PDOException;
 use PDOStatement;
 
 /**
@@ -236,6 +237,28 @@ class FestivalsService
         $stmt->bindParam(":id", $fest);
         $stmt->execute();
         return $stmt->fetch();
+    }
+
+    public function delete(PDO $pdo, int $fest)
+    {
+        // TODO ajouter la planification
+        $scripts = [
+            "DELETE FROM contient WHERE id_festival=:id;",
+            "DELETE FROM scenes WHERE id_festival=:id;",
+            "DELETE FROM organise WHERE id_festival=:id;",
+            "DELETE FROM grij WHERE id_festival=:id;",
+            "DELETE FROM festivals WHERE id_festival=:id;"
+        ];
+        try {
+            foreach ($scripts as $sql) {
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(":id", $fest);
+                $stmt->execute();
+            }
+        } catch (PDOException $e) {
+            return false;
+        }
+        return true;
     }
 }
 ?>
