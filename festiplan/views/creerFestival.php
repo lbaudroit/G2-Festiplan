@@ -43,7 +43,7 @@ Variables utilisées
 
 <body>
     <?php include("./views/header.php"); ?>
-    <div class="contenue container">
+    <div class="contenue container mb-2">
         <div class="col-12">
             <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
                 <input hidden name="controller" value="festival">
@@ -67,7 +67,7 @@ Variables utilisées
                     <div class="col-md-4 col-sm-5 col-12">
                         <input type="file" id="img_fest" name="img_fest" accept="image/png, image/jpeg, image/gif"
                             class="d-none" />
-                        <label for="img_fest" class="">
+                        <label for="img_fest" class="m-1">
                             <?php
                             if (isset($fest)) {
                                 $url = "images/festival/" . (isset($ext) ? "f$fest$ext" : "f0.jpg");
@@ -312,7 +312,8 @@ Variables utilisées
                 <!--BOUTONS-->
                 <div class="text-left row row-gap-2">
                     <!--spectacles-->
-                    <div class="col-3 p-0 h-100 <?php echo $mode == "modif" ? "order-2" : "d-none"; ?>">
+                    <div
+                        class="col-12 col-md-3 p-0 h-100 <?php echo $mode == "modif" ? "order-2 order-md-2 col-sm-6 order-sm-2" : "d-none"; ?>">
                         <a class="btn btn-bleu form-control text-wrap wrap" <?php
                         if (isset($fest)) {
                             echo "href='./index.php?controller=festival&action=seeSpectacles&festival=$fest'";
@@ -321,7 +322,8 @@ Variables utilisées
                         </a>
                     </div>
                     <!--supprimer-->
-                    <div class=" col-3 p-0 <?php echo $mode == "modif" ? "offset-6 order-3" : "offset-9"; ?>">
+                    <div
+                        class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-3 offset-md-6 order-md-3 col-sm-6 order-sm-3" : "offset-sm-2 col-sm-4 offset-md-9"; ?>">
                         <?php
                         if ($mode == "ajout") {
                             echo "<a name='page_precedente' class='btn btn-rouge form-control'>Annuler</a>";
@@ -332,7 +334,8 @@ Variables utilisées
                     <!--planif-->
                     <?php if ($mode == "modif") {
                         ?>
-                        <div class="col-3 p-0 <?php echo $mode == "modif" ? "offset-6 order-1" : "offset-9"; ?>">
+                        <div
+                            class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-1 offset-md-6 order-md-1 col-sm-6 order-sm-1" : "offset-md-9"; ?>">
                             <a class="btn btn-bleu form-control wrap text-wrap"
                                 href="index.php?controller=planification&festival=<?php echo $fest ?>">
                                 Consulter la planification
@@ -341,7 +344,8 @@ Variables utilisées
                         <?php
                     } ?>
                     <!--sauvegarder-->
-                    <div class="col-3 p-0 <?php echo $mode == "modif" ? "order-4" : "offset-9"; ?>">
+                    <div
+                        class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-4 order-md-4 col-sm-6 order-sm-4" : "col-sm-4 offset-md-9"; ?>">
                         <input class="btn btn-bleu form-control wrap text-wrap" type="submit"
                             value="<?php echo $mode == "ajout" ? "Créer" : "Sauvegarder les changements"; ?>">
                     </div>
