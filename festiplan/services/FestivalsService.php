@@ -252,14 +252,14 @@ class FestivalsService
      * @param string $fest l'ID du festival
      * @return array les données du festival
      */
-    public function getDateOfFestival(PDO $pdo, String $fest): string 
+    public function getDateOfFestival(PDO $pdo, String $fest): array 
     {
-        $sql = "SELECT date_deb FROM festivals
+        $sql = "SELECT date_deb,DATE_ADD(date_fin,INTERVAL 1 DAY) AS date_fin FROM festivals
                 WHERE id_festival=:id;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":id", $fest);
         $stmt->execute();
-        return $stmt->fetch()["date_deb"];
+        return $stmt->fetch();
     }
 
 

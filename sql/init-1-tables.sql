@@ -121,3 +121,13 @@ CREATE TABLE contient (
     FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
     PRIMARY KEY(id_festival, id_spectacle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE planifie (
+    id_scene INTEGER NOT NULL,
+    id_spectacle INTEGER NOT NULL,
+    date_spectacle DATE NOT NULL,
+    heure_deb TIME NOT NULL,
+    FOREIGN KEY (id_scene) REFERENCES scenes(id_scene),
+    FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
+    PRIMARY KEY(id_festival, id_spectacle)
+)
