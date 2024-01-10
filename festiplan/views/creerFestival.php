@@ -88,7 +88,7 @@ Variables utilisées
                                 echo "value='" . htmlspecialchars($titre) . "'";
                             } ?> />
                     </div>
-                    <div class="col-8">
+                    <div class="col-12 col-md-8">
                         <div class="col-12 d-sm-none d-md-block">
                             <input type="text" name="titre" placeholder="Tapez le titre (35 caractères max.)"
                                 class="form-control" <?php if (isset($titre)) {
@@ -97,17 +97,19 @@ Variables utilisées
                         </div>
                         <br />
                         <div class="col-12 d-none d-md-block">
-                            <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
-                                class="form-control" <?php if (isset($desc)) {
-                                    echo "value='" . htmlspecialchars($desc) . "'";
-                                } ?> />
+                            <textarea type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
+                                class="form-control"><?php
+                                if (isset($desc))
+                                    echo htmlspecialchars($desc); ?>
+                            </textarea>
                         </div>
                     </div>
                     <div class="col-12 d-md-none">
-                        <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
-                            class="form-control" <?php if (isset($desc)) {
-                                echo "value='" . htmlspecialchars($desc) . "'";
-                            } ?> />
+                        <textarea type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
+                            class="form-control"><?php
+                            if (isset($desc))
+                                echo htmlspecialchars($desc); ?>
+                        </textarea>
                     </div>
                 </div>
                 <!--CATEGORIES & DATES-->

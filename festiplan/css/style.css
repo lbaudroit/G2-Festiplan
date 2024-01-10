@@ -231,3 +231,7 @@ footer {
 .enRouge {
     color: red;
 }
+
+.taille4em {
+    width: 4em;
+}

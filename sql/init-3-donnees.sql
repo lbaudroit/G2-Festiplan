@@ -40,11 +40,11 @@ VALUES
 -- Création de spectacles
 INSERT INTO spectacles (titre, description_s, lien_img, duree, id_cat, id_login, id_taille)
 VALUES 
-("JeChante", "Si vous aimez chanter alors vous chantez ou pas je sais pas.", "s1.png", "00:01:40", 1, "francksilvestre", 1),
-("JActe", "Des gens sur scène.", "s2.png", "00:01:40", 2, "francksilvestre", 2),
-("JeCirque", "Des clowns et des équilibristes (ou pas)", "s3.png", "00:01:40", 3, "francksilvestre", 2),
-("JeDanse", "Des gens qui bougent beaucoup mais c\'est beau.", "s4.png", "00:01:40", 4, "francksilvestre", 3),
-("JeProjette", "Tu t\'assoies et tu regardes...", "s5.png", "00:01:40", 5, "francksilvestre", 3);
+("JeChante", "Si vous aimez chanter alors vous chantez ou pas je sais pas.", "s1.png", "01:40:00", 1, "francksilvestre", 1),
+("JActe", "Des gens sur scène.", "s2.png", "01:40:00", 2, "francksilvestre", 2),
+("JeCirque", "Des clowns et des équilibristes (ou pas)", "s3.png", "01:40:00", 3, "francksilvestre", 2),
+("JeDanse", "Des gens qui bougent beaucoup mais c\'est beau.", "s4.png", "01:40:00", 4, "francksilvestre", 3),
+("JeProjette", "Tu t\'assoies et tu regardes...", "s5.png", "01:40:00", 5, "francksilvestre", 3);
 
 -- Création d'intervenants
 INSERT INTO intervenants (nom, prenom, email)

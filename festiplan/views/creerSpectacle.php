@@ -5,7 +5,8 @@ Liste Variables utilisées
 - spectacle (identifiant)
 - titre
 - desc
-- duree
+- duree_h
+- duree_m
 - categories
 - cat
 - taillescenes
@@ -39,10 +40,12 @@ Liste Variables utilisées
 
 <body>
     <?php include("./views/header.php"); ?>
+    <?php var_dump($_SESSION); ?>
     <div class="contenue container mb-2">
+        <?php var_dump(get_defined_vars()) ?>
         <div class="col-12">
             <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
-                <input hidden name="controller" value="festival">
+                <input hidden name="controller" value="spectacle">
                 <input hidden name="action" value="<?php echo $mode == "ajout" ? "create" : "modify"; ?>">
                 <?php
                 if (isset($spectacle)) {
@@ -83,7 +86,7 @@ Liste Variables utilisées
                                 echo "value='" . htmlspecialchars($titre) . "'";
                             } ?> />
                     </div>
-                    <div class="col-8">
+                    <div class="col-12 col-md-8">
                         <div class="col-12 d-sm-none d-md-block">
                             <input type="text" name="titre" placeholder="Tapez le titre (35 caractères max.)"
                                 class="form-control" <?php if (isset($titre)) {
@@ -92,19 +95,24 @@ Liste Variables utilisées
                         </div>
                         <br />
                         <div class="col-12 d-none d-md-block">
-                            <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
-                                class="form-control" <?php if (isset($desc)) {
-                                    echo "value='" . htmlspecialchars($desc) . "'";
-                                } ?> />
+                            <textarea type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
+                                class="form-control"><?php
+                                if (isset($desc))
+                                    echo htmlspecialchars($desc);
+                                ?>
+                            </textarea>
                         </div>
                     </div>
                     <div class="col-12 d-md-none">
-                        <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
-                            class="form-control" <?php if (isset($desc)) {
-                                echo "value='" . htmlspecialchars($desc) . "'";
-                            } ?> />
+                        <textarea type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
+                            class="form-control"><?php
+                            if (isset($desc))
+                                echo htmlspecialchars($desc);
+                            ?></textarea>
                     </div>
                 </div>
+                <?php
+                var_dump(get_defined_vars()) ?>
                 <!--CATEGORIES & DATES-->
                 <div class="m-0 row textFormulaire">
                     <div class="bordure col-md-4 col-sm-6 col-12">
@@ -113,7 +121,10 @@ Liste Variables utilisées
                         </u>
                         <br />
                         <div class="text-center">
-                            <input type="time" name="duree" class="text-center" class="form-control" />
+                            <input type="number" name="duree_h" class="text-center taille4em" class="form-control w-25"
+                                min="0" max="24" step="1" value="<?php echo isset($duree_h) ? $duree_h : ""; ?>" /> h
+                            <input type="number" name="duree_m" class="text-center taille4em" class="form-control w-25"
+                                min="0" max="60" step="1" value="<?php echo isset($duree_m) ? $duree_m : ""; ?>" /> min
                         </div>
                     </div>
                     <div class="bordure col-md-4 col-sm-6 col-12">
@@ -124,7 +135,7 @@ Liste Variables utilisées
                         </label>
                         <br>
                         <div class="text-center">
-                            <select class="text-center" name="tailleScene" id="taille">
+                            <select class="" name="taille" id="taille">
                                 <option value="default" disabled <?php if (!isset($taille))
                                     echo "selected"; ?>>
                                     Choisir une taille de scène
@@ -134,7 +145,7 @@ Liste Variables utilisées
                                     $name = ucfirst($taillesc["libelle"]);
                                     $id = $taillesc["id_taille"];
                                     $selected = isset($taille) && $taille === $id ? "checked" : "";
-                                    echo "<option value='$id'>$name</option>";
+                                    echo "<option value='$id' $selected>$name</option>";
                                 }
                                 ?>
                             </select>
@@ -162,36 +173,56 @@ Liste Variables utilisées
                     </div>
                 </div>
 
-                <div class="text-left row row-gap-2">
-                    <div class="bordure col-12 col-md-6 p-0">
-                        <div>Liste des intervenants sur scène</div>
-                        <table class="table table-striped">
-                            <?php foreach ($sur_scene as $inter) { ?>
-                                <tr>
-                                    <td>
-                                        <?php
-                                        echo $inter["nom"] . " " . $inter["prenom"] . "<br>" . $inter["email"];
-                                        ?>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </table>
-                    </div>
-                    <div class="bordure col-12 col-md-6">
-                        <div>Liste des intervenants hors scène</div>
-                        <?php
-                        foreach ($hors_scene as $inter) {
+                <!-- INTERVENANTS -->
+                <?php if (isset($sur_scene, $hors_scene)) {
+                    $intervenants = [$sur_scene, $hors_scene];
+                    $titres = ["Liste des intervenants sur scène", "Liste des intervenants hors scène"];
+                    echo "<div class='text-left row row-gap-2'>";
+                    foreach ($intervenants as $i => $liste) { ?>
 
-                        }
-                        ?>
-                    </div>
-                </div>
+                        <div class="bordure col-12 col-md-6 p-0">
+                            <div class="text-center fs-2">
+                                <?php echo $titres[$i]; ?>
+                            </div>
+                            <table class="table table-striped">
+                                <?php foreach ($liste as $inter) { ?>
+                                    <tr>
+                                        <td class="row m-0">
+                                            <?php
+                                            echo "<div class='col-8 my-auto'>" . $inter["nom"] . " " . $inter["prenom"] . "<br>" . $inter["email"] . "</div>";
+                                            ?>
+                                            <div class='col-4 text-end'>
+                                                <!-- ICONE SUPPR -->
+                                                <span>
+                                                    <?php
+                                                    echo "<a href='index.php?controller=festival&action=deleteIntervenantHorsScene&spectacle=$spectacle'>";
+                                                    ?>
+                                                    <i class='fas fa-trash-alt text-black m-2'></i></a>
+                                                </span>
+                                                <!-- ICONE MODIFIER -->
+                                                <span class='ms-3'>
+                                                    <?php
+                                                    echo "<a class='p-2 btn fond-bleu-clair border-black' 
+                                                     href='index.php?controller=festival&action=deleteIntervenantHorsScene&spectacle=$spectacle'>";
+                                                    ?>
+                                                    Modifier
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </table>
+                        </div>
+                    <?php }
+                    echo "</div>"; ?>
+                <?php } ?>
 
                 <!--BOUTONS-->
                 <div class="text-left row row-gap-2">
                     <!--supprimer-->
                     <div
-                        class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-3 offset-md-6 order-md-3 col-sm-6 order-sm-3" : "offset-sm-2 col-sm-4 offset-md-9"; ?>">
+                        class="col-12 col-sm-6 col-md-3 p-0 <?php echo $mode == "modif" ? "order-3 offset-md-6 order-md-3 col-sm-6 order-sm-3" : "offset-sm-2 col-sm-4 offset-md-9"; ?>">
                         <?php
                         if ($mode == "ajout") {
                             echo "<a name='page_precedente' class='btn btn-rouge form-control'>Annuler</a>";
@@ -201,7 +232,7 @@ Liste Variables utilisées
                     </div>
                     <!--sauvegarder-->
                     <div
-                        class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-4 order-md-4 col-sm-6 order-sm-4" : "col-sm-4 offset-md-9"; ?>">
+                        class="col-12 col-sm-6 col-md-3 p-0 <?php echo $mode == "modif" ? "order-4 order-md-4 col-sm-6 order-sm-4" : "col-sm-4 offset-md-9"; ?>">
                         <input class="btn btn-bleu form-control wrap text-wrap" type="submit"
                             value="<?php echo $mode == "ajout" ? "Créer" : "Sauvegarder les changements"; ?>">
                     </div>
@@ -209,10 +240,9 @@ Liste Variables utilisées
             </form>
         </div>
     </div>
+    <script src="js/creerFestival.js"></script>
     <?php include("./views/footer.php"); ?>
 </body>
-<script src="./js/common.js" defer></script>
-<script src="./js/creerFestival.js" defer></script>
 
 <!-- 
 <body>
