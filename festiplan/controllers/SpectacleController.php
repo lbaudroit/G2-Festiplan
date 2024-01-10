@@ -46,12 +46,7 @@ class SpectacleController
         $cat = (int) HttpHelper::getParam("cat");
 
         // Réinsertion des champs
-        $view->setVar("titre", $titre);
-        $view->setVar("desc", $desc);
-        $view->setVar("taille", $taille);
-        $view->setVar("cat", $cat);
-        $view->setVar("duree_h", $duree_h);
-        $view->setVar("duree_m", $duree_m);
+        $this->setInfo($view, $titre, $desc, $taille, $cat, $duree_h, $duree_m);
         $view->setVar("mode", "ajout");
 
         // Champs immuables
@@ -62,12 +57,23 @@ class SpectacleController
 
         // Vérification des champs
         if ($this->checkInfo($titre, $desc, $duree_h, $duree_m, $taille, $cat)) {
-            $this->spectaclesService->createSpectacle($pdo, $titre, $desc, "$duree_h:$duree_m:00", $taille, $cat, $user);
+            $id = $this->spectaclesService->createSpectacle($pdo, $titre, $desc, "$duree_h:$duree_m:00", $taille, $cat, $user);
+            $view->setVar("spectacle", $id);
             $view->setVar("mode", "modif");
         } else {
             $view->setVar("mode", "ajout");
         }
         return $view;
+    }
+
+    public function setInfo(View $view, string $titre, string $desc, int $taille, int $cat, int $duree_h, int $duree_m)
+    {
+        $view->setVar("titre", $titre);
+        $view->setVar("desc", $desc);
+        $view->setVar("taille", $taille);
+        $view->setVar("cat", $cat);
+        $view->setVar("duree_h", $duree_h);
+        $view->setVar("duree_m", $duree_m);
     }
 
     public function modify($pdo): View
@@ -98,6 +104,14 @@ class SpectacleController
     }
 
     public function delete($pdo): View
+    {
+        // TODO
+        $view = new View("views/not_done");
+        return $view;
+    }
+
+
+    public function ajouterIntervenant($pdo): View
     {
         // TODO
         $view = new View("views/not_done");

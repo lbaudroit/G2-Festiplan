@@ -15,6 +15,7 @@ Liste Variables utilisées
 - hors_scene
 - sur_scene
 - ext
+- error
  */
 ?>
 <html lang="fr">
@@ -40,16 +41,15 @@ Liste Variables utilisées
 
 <body>
     <?php include("./views/header.php"); ?>
-    <?php var_dump($_SESSION); ?>
     <div class="contenue container mb-2">
-        <?php var_dump(get_defined_vars()) ?>
+        <?php echo isset($error) ? "<div class='col-12 bg-danger'>$error</div>" : "" ?>
         <div class="col-12">
             <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
                 <input hidden name="controller" value="spectacle">
                 <input hidden name="action" value="<?php echo $mode == "ajout" ? "create" : "modify"; ?>">
                 <?php
                 if (isset($spectacle)) {
-                    echo "<input type='hidden' name='festival' value='$spectacle'>";
+                    echo "<input type='hidden' name='spectacle' value='$spectacle'>";
                 }
                 ?>
                 <!--Soit ajout, soit modif-->
@@ -70,7 +70,7 @@ Liste Variables utilisées
                             <?php
                             if (isset($spectacle)) {
                                 $url = "images/spectacle/" . (isset($ext) ? "s$spectacle$ext" : "s0.jpg");
-                                echo "<img src='$url' alt='Image du festival' class='img-fluid'>";
+                                echo "<img src='$url' alt='Image du spectacle' class='img-fluid'>";
                             } else {
                                 ?>
                                 <i class="fa-regular fa-plus fa-4x"></i><br>
@@ -111,8 +111,6 @@ Liste Variables utilisées
                             ?></textarea>
                     </div>
                 </div>
-                <?php
-                var_dump(get_defined_vars()) ?>
                 <!--CATEGORIES & DATES-->
                 <div class="m-0 row textFormulaire">
                     <div class="bordure col-md-4 col-sm-6 col-12">
@@ -184,7 +182,7 @@ Liste Variables utilisées
                             <div class="text-center fs-2">
                                 <?php echo $titres[$i]; ?>
                             </div>
-                            <table class="table table-striped">
+                            <table class="table table-striped mb-0">
                                 <?php foreach ($liste as $inter) { ?>
                                     <tr>
                                         <td class="row m-0">
@@ -195,7 +193,7 @@ Liste Variables utilisées
                                                 <!-- ICONE SUPPR -->
                                                 <span>
                                                     <?php
-                                                    echo "<a href='index.php?controller=festival&action=deleteIntervenantHorsScene&spectacle=$spectacle'>";
+                                                    echo "<a href='index.php?controller=spectacle&action=deleteIntervenantHorsScene&spectacle=$spectacle'>";
                                                     ?>
                                                     <i class='fas fa-trash-alt text-black m-2'></i></a>
                                                 </span>
@@ -203,7 +201,7 @@ Liste Variables utilisées
                                                 <span class='ms-3'>
                                                     <?php
                                                     echo "<a class='p-2 btn fond-bleu-clair border-black' 
-                                                     href='index.php?controller=festival&action=deleteIntervenantHorsScene&spectacle=$spectacle'>";
+                                                     href='index.php?controller=spectacle&action=deleteIntervenantHorsScene&spectacle=$spectacle'>";
                                                     ?>
                                                     Modifier
                                                     </a>
@@ -212,6 +210,14 @@ Liste Variables utilisées
                                         </td>
                                     </tr>
                                 <?php } ?>
+                                <tr>
+                                    <td class="p-0">
+                                        <a class="btn d-block fond-bleu-clair text-center m-0"
+                                            href="index.php?controller=spectacle&action=ajouterIntervenant&spectacle=<?php echo $spectacle; ?>">
+                                            <i class="fa fa-2x texte-bleu fa-plus">
+                                        </a>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     <?php }
