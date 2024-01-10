@@ -60,7 +60,7 @@ class FestivalsService
         $searchStmt->execute();
         return $searchStmt;
     }
-    
+
     /*
      * Trouve les spectacles créés par cet utilisateur.
      *
@@ -106,7 +106,7 @@ class FestivalsService
      * @return string the statement referencing the result set
 
      */
-    public function getNomFestivalByID(PDO $pdo, string $festival): string
+    public function getNomFestivalByID(PDO $pdo, string $festival): array
     {
         $sql = "SELECT titre
                 FROM festivals
@@ -115,7 +115,7 @@ class FestivalsService
         $searchStmt->bindParam(":festival", $festival);
         $searchStmt->execute();
         $nom = $searchStmt->fetch();
-        return $nom[0];
+        return $nom;
     }
 
     /**
@@ -243,6 +243,41 @@ class FestivalsService
         $stmt->bindParam(":id", $fest);
         $stmt->execute();
         return $stmt->fetch();
+    }
+
+    /**
+     * Renvoie la date du festival
+     *
+     * @param PDO $pdo the pdo object
+     * @param string $fest l'ID du festival
+     * @return array les données du festival
+     */
+    public function getDateOfFestival(PDO $pdo, String $fest): string 
+    {
+        $sql = "SELECT date_deb FROM festivals
+                WHERE id_festival=:id;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":id", $fest);
+        $stmt->execute();
+        return $stmt->fetch()["date_deb"];
+    }
+
+
+    /**
+     * Renvoie la date du festival
+     *
+     * @param PDO $pdo the pdo object
+     * @param string $fest l'ID du festival
+     * @return array les données du festival
+     */
+    public function getDureeOfFestival(PDO $pdo, String $fest): int
+    {
+        $sql = "SELECT date_fin-date_deb+1 FROM festivals
+                WHERE id_festival=:id;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":id", $fest);
+        $stmt->execute();
+        return $stmt->fetch()["date_fin-date_deb+1"];
     }
 }
 ?>
