@@ -159,18 +159,32 @@ Liste Variables utilisées
                             }
                             ?>
                         </div>
-                        <?php
-                        foreach ($hors_scene as $hors) {
-                            var_dump($hors);
-                        }
-                        foreach ($sur_scene as $sur) {
-                            var_dump($sur);
-                        }
-                        ?>
                     </div>
                 </div>
 
-                <div class="text-left ">
+                <div class="text-left row row-gap-2">
+                    <div class="bordure col-12 col-md-6 p-0">
+                        <div>Liste des intervenants sur scène</div>
+                        <table class="table table-striped">
+                            <?php foreach ($sur_scene as $inter) { ?>
+                                <tr>
+                                    <td>
+                                        <?php
+                                        echo $inter["nom"] . " " . $inter["prenom"] . "<br>" . $inter["email"];
+                                        ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </table>
+                    </div>
+                    <div class="bordure col-12 col-md-6">
+                        <div>Liste des intervenants hors scène</div>
+                        <?php
+                        foreach ($hors_scene as $inter) {
+
+                        }
+                        ?>
+                    </div>
                 </div>
 
                 <!--BOUTONS-->
