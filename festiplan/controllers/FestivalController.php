@@ -196,8 +196,7 @@ class FestivalController
         $view->setVar("fin", $fin);
     }
 
-    public function setGrij(View $view, ?string $heure_deb, ?string $heure_fin, ?string $delai)
-    {
+    public function setGrij(View $view, ?string $heure_deb, ?string $heure_fin, ?string $delai) {
         $view->setVar("grij_deb", $heure_deb);
         $view->setVar("grij_fin", $heure_fin);
         $view->setVar("grij_delai", $delai);
@@ -252,11 +251,16 @@ class FestivalController
         }
     }
 
-    public function createScene($pdo): View
-    {
-        $recupIDFest = (int) HttpHelper::getParam("festival");
+    public function createScene($pdo): View {
+        $nomScene = (string) HttpHelper::getParam("nomScene");
+        $nombreSpec = (int) HttpHelper::getParam("nbSpecMax");
+        $IDFest = (int) HttpHelper::getParam("festival");
+        $tailles = TaillesService::getList($pdo);
+        $GPSLat = (int) HttpHelper::getParam("coordGPSLat");
+        $GPSLong = (int) HttpHelper::getParam("coordGPSLong");
         $view = new View("views/creerScene");
-        $view->setVar("idFest", $recupIDFest);
+        $view->setVar("idFest", $IDFest);
+        $view->setVar("taillescenes", $tailles);
         return $view;
     }
 

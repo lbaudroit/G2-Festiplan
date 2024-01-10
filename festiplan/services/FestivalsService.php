@@ -191,7 +191,14 @@ class FestivalsService
         $sql = "INSERT INTO scenes VALUES(:nbSpecMax, :idFest, :tailleScene, :coordGPSLat, :coordGPSLong)";
     
     }
-
+    public function verifScene(string $nomScene, int $nombreSpec, int $tailles, float $GPSLat, float $GPSLong){
+        return isset($nomScene, $nombreSpec, $IDFest, $tailles, $GPSLat, $GPSLong) 
+        && strlen($nomScene) > 0 && strlen($nomScene) <= 35
+        && $nombreSpec > 0 && $nombreSpec < 200000
+        && $tailles >= 1 && $tailles <= 3 
+        && $GPSLat >= -90.0 && $GPSLat <= 90.0 
+        && $GPSLong >= -180.0 && $GPSLong <= 180.0;
+    }
     /**
      * Crée le festival
      *
