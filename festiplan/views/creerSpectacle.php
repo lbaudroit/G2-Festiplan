@@ -214,7 +214,7 @@ Liste Variables utilisées
                                     <td class="p-0">
                                         <a class="btn d-block fond-bleu-clair text-center m-0"
                                             href="index.php?controller=spectacle&action=ajouterIntervenant&spectacle=<?php echo $spectacle; ?>">
-                                            <i class="fa fa-2x texte-bleu fa-plus">
+                                            <i class="fa fa-2x texte-bleu fa-plus"></i>
                                         </a>
                                     </td>
                                 </tr>
