@@ -227,7 +227,7 @@ Variables utilisées
                                 <td>
                                     <a class="btn fond-bleu-clair col-12 p-0 not_now" <?php
                                     if ($mode == "modif") {
-                                        echo "href='index.php?controller=festival&action=modifyScene&festival=$fest' ";
+                                        echo "href='index.php?controller=festival&action=createScene&festival=$fest' ";
                                     }
                                     ?>>
                                         <i class="fas fa-plus texte-bleu"></i>

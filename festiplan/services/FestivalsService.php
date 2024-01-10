@@ -179,14 +179,27 @@ class FestivalsService
     }
 
     /**
+     * @param PDO $pdo the pdo object
+     * @param float $coordGPSLat
+     * @param float $coordGPSLong 
+     * @param int $idFest
+     * @param int $nbSpecMax
+     * @param int $tailleScene
+     */
+    public function addScene(PDO $pdo, int $nbSpecMax, int $idFest, int $tailleScene, float $coordGPSLat, float $coordGPSLong): int|null {
+        $sql = "INSERT INTO scenes VALUES(:nbSpecMax, :idFest, :tailleScene, :coordGPSLat, :coordGPSLong)";
+    
+    }
+
+    /**
      * Crée le festival
      *
      * @param PDO $pdo the pdo object
      * @param string $nom le nom du festival
-     * @param string $nom la description du festival
-     * @param string $nom le jour de début du festival
-     * @param string $nom le jour de fin du festival
-     * @param string $nom la catégorie du festival
+     * @param string $desc la description du festival
+     * @param string $debut le jour de début du festival
+     * @param string $fin le jour de fin du festival
+     * @param string $cat la catégorie du festival
      * @return PDOStatement the statement referencing the result set
      */
     public function addFestival(

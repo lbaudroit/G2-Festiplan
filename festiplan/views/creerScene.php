@@ -39,28 +39,34 @@
                         <u class ="text-center textFormulaire"><hspan class="titre">
                             Ajout d'une scène
                         </span></u>
+                        <input type=hidden name="festival" 
+                        <?php
+                            echo "value=$idFest";
+                        ?>
+                        />
                         <u class ="offset-2 col-4"><h5>
                             Nom de la scène :
                         </h5></u>
-                        <input type="text" id="nomScene" name="nomScene" class="offset-1 col-3 textFormulaire" placeholder="Entrer le nom de la scène (35 caractères max.)" <?php
-                            if (isset($_POST['nomScene']) && strlen($nomScene < 35)) {
-                                echo 'value="'. $_POST['nomScene'] .'"';
-                            }?>
-                        />
+                        <input type="text" id="nomScene" name="nomScene" class="offset-1 col-3 textFormulaire" placeholder="Entrer le nom de la scène (35 caractères max.)"/>
                     </div>
                     <div class ="row textFormulaire">
                         <u class ="offset-2 col-4"><h5>
                             Coordonnées GPS :
                         </h5></u>
-                        <input type="text" id="coordGPS" name="coordGPS" class ="textFormulaire offset-1 col-3" <?php
-                            if (isset($_POST['coordGPS'])) {
-                                echo 'value="' . $_POST['coordGPS'] . '"';
+                        <input type="text" id="coordGPSLat" name="coordGPSLat" class ="textFormulaire offset-1 col-3" placeholder="Entrez la latitude de la scène"<?php
+                            if (isset($_POST['coordGPSLat'])) {
+                                echo 'value="' . $_POST['coordGPSLat'] . '"';
+                            }?>
+                        />
+                        <input type="text" id="coordGPSLong" name="coordGPSLong" class ="textFormulaire offset-7 col-3" placeholder="Entrez la longitude de la scène"<?php
+                            if (isset($_POST['coordGPSLong'])) {
+                                echo 'value="' . $_POST['coordGPSLong'] . '"';
                             }?>
                         />
                     </div>
                     <div class ="row">
                         <u class ="offset-2 col-4"><h5>
-                            Nombre de specteteurs maximum :
+                            Nombre de spectateurs maximum :
                         </h5></u>
                         <input type="text" id="nbMaxSpec" name="nbMaxSpec" class ="textFormulaire offset-1 col-3" <?php
                             if (isset($_POST['nbMaxSpec'])) {

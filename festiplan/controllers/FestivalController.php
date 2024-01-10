@@ -245,8 +245,9 @@ class FestivalController
 
     public function createScene($pdo): View
     {
-        // TODO création d'une scène
-        $view = new View("views/not_done");
+        $recupIDFest = (int) HttpHelper::getParam("festival");
+        $view = new View("views/creerScene");
+        $view->setVar("idFest", $recupIDFest);
         return $view;
     }
 
