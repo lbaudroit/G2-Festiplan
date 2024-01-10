@@ -30,7 +30,7 @@ class PlanificationController
         $festival = "1";
         $listSpectacle = $this->festivalsService->getListOfSpectacle($pdo, $festival);
         $vue = new View("/views/planification");
-        $vue->setVar("listeFestivals", $listSpectacle);
+        $vue->setVar("listeSpectacle", $listSpectacle);
         return $vue;
     }
 
