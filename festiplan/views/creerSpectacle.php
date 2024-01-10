@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FESTIPLAN - Création de Spectacle</title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -22,31 +21,24 @@
 </head>
 
 <body>
-    <header>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-6">
-                    <hspan class="titre">Festiplan</span>
-                </div>
-                <div class="col-6 contenue_droite">
-                    <i class="fa-solid fa-user fa-4x"></i>
-                    <hspan class="secondTitre">Mon Compte </hspan>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php include("./views/header.php"); ?>
     <div class="contenue container">
         <div class="text-center col-12">
-            <form method="post" class="formulaire bordure">
-                <div class="row fondFormulaire textFormulaire">
+            <form method="post" class="formulaire">
+                <div class="row textFormulaire bordure fondFormulaire">
                     <div class="col-md-4 col-sm-5 col-12">
                         <i class="fa-regular fa-plus fa-4x"></i>
+                        <br />
                         Rajoutez une image (800x600 maximum) (optionnel)
                     </div>
+                    <div class="col-sm-7 d-none d-sm-block d-md-none my-auto">
+                        <input type="text" name="nomSpectacleTab" placeholder="Tapez le titre (35 caractères max.)"
+                            class="form-control" />
+                    </div>
                     <div class="col-8">
-                        <div class="col-12">
-                            <input type="text" name="nomSpectacle" placeholder="Tapez le titre (35 caractères max.)"
-                                class="form-control" />
+                        <div class="col-12 d-sm-none d-md-block">
+                            <input type="text" name="nomSpectaclePCetTel"
+                                placeholder="Tapez le titre (35 caractères max.)" class="form-control" />
                         </div>
                         <br />
                         <div class="col-12 d-none d-md-block">
@@ -59,22 +51,76 @@
                             placeholder="Tapez la description (1000 caractères max.)" class="form-control" />
                     </div>
                 </div>
+                <div class="row textFormulaire">
+                    <div class="bordure col-md-4 col-sm-6 col-12">
+                        <u class="aGauche">
+                            Durée du Spectacle :
+                        </u>
+                        <br />
+                        <input type="text" name="HeureSpectacle" class=" text-center col-3" placeholder="HH"
+                            class="form-control" />
+                        :
+                        <input type="text" name="MinuteSpectacle" class="text-center col-3" placeholder="MM"
+                            class="form-control" />
+                    </div>
+                    <div class="bordure col-md-4 col-sm-6 col-12">
+                        <label for="tailleSceneSelect">
+                            <u class="aGauche">
+                                Surface de la scène requise :
+                            </u>
+                        </label>
+                        <select name="tailleScene" id="tailleSceneSelect">
+                            <option value="default">Choisir une taille de scène</option>
+                            <option value="petite">Petite</option>
+                            <option value="moyenne">Moyenne</option>
+                            <option value="grande">Grande</option>
+                        </select>
+                    </div>
+                    <div class="bordure col-md-4 col-12">
+                        <u class="aGauche">
+                            Categories :
+                        </u>
+                        <br />
+                        <input type="radio" id="btnMusique" name="btnMusique" value="musique" />
+                        <label for="btnMusique">Musique</label>
+
+                        <input type="radio" id="btnTheatre" name="btnTheatre" value="theatre" />
+                        <label for="btnTheatre">Théâtre</label>
+
+                        <input type="radio" id="btnCirque" name="btnCirque" value="cirque" />
+                        <label for="btnCirque">Cirque</label>
+
+                        <input type="radio" id="btnDanse" name="btnDanse" value="danse" />
+                        <label for="brnDanse">Danse</label>
+
+                        <input type="radio" id="btnProjFilm" name="btnProjFilm" value="projFilm" />
+                        <label for="btnProjFilm">Projection de film</label>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
-    <footer>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-6">
-                    <! ICI ON MET LE BOUTON DE DECONEXION>
+    <div class="contenue container">
+        <div class="text-center col-12">
+            <form method="post" class="formulaire bordure">
+                <div class="row fondFormulaire textFormulaire">
+                    <div class="col-md-4 col-sm-5 col-12">
+                        <i class="fa-regular fa-plus fa-4x"></i>
+                        Rajoutez une image (800x600 maximum) (optionnel)
+                    </div>
+                    <div class="col-6 contenue_droite">
+                        <img src="images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
+                            href="http://www.iut-rodez.fr" target="_blank" />
+                    </div>
+                    <div class="col-12 d-md-none">
+                        <input type="text" name="descSpectacleTabletTel"
+                            placeholder="Tapez la description (1000 caractères max.)" class="form-control" />
+                    </div>
                 </div>
-                <div class="col-6 contenue_droite">
-                    <img src="images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
-                        href="http://www.iut-rodez.fr" target="_blank" />
-                </div>
-            </div>
+            </form>
         </div>
-    </footer>
+    </div>
+    <?php include("./views/footer.php"); ?>
 </body>
 
 </html>

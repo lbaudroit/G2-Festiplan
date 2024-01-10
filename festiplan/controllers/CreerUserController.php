@@ -1,6 +1,5 @@
-<?php 
+<?php
 namespace controllers;
-session_start();
 
 use services\UsersService;
 use yasmf\View;

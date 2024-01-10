@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300&display=swap');
 
+.aDroite {
+    text-align: right;
+}
+
 body {
     min-height: 100vh;
     margin: 0;
@@ -9,6 +13,14 @@ body {
 
 .contenue {
     flex: 1;
+}
+
+.textecentre {
+    text-align: center;
+}
+
+.fondbleuplusclair {
+    background-color: #9de1dc;
 }
 
 .fondblanc {
@@ -21,7 +33,34 @@ body {
     font-size: 40px;
 }
 
+.secondTitre {
+    font-family: 'Kiwi Maru', serif;
+    font-size: 36px;
+}
+
+.formulaire > * {
+    margin: 5px;
+}
+
+.espacementLargeurGauche {
+    margin-left: 150px;
+}
+
+.espacementLargeur {
+    margin-right: 5px;
+}
+
+.textFormulaire {
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.fondFormulaire {
+    background-color: #9de1dc;
+}
+
 .bordure {
+    padding: 5px;
     border: 1px solid black;
     border-radius: 5px;
 }
@@ -169,6 +208,15 @@ footer {
     background-color: #ed5959;
 }
 
-.enRouge{
-    color:red;
+.wrap {
+    white-space: break;
+    word-break: break-word;
+}
+
+.fond-rouge {
+    background-color: #ff6161;
+}
+
+.enRouge {
+    color: red;
 }

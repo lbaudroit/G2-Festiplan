@@ -8,9 +8,9 @@ VALUES
 -- Création de la grij
 INSERT INTO grij (heure_deb, heure_fin, temps_pause)
 VALUES 
-("08:00:00", "02:00:00", "00:30:00"),
+("08:00:00", "24:00:00", "00:30:00"),
 ("10:00:00", "22:00:00", "00:20:00"),
-("18:00:00", "02:00:00", "00:45:00"),
+("18:00:00", "24:00:00", "00:45:00"),
 ("06:00:00", "21:00:00", "00:05:00");
 
 -- Création des categories
@@ -54,13 +54,13 @@ VALUES
 ("LBATH", "Redouane", "redouane.lbath@gmal.com");
 
 -- Création des scènes
-INSERT INTO scenes (capacite, GPS, id_taille)
+INSERT INTO scenes (capacite, latitude, longitude, id_festival, id_taille)
 VALUES
-(500, POINT(43.6044622,1.4442469), 2),
-(1000, POINT(43.6044622,1.4442469), 3),
-(50, POINT(43.6044622,1.4442469), 1),
-(600, POINT(43.6044622,1.4442469), 2),
-(900, POINT(43.6044622,1.4442469), 3);
+(500, 43.6044622, 1.4442469, 1, 2),
+(1000, 43.6044622, 1.4442469, 2, 3),
+(50, 43.6044622, 1.4442469, 3, 1),
+(600, 43.6044622, 1.4442469, 4, 2),
+(900, 43.6044622, 1.4442469, 5, 3);
 
 -- Création de la table des organisateurs d'un festival
 INSERT INTO organise (id_festival,id_login)

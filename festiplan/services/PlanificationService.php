@@ -19,9 +19,11 @@ class PlanificationService
      * forme de tableau a double entrées.
      */
     function getPlannif(PDO $pdo, string $idFestival) {
-        $rqt = "SELECT id_spectacle, heureDebut
+        $rqt = "SELECT id_spectacle, heureDebut, id_scene
                 FROM plannifications
-                WHERE idfestival = :idfestival ";
+                INNER JOIN scenes
+                ON plannifications.id_scene = scenes.id_scene
+                WHERE scenes.idfestival = :idfestival ";
         $searchStmt = $pdo->prepare($sql);
         $searchStmt->bindParam(":idfestival", $idFestival);
         $searchStmt->execute();
@@ -151,7 +153,7 @@ class PlanificationService
             $searchStmt->execute();
 
             // stock le resultat dans un tableau a double entreé
-            $res[$searchStmt["titre"]]= [$ligne["heureDebut"],$searchStmt["duree"]]
+            $res[$searchStmt["titre"]]= [$ligne["heureDebut"], $ligne["id_scene"]]
         }
 
         return $res;

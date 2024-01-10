@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -23,14 +20,13 @@ session_start();
 </head>
 
 <body>
-    <header>
-        <span class="titre">Festiplan</span>
-    </header>
+    <?php include("./views/header.php"); ?>
 
     <?php
     $aAfficher = [$listeFestivals, $listeSpectacles];
     $nom = ["festival", "spectacle"];
     $nom_pluriel = ["festivals", "spectacles"];
+    $prefixe_img = ["f", "s"];
     foreach ($aAfficher as $e => $liste) {
         $id = "id_" . $nom[$e];
         ?>
@@ -86,9 +82,10 @@ session_start();
                                     href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
                                     <div class="">
                                         <?php
-                                        echo "<img  alt='Image du " . $nom[$e] . htmlspecialchars($elt['titre']) . "' 
-                                    src='images/" . $nom[$e] . "/" . $elt['lien_img'] . "'
-                                    class='img-fluid'>";
+                                        $ext = $elt["lien_img"];
+                                        $url = "images/" . $nom[$e] . "/" . $prefixe_img[$e] . (isset($ext) ? $elt[$id] . $ext : "0.jpg");
+                                        echo "<img  alt='Image du " . $nom[$e] . " " . htmlspecialchars($elt['titre']) . "' 
+                                    src='$url' class='img-fluid'>";
                                         ?>
                                     </div>
                                 </a>
@@ -117,27 +114,7 @@ session_start();
     }
     ?>
 
-    <footer>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-6">
-                    <form method="post" action="./index.php?controller=Deconnexion">
-                        <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
-                            <i class="fa-solid fa-power-off"></i>
-                            Deconnexion
-                        </button>
-                        <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
-                            <i class="fa-solid fa-power-off"></i>
-                        </button>
-                    </form>
-                </div>
-                <div class="col-6 contenue_droite">
-                    <img src="./images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
-                        href="http://www.iut-rodez.fr" target="_blank" />
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include("./views/footer.php"); ?>
 </body>
 
 </html>

@@ -20,9 +20,7 @@
 </head>
 
 <body>
-    <header>
-        <span class="titre">Festiplan</span>
-    </header>
+    <?php include("./views/header.php"); ?>
 
     <div class="container contenue d-flex justify-content-center">
         <div class="fs-1 bordure-basique fond-bleu-clair my-auto p-2 text-center">
@@ -35,19 +33,7 @@
         </div>
     </div>
 
-    <footer>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-6">
-                    <!-- ICI ON MET LE BOUTON DE DECONEXION-->
-                </div>
-                <div class="col-6 contenue_droite">
-                    <img src="./images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
-                        href="http://www.iut-rodez.fr" target="_blank" />
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include("./views/footer.php"); ?>
 </body>
 
 </html>
