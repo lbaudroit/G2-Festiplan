@@ -15,6 +15,7 @@ body {
     flex: 1;
 }
 
+
 .textecentre {
     text-align: center;
 }
@@ -40,6 +41,14 @@ body {
 
 .formulaire > * {
     margin: 5px;
+}
+
+.grandEspacementHauteur {
+    margin-top : 50px;
+}
+
+.moyenEspacementHauteur {
+    margin-top : 20px;
 }
 
 .espacementLargeurGauche {

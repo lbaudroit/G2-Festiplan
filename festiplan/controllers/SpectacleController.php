@@ -33,7 +33,7 @@ class SpectacleController
     public function create($pdo): View
     {
         // TODO
-        $view = new View("views/not_done");
+        $view = new View("views/creerSpectacle");
         return $view;
     }
 
