@@ -293,6 +293,20 @@ class FestivalController
         $view = new View("views/not_done");
         return $view;
     }
+
+    public function deleteIntervenantHorsScene($pdo): View
+    {
+        // TODO supprimer intervenant
+        $view = new View("views/not_done");
+        return $view;
+    }
+
+    public function deleteIntervenantSurScene($pdo): View
+    {
+        // TODO supprimer intervenant
+        $view = new View("views/not_done");
+        return $view;
+    }
 }
 
 
