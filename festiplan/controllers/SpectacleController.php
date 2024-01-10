@@ -1,9 +1,9 @@
 <?php
 namespace controllers;
 
-session_start();
-
+use services\CategoriesService;
 use services\SpectaclesService;
+use services\TaillesService;
 use yasmf\HttpHelper;
 use yasmf\View;
 
@@ -34,15 +34,30 @@ class SpectacleController
 
     public function create($pdo): View
     {
-        // TODO
-        $view = new View("views/not_done");
+        $categories = CategoriesService::getList($pdo);
+        $tailles = TaillesService::getList($pdo);
+        $view = new View("views/creerSpectacle");
+        $view->setVar("mode", "ajout");
+        $view->setVar("categories", $categories);
+        $view->setVar("taillescenes", $tailles);
         return $view;
     }
 
     public function modify($pdo): View
     {
-        // TODO
-        $view = new View("views/not_done");
+        $id = HttpHelper::getParam("spectacle");
+        $categories = CategoriesService::getList($pdo);
+        $tailles = TaillesService::getList($pdo);
+        $sur_scene = $this->spectaclesService->getIntervenantsSurScene($pdo, $id);
+        $hors_scene = $this->spectaclesService->getIntervenantsHorsScene($pdo, $id);
+
+        $view = new View("views/creerSpectacle");
+        $view->setVar("spectacle", $id);
+        $view->setVar("mode", "modif");
+        $view->setVar("categories", $categories);
+        $view->setVar("taillescenes", $tailles);
+        $view->setVar("sur_scene", $sur_scene);
+        $view->setVar("hors_scene", $hors_scene);
         return $view;
     }
 

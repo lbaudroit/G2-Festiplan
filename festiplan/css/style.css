@@ -15,13 +15,12 @@ body {
     flex: 1;
 }
 
-
 .textecentre {
     text-align: center;
 }
 
 .fondbleuplusclair {
-    background-color: #9DE1DC;
+    background-color: #9de1dc;
 }
 
 .fondblanc {
@@ -44,11 +43,11 @@ body {
 }
 
 .grandEspacementHauteur {
-    margin-top : 50px;
+    margin-top: 50px;
 }
 
 .moyenEspacementHauteur {
-    margin-top : 20px;
+    margin-top: 20px;
 }
 
 .espacementLargeurGauche {
@@ -217,6 +216,15 @@ footer {
     background-color: #ed5959;
 }
 
-.enRouge{
-    color:red;
+.wrap {
+    white-space: break;
+    word-break: break-word;
+}
+
+.fond-rouge {
+    background-color: #ff6161;
+}
+
+.enRouge {
+    color: red;
 }
