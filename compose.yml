@@ -24,6 +24,7 @@ services:
             - dev-db
         environment:
             - PHP_DISPLAY_ERRORS=1
+            - php.file_uploads=1
     database:
         image: mysql:8
         container_name: database

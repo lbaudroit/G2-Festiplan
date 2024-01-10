@@ -20,13 +20,12 @@
 </head>
 
 <body>
-    <header>
-        <span class="titre">Festiplan</span>
-    </header>
+    <?php include("./views/header.php"); ?>
 
     <?php
     $nom_pluriel = $nom . "s";
     $id = "id_" . $nom;
+    $prefixe_img = $nom[0];
     ?>
     <!--LISTE DES FESTIVALS OU SPECTACLES-->
     <div class="container contenue">
@@ -63,8 +62,9 @@
                                 href="<?php echo "./index.php?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>">
                                 <div class="">
                                     <?php
+                                    $url = $prefixe_img . (isset($elt["lien_img"]) ? ($elt[$id] . $elt['lien_img']) : "0.jpg");
                                     echo "<img  alt='Image du " . $nom . htmlspecialchars($elt['titre']) . "' 
-                                    src='images/" . $nom . "/" . $elt['lien_img'] . "'
+                                    src='images/$nom/" . $url . "'
                                     class='img-fluid'>";
                                     ?>
                                 </div>
@@ -91,19 +91,7 @@
         </div>
     </div>
 
-    <footer>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-6">
-                    <! ICI ON MET LE BOUTON DE DECONEXION>
-                </div>
-                <div class="col-6 contenue_droite">
-                    <img src="./images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
-                        href="http://www.iut-rodez.fr" target="_blank" />
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include("./views/footer.php"); ?>
 </body>
 
 </html>
