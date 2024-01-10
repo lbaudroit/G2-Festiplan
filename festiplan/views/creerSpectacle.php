@@ -1,7 +1,21 @@
 <?php
-
+/*
+Liste Variables utilisées
+- mode
+- spectacle (identifiant)
+- titre
+- desc
+- duree
+- categories
+- cat
+- taillescenes
+- taille
+- img
+- hors_scene
+- sur_scene
+- ext
+ */
 ?>
-<!DOCTYPE HTML>
 <html lang="fr">
 
 <head>
@@ -23,6 +37,170 @@
     <link rel="stylesheet" href="css\style.css">
 </head>
 
+<body>
+    <?php include("./views/header.php"); ?>
+    <div class="contenue container mb-2">
+        <div class="col-12">
+            <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
+                <input hidden name="controller" value="festival">
+                <input hidden name="action" value="<?php echo $mode == "ajout" ? "create" : "modify"; ?>">
+                <?php
+                if (isset($spectacle)) {
+                    echo "<input type='hidden' name='festival' value='$spectacle'>";
+                }
+                ?>
+                <!--Soit ajout, soit modif-->
+                <input hidden name="mode" value="<?php echo $mode; ?>">
+                <!--INFOS GENERALES-->
+                <?php if (isset($erreur)) { ?>
+                    <div class="text-center bordure fond-rouge">
+                        <?php echo $erreur; ?>
+                    </div>
+                    <?php
+                }
+                ?>
+                <div class="text-center row textFormulaire bordure fondFormulaire">
+                    <div class="col-md-4 col-sm-5 col-12">
+                        <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif"
+                            class="d-none" />
+                        <label for="img" class="m-1">
+                            <?php
+                            if (isset($spectacle)) {
+                                $url = "images/spectacle/" . (isset($ext) ? "s$spectacle$ext" : "s0.jpg");
+                                echo "<img src='$url' alt='Image du festival' class='img-fluid'>";
+                            } else {
+                                ?>
+                                <i class="fa-regular fa-plus fa-4x"></i><br>
+                                Rajoutez une image (GIF, JPEG ou PNG, 800x600 maximum) (optionnel)
+                                <?php
+                            }
+                            ?>
+                        </label>
+                    </div>
+                    <div class="col-sm-7 d-none d-sm-block d-md-none my-auto">
+                        <input type="text" name="titre" placeholder="Tapez le titre (35 caractères max.)"
+                            class="form-control" <?php if (isset($titre)) {
+                                echo "value='" . htmlspecialchars($titre) . "'";
+                            } ?> />
+                    </div>
+                    <div class="col-8">
+                        <div class="col-12 d-sm-none d-md-block">
+                            <input type="text" name="titre" placeholder="Tapez le titre (35 caractères max.)"
+                                class="form-control" <?php if (isset($titre)) {
+                                    echo "value='" . htmlspecialchars($titre) . "'";
+                                } ?> />
+                        </div>
+                        <br />
+                        <div class="col-12 d-none d-md-block">
+                            <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
+                                class="form-control" <?php if (isset($desc)) {
+                                    echo "value='" . htmlspecialchars($desc) . "'";
+                                } ?> />
+                        </div>
+                    </div>
+                    <div class="col-12 d-md-none">
+                        <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
+                            class="form-control" <?php if (isset($desc)) {
+                                echo "value='" . htmlspecialchars($desc) . "'";
+                            } ?> />
+                    </div>
+                </div>
+                <!--CATEGORIES & DATES-->
+                <div class="m-0 row textFormulaire">
+                    <div class="bordure col-md-4 col-sm-6 col-12">
+                        <u class="aGauche">
+                            Durée du Spectacle :
+                        </u>
+                        <br />
+                        <div class="text-center">
+                            <input type="time" name="duree" class="text-center" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="bordure col-md-4 col-sm-6 col-12">
+                        <label for="taille">
+                            <u class="aGauche">
+                                Surface de la scène requise :
+                            </u>
+                        </label>
+                        <br>
+                        <div class="text-center">
+                            <select class="text-center" name="tailleScene" id="taille">
+                                <option value="default" disabled <?php if (!isset($taille))
+                                    echo "selected"; ?>>
+                                    Choisir une taille de scène
+                                </option>
+                                <?php
+                                foreach ($taillescenes as $taillesc) {
+                                    $name = ucfirst($taillesc["libelle"]);
+                                    $id = $taillesc["id_taille"];
+                                    $selected = isset($taille) && $taille === $id ? "checked" : "";
+                                    echo "<option value='$id'>$name</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bordure col-md-4 col-12">
+                        <u class="aGauche">
+                            Catégories :
+                        </u>
+                        <br>
+                        <div class="text-center">
+                            <?php
+                            foreach ($categories as $categ) {
+                                $name = ucfirst($categ["libelle"]);
+                                $id = $categ["id_cat"];
+                                $selected = isset($cat) && $cat === $id ? "checked" : "";
+                                echo
+                                    "<span class='me-3 width-to-size d-inline-block'>
+                                    <input type='radio' id='btnCat$id' name='cat' value='$id' $selected/>
+                                    <label for='btnCat$id'>$name </label>
+                                </span>";
+                            }
+                            ?>
+                        </div>
+                        <?php
+                        foreach ($hors_scene as $hors) {
+                            var_dump($hors);
+                        }
+                        foreach ($sur_scene as $sur) {
+                            var_dump($sur);
+                        }
+                        ?>
+                    </div>
+                </div>
+
+                <div class="text-left ">
+                </div>
+
+                <!--BOUTONS-->
+                <div class="text-left row row-gap-2">
+                    <!--supprimer-->
+                    <div
+                        class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-3 offset-md-6 order-md-3 col-sm-6 order-sm-3" : "offset-sm-2 col-sm-4 offset-md-9"; ?>">
+                        <?php
+                        if ($mode == "ajout") {
+                            echo "<a name='page_precedente' class='btn btn-rouge form-control'>Annuler</a>";
+                        } else {
+                            echo "<a href='index.php?controller=spectacle&action=delete&spectacle=$spectacle' class='btn btn-rouge form-control'>Supprimer</a>";
+                        } ?>
+                    </div>
+                    <!--sauvegarder-->
+                    <div
+                        class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-4 order-md-4 col-sm-6 order-sm-4" : "col-sm-4 offset-md-9"; ?>">
+                        <input class="btn btn-bleu form-control wrap text-wrap" type="submit"
+                            value="<?php echo $mode == "ajout" ? "Créer" : "Sauvegarder les changements"; ?>">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <?php include("./views/footer.php"); ?>
+</body>
+<script src="./js/common.js" defer></script>
+<script src="./js/creerFestival.js" defer></script>
+
+<!-- 
 <body>
     <?php include("./views/header.php"); ?>
     <div class="contenue container">
@@ -54,51 +232,6 @@
                             placeholder="Tapez la description (1000 caractères max.)" class="form-control" />
                     </div>
                 </div>
-                <div class="row textFormulaire bordure">
-                    <div class="bordure col-md-4 col-sm-6 col-12">
-                        <u class="aGauche">
-                            Durée du Spectacle :
-                        </u>
-                        <br />
-                        <input type="text" name="HeureSpectacle" class=" text-center col-3" placeholder="HH"
-                            class="form-control" />
-                        :
-                        <input type="text" name="MinuteSpectacle" class="text-center col-3" placeholder="MM"
-                            class="form-control" />
-                    </div>
-                    <div class="bordure col-md-4 col-12">
-                        <u class="aGauche">
-                            Categories :
-                        </u>
-                        <br />
-                        <input type="radio" id="btnMusique" name="btnMusique" value="musique" />
-                        <label for="btnMusique">Musique</label>
-
-                        <input type="radio" id="btnTheatre" name="btnTheatre" value="theatre" />
-                        <label for="btnTheatre">Théâtre</label>
-
-                        <input type="radio" id="btnCirque" name="btnCirque" value="cirque" />
-                        <label for="btnCirque">Cirque</label>
-
-                        <input type="radio" id="btnDanse" name="btnDanse" value="danse" />
-                        <label for="brnDanse">Danse</label>
-
-                        <input type="radio" id="btnProjFilm" name="btnProjFilm" value="projFilm" />
-                        <label for="btnProjFilm">Projection de film</label>
-                    </div>
-                    <div class="bordure col-md-4 col-sm-6 col-12">
-                        <label for="tailleSceneSelect">
-                            <u class="aGauche">
-                                Surface de la scène requise :
-                            </u>
-                        </label>
-                        <select name="tailleScene" id="tailleSceneSelect">
-                            <option value="default">Choisir une taille de scène</option>
-                            <option value="petite">Petite</option>
-                            <option value="moyenne">Moyenne</option>
-                            <option value="grande">Grande</option>
-                        </select>
-                    </div>
                     <div class="row">
                         <div class="col-md-6 bordure">
                             <div class="row">
@@ -191,5 +324,6 @@
     </div>
     <?php include("./views/footer.php"); ?>
 </body>
+                -->
 
 </html>

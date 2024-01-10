@@ -63,6 +63,7 @@ Variables utilisées
                     <?php
                 }
                 ?>
+                <!-- TITRE DESC ET IMAGE -->
                 <div class="text-center row textFormulaire bordure fondFormulaire">
                     <div class="col-md-4 col-sm-5 col-12">
                         <input type="file" id="img_fest" name="img_fest" accept="image/png, image/jpeg, image/gif"
