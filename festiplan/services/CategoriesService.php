@@ -16,7 +16,7 @@ class CategoriesService
      * @param PDO $pdo the pdo object
      * @return PDOStatement the statement referencing the result set
      */
-    public function getList(PDO $pdo): PDOStatement
+    public static function getList(PDO $pdo): PDOStatement
     {
         $sql = "SELECT * FROM categories";
         $searchStmt = $pdo->query($sql);

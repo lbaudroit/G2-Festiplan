@@ -77,16 +77,15 @@ class FestivalController
                     $ext = $this->extractExtension($img);
                 }
 
-                if (!isset($grij_deb, $grij_fin, $grij_delai)) {
-                    $erreur = "On est rentré dans la boucle";
-                    throw new Exception("La GriJ n'est pas entièrement remplie.");
+                if (!$this->checkGrijData($grij_deb, $grij_fin, $grij_delai)) {
+                    throw new Exception("La GriJ n'est pas correctement remplie.");
                 }
                 $id_grij = $this->festivalsService->addGrij($pdo, $grij_deb, $grij_fin, $grij_delai);
 
                 // Le créateur est automatiquement ajouté avec un trigger
                 // Pas disponibles lors de la création mais disponible après dans l'interface de modification
-                if (!isset($titre, $desc, $cat, $deb, $fin)) {
-                    throw new Exception("Les champs du festivals ne sont pas saisis correctement.");
+                if (!$this->checkInfo($titre, $desc, $cat, $deb, $fin)) {
+                    throw new Exception("Les champs du festival ne sont pas saisis correctement.");
                 }
                 $id = $this->festivalsService->addFestival($pdo, $titre, $desc, $deb, $fin, $id_grij, $user, $cat);
 
@@ -121,10 +120,13 @@ class FestivalController
      */
     public function checkInfo(?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
     {
+        $d_deb = date_create($deb);
+        $d_fin = date_create($fin);
         return isset($titre, $desc, $cat, $deb, $fin)
             && strlen($titre) > 0 && strlen($titre) <= 100
             && $cat >= 1 && $cat <= 5
-            && date_create($deb) != false && date_create($fin) != false;
+            && $d_deb != false && $d_fin != false
+            && $d_fin >= $d_deb;
     }
 
     /**
@@ -132,12 +134,16 @@ class FestivalController
      */
     public function checkGrijData(?string $deb, ?string $fin, ?string $delai)
     {
-        try {
-            new DateInterval($delai);
-        } catch (Exception $e) {
+        $time_regex = "/^(\d{1,2}:\d{1,2}(:\d{1,2})?)$/";
+        // Validation
+        if (!preg_match($time_regex, $deb) || !preg_match($time_regex, $fin) || !preg_match($time_regex, $delai)) {
             return false;
         }
-        return date_create($deb) != false && date_create($fin) != false;
+        $d_deb = explode(":", $deb);
+        $d_fin = explode(":", $fin);
+        return $d_deb[0] < $d_fin[0]
+            && $d_deb[1] <= $d_fin[1]
+            && $d_deb[2] <= $d_fin[2];
     }
 
     /**
@@ -179,7 +185,6 @@ class FestivalController
             return $extension[0];
         }
         return null;
-
     }
 
     public function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
@@ -238,9 +243,13 @@ class FestivalController
 
     public function delete($pdo): View
     {
-        // TODO
-        $view = new View("views/not_done");
-        return $view;
+        $id = HttpHelper::getParam("festival");
+        if ($this->festivalsService->delete($pdo, $id)) {
+            header("Location: index.php?controller=Dashboard");
+            exit();
+        } else {
+            return new View("views/not_done");
+        }
     }
 
     public function createScene($pdo): View

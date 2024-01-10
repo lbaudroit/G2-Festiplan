@@ -15,7 +15,6 @@ body {
     flex: 1;
 }
 
-
 .textecentre {
     text-align: center;
 }
@@ -44,11 +43,11 @@ body {
 }
 
 .grandEspacementHauteur {
-    margin-top : 50px;
+    margin-top: 50px;
 }
 
 .moyenEspacementHauteur {
-    margin-top : 20px;
+    margin-top: 20px;
 }
 
 .espacementLargeurGauche {
