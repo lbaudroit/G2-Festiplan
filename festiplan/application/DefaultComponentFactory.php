@@ -15,7 +15,7 @@ use services\FestivalsService;
 use services\PlanificationService;
 use services\SpectaclesService;
 use services\UsersService;
-use services\CreerIntervenantService;
+use services\IntervenantService;
 
 use yasmf\ComponentFactory;
 use yasmf\NoControllerAvailableForNameException;
@@ -121,7 +121,7 @@ class DefaultComponentFactory implements ComponentFactory
 
     private function buildCreerIntervenantController(): CreerIntervenantController
     {
-        return new CreerIntervenantController(new CreerIntervenantService(), new UsersService());
+        return new CreerIntervenantController(new IntervenantService(), new UsersService());
     }
 }
 

@@ -43,7 +43,7 @@ class UsersService
      */
     public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp)
     {
-        if (UsersService::valide($login) && UsersService::valide($mdp)){
+        if (UsersService::valide($login) && UsersService::valide($mdp)) {
 
             $searchStmt = $pdo->prepare('SELECT * FROM users WHERE id_login= ? AND hashed_pwd= ? ');
             $searchStmt->bindParam(1, $login);
@@ -62,7 +62,8 @@ class UsersService
      * @param PDO $pdo the pdo object
      * 
      */
-    public function addUsers(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp) {
+    public function addUsers(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp)
+    {
         if (UsersService::valide($login) && UsersService::valide($mdp) && UsersService::valide($lastname) && UsersService::valide($firstname) && UsersService::valide($mail)) {
             $searchStmt = $pdo->prepare('INSERT INTO users VALUES ()');
             $searchStmt->bindParam(1, $login);
@@ -76,7 +77,8 @@ class UsersService
      * Vérifie la taille
      * @return boolean the statement referencing the result set
      */
-    public function valideTaille($verif) {
+    public function valideTaille($verif)
+    {
         //var_dump($verif);
         if ($verif != null) {
             $regex = "/^.{1,35}$/";
@@ -90,20 +92,22 @@ class UsersService
      * Vérifie la taille
      * @return boolean the statement referencing the result set
      */
-    public function valideMail($mail) {
+    public function valideMail($mail)
+    {
         //var_dump($mail);
         if ($mail != null) {
             $regex = "/^.{1,35}$/";
-            return preg_match($regex, $mail, $matches)  && filter_var($mail, FILTER_VALIDATE_EMAIL);
+            return preg_match($regex, $mail, $matches) && filter_var($mail, FILTER_VALIDATE_EMAIL);
         }
         return false;
     }
-    
+
     /**
      * Vérifie la taille
      * @return boolean the statement referencing the result set
      */
-    public function valideMdp($mdp) {
+    public function valideMdp($mdp)
+    {
         if ($mdp != null) {
             $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=])[A-Za-z\d!@#$%^&*()_+=]$/'; //A reprendre : regex101.com
             return preg_match($regex, $mdp, $matches);
@@ -115,7 +119,8 @@ class UsersService
      * Insert user dans la BD
      * 
      */
-    public function insertion(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp) {
+    public function insertion(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp)
+    {
         $sql = "INSERT INTO users VALUES ($login, $lastname,$firstname, $mail, $mdp)";
         $pdo->query($sql);
     }
