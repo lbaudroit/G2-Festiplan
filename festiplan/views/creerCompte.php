@@ -87,9 +87,10 @@
                     <div class="col-12">
                     <?php
                             if (isset($_POST['identifiant'])) {
+                                $messageId = "";
                                 $identifiant = $_POST['identifiant'];
                                 if (empty($identifiant) || ($loginOk == 0)) {
-                                    echo '<span class="enRouge">Identifiant(vous devez entrer votre Identifiant) :</span>';
+                                    echo '<span class="enRouge">Identifiant(vous devez entrer votre Identifiant) '.$messageId.':</span>';
                                     echo '<input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control" />';
                                 } else {
                                     echo ' <span>Mot de passe :</span><br/>';
@@ -118,11 +119,11 @@
                                     echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" />';
                                 } else {
                                     echo ' <span>Mot de passe :</span><br/>';
-                                    echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" value="'.$_POST['pswd'].'"/>';
+                                    echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control"/>';
                                 }
                             } else {
                                 echo ' <span>Mot de passe :</span><br/>';
-                                echo '<input type="password" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" value="'.$_POST['pswd'].'"/>';
+                                echo '<input type="password" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control"/>';
                             }
                         ?>			
                     </div>

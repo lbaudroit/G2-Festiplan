@@ -33,8 +33,20 @@ class CreerUserController
         $mdpOk = $this -> usersService -> valideMdp($mdp);
        // var_dump($nomOk);
         if ($loginOk && $nomOk && $prenomOk && $email && $mdp) {
-            $this -> usersService -> insertion($pdo, $login, $nom, $prenom, $email, $mdp);
-            $view = new View("/views/authentification");
+            $loginOk = $this -> usersService -> verifDoublonLogin($pdo, $login);
+            $emailOk = $this -> usersService -> verifDoublonEmail($pdo, $email);
+            if ($loginOk && $emailOk) {
+                $this -> usersService -> insertion($pdo, $login, $nom, $prenom, $email, $mdp);
+                $view = new View("/views/authentification");
+            } else {
+                $view = new View("/views/creerCompte"); 
+                $view -> setVar("nomOK", $nomOk);
+                $view -> setVar("loginOk", $loginOk);
+                $view -> setVar("messageId","L'Identifiant existe déjà");
+                $view -> setVar("prenomOk", $prenomOk);
+                $view -> setVar("emailOk", $emailOk);
+                $view -> setVar("mdpOk", $mdpOk);
+            }
         } else {
             $view = new View("/views/creerCompte"); 
             $view -> setVar("nomOK", $nomOk);
@@ -42,8 +54,6 @@ class CreerUserController
             $view -> setVar("prenomOk", $prenomOk);
             $view -> setVar("emailOk", $emailOk);
             $view -> setVar("mdpOk", $mdpOk);
-            
-           
         }
         return $view;
     }

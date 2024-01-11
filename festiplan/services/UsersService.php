@@ -80,7 +80,7 @@ class UsersService
         //var_dump($verif);
         if ($verif != null) {
             $regex = "/^.{1,35}$/";
-            var_dump(preg_match($regex, $verif));
+            //var_dump(preg_match($regex, $verif));
             return preg_match($regex, $verif, $matches);
         }
         return false;
@@ -115,17 +115,48 @@ class UsersService
      * Vérifie la taille
      * @return user the statement referencing the result set
      */
+    public function verifDoublonEmail(PDO $pdo, $email) {
+        $searchStmt = $pdo->prepare("SELECT email FROM users");
+        $searchStmt->execute();
+        $mailOk = true;
+        foreach ($searchStmt as $ligne) {
+            if ($ligne["email"] == $email) {
+                $mailOk = false;
+            }
+        }
+        return $mailOk;
+    }
+
+    /**
+     * Vérifie la taille
+     * @return user the statement referencing the result set
+     */
+    public function verifDoublonLogin(PDO $pdo, $login) {
+        $searchStmt = $pdo->prepare("SELECT id_login FROM users");
+        $searchStmt->execute();
+        $logOk = true;
+        foreach ($searchStmt as $ligne) {
+            if ($ligne["id_login"] == $login) {
+                $logOk = false;
+            }
+        }
+        return $logOk;
+    }
+
+    /**
+     * Vérifie la taille
+     * @return user the statement referencing the result set
+     */
     public function insertion(PDO $pdo, $login, $lastname, $firstname, $mail, $mdp) {
-        $sql = "INSERT INTO users(id_login, nom, prenom, email, hashed_pwd) VALUES (:login, :lastname, :firstname, :mail, :mdp)";
+        $sql = "INSERT INTO users(id_login, nom, prenom, email, hashed_pwd) VALUES (:logi, :lastname, :firstname, :mail, :mdp)";
         $searchStmt = $pdo->prepare($sql);
-        $searchStmt->bindParam(":login", $login);
+        $searchStmt->bindParam(":logi", $login);
         $searchStmt->bindParam(":lastname", $lastname);
         $searchStmt->bindParam(":firstname", $firstname);
         $searchStmt->bindParam(":mail", $mail);
         $searchStmt->bindParam(":mdp", $mdp);
         $searchStmt->execute();
         $user = $searchStmt->fetch();
-        //$pdo -> query($sql);
     }
 
 }
