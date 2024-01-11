@@ -39,8 +39,7 @@ class FestivalController
         return $view;
     }
 
-    public function create($pdo): View
-    {
+    public function create($pdo): View {
         $user = $_SESSION["user"]["id_login"];
 
         if (!isset($user)) {
@@ -176,8 +175,7 @@ class FestivalController
     /**
      * Récupère l'extension du fichier depuis son tableau extrait de $_FILES.
      */
-    public function extractExtension(array $img): string|null
-    {
+    public function extractExtension(array $img): string|null {
         $extraction_regex = "/\.[^\.]{3}$/";
         $extension = array();
         preg_match($extraction_regex, $img["name"], $extension);
@@ -187,8 +185,7 @@ class FestivalController
         return null;
     }
 
-    public function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
-    {
+    public function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin) {
         $view->setVar("titre", $titre);
         $view->setVar("desc", $desc);
         $view->setVar("cat", $cat);
@@ -240,8 +237,7 @@ class FestivalController
         return $view;
     }
 
-    public function delete($pdo): View
-    {
+    public function delete($pdo): View {
         $id = HttpHelper::getParam("festival");
         if ($this->festivalsService->delete($pdo, $id)) {
             header("Location: index.php?controller=Dashboard");
@@ -252,14 +248,45 @@ class FestivalController
     }
 
     public function createScene($pdo): View {
-        $nomScene = (string) HttpHelper::getParam("nomScene");
-        $nombreSpec = (int) HttpHelper::getParam("nbSpecMax");
-        $IDFest = (int) HttpHelper::getParam("festival");
-        $tailles = TaillesService::getList($pdo);
-        $GPSLat = (int) HttpHelper::getParam("coordGPSLat");
-        $GPSLong = (int) HttpHelper::getParam("coordGPSLong");
+        $user = $_SESSION["user"]["id_login"];
+
+        if (!isset($user)) {
+            header("Location: ./index.php");
+            exit();
+        }
+        
         $view = new View("views/creerScene");
-        $view->setVar("idFest", $IDFest);
+        $mode = HttpHelper::getParam("mode");
+
+        // cas où le formulaire a déjà été affiché et rempli
+        if ($mode == "ajout") {
+            try {
+                $erreur = false;
+                $pdo->beginTransaction();
+                
+                $nomScene = (string) HttpHelper::getParam("nomScene");
+                $nombreSpec = (int) HttpHelper::getParam("nbSpecMax");
+                $IDFest = (int) HttpHelper::getParam("festival");
+                $tailles = TaillesService::getList($pdo);
+                $GPSLat = (int) HttpHelper::getParam("coordGPSLat");
+                $GPSLong = (int) HttpHelper::getParam("coordGPSLong");
+
+                if (!$this->festivalsService->verifScene($nomScene, $nombreSpec, $IDFest, $tailles, $GPSLat, $GPSLong)) {
+                   throw new Exception("Les champs du festival ne sont pas saisis correctement.");
+                }
+
+                $idScene = $this->festivalsService->addScene($nomScene, $nombreSpec, $IDFest, $tailles, $GPSLat, $GPSLong);
+
+                $pdo->commit();
+                $view->setVar("idFest", $IDFest);
+                $view->setVar("taillescenes", $tailles);
+            } catch (Exception $e) {
+                $pdo->rollback();
+                $view->setVar("mode", "ajout");
+                $view->setVar("erreur", $e->getMessage());
+            }
+        }
+        $view->setVar("IDFest", $IDFest);
         $view->setVar("taillescenes", $tailles);
         return $view;
     }

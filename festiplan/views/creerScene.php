@@ -39,10 +39,11 @@
                         <u class ="text-center textFormulaire"><hspan class="titre">
                             Ajout d'une scène
                         </span></u>
-                        <input type="hidden" name="festival" 
+                        <input type="hidden" name="festival"
                         <?php
-                            echo "value=$idFest";
+                            echo "value=$IDFest";
                         ?>/>
+                        <input hidden name="action" value="<?php echo $mode == "ajout" ? "create" : "modify"; ?>">
                         <u class ="offset-md-2 offset-1 col-4"><h5>
                             Nom de la scène :
                         </h5></u>
@@ -76,6 +77,7 @@
                             }?>
                         />
                     </div>
+                    <?php var_dump(get_defined_vars());?>
                     <<div class ="row">
                         <u class ="offset-md-2 offset-1 col-4"><h5>
                             Taille minimum requise :
@@ -102,7 +104,10 @@
                         <!--supprimer-->
                         <button type="button" name='page_precedente' class="offset-2 col-3 btn btn-rouge">Annuler</button>
                         <!--sauvegarder-->
-                        <button type="button" class="offset-2 col-3 btn btn-bleu">Ajouter la scène</button>
+                        <a class="btn btn-bleu offset-2 col-3"
+                                href="index.php?controller=festival&action=create&festival=<?php echo $fest ?>">
+                                Ajouter la scène 
+                        </a>
                     </div>
                 </form>
             </div>

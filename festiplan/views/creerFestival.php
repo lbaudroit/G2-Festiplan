@@ -348,7 +348,7 @@ Variables utilisées
                     <div
                         class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-4 order-md-4 col-sm-6 order-sm-4" : "col-sm-4 offset-md-9"; ?>">
                         <input class="btn btn-bleu form-control wrap text-wrap" type="submit"
-                            value="<?php echo $mode == "ajout" ? "Créer" : "Sauvegarder les changements"; ?>">
+                        value="<?php echo $mode == "ajout" ? "Créer" : "Sauvegarder les changements"; ?>">
                     </div>
                 </div>
             </form>
