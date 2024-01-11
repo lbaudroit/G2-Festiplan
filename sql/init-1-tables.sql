@@ -85,6 +85,7 @@ CREATE TABLE scenes (
     latitude DOUBLE NOT NULL,
     id_festival INTEGER NOT NULL,
     id_taille INTEGER NOT NULL,
+    nom VARCHAR(35) NOT NULL,
     FOREIGN KEY (id_festival) REFERENCES festivals(id_festival),
     FOREIGN KEY (id_taille) REFERENCES taillescene(id_taille),
     PRIMARY KEY (id_scene)
@@ -121,3 +122,13 @@ CREATE TABLE contient (
     FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
     PRIMARY KEY(id_festival, id_spectacle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE planifie (
+    id_scene INTEGER NOT NULL,
+    id_spectacle INTEGER NOT NULL,
+    date_spectacle DATE NOT NULL,
+    heure_deb TIME NOT NULL,
+    FOREIGN KEY (id_scene) REFERENCES scenes(id_scene),
+    FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
+    PRIMARY KEY(id_festival, id_spectacle)
+)

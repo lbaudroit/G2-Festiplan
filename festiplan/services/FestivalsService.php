@@ -61,6 +61,7 @@ class FestivalsService
         $searchStmt->execute();
         return $searchStmt;
     }
+
     /*
      * Trouve les spectacles créés par cet utilisateur.
      *
@@ -98,18 +99,24 @@ class FestivalsService
         $searchStmt->execute();
         return $searchStmt;
     }
-    /*
-     * 
+
+    /* *
+     * Renvvoie le nom du festivale de l'ID
+     * @param PDO $pdo the pdo object
+     * @param string $festival l'ID du festival dont on cherche le nom
+     * @return string the statement referencing the result set
+
      */
-    public function getNomFestivalByID(PDO $pdo, string $festival): PDOStatement
+    public function getNomFestivalByID(PDO $pdo, string $festival): array
     {
-        $sql = "SELECT nom
+        $sql = "SELECT titre
                 FROM festivals
                 WHERE id_festival = :festival";
         $searchStmt = $pdo->prepare($sql);
         $searchStmt->bindParam(":festival", $festival);
         $searchStmt->execute();
-        return $searchStmt;
+        $nom = $searchStmt->fetch();
+        return $nom;
     }
 
     /**
@@ -239,6 +246,42 @@ class FestivalsService
         return $stmt->fetch();
     }
 
+
+    /**
+     * Renvoie la date du festival
+     *
+     * @param PDO $pdo the pdo object
+     * @param string $fest l'ID du festival
+     * @return array les données du festival
+     */
+    public function getDateOfFestival(PDO $pdo, String $fest): array 
+    {
+        $sql = "SELECT date_deb,DATE_ADD(date_fin,INTERVAL 1 DAY) AS date_fin FROM festivals
+                WHERE id_festival=:id;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":id", $fest);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+
+    /**
+     * Renvoie la date du festival
+     *
+     * @param PDO $pdo the pdo object
+     * @param string $fest l'ID du festival
+     * @return array les données du festival
+     */
+    public function getDureeOfFestival(PDO $pdo, String $fest): int
+    {
+        $sql = "SELECT date_fin-date_deb+1 FROM festivals
+                WHERE id_festival=:id;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":id", $fest);
+        $stmt->execute();
+        return $stmt->fetch()["date_fin-date_deb+1"];
+    }
+    
     public function delete(PDO $pdo, int $fest)
     {
         // TODO ajouter la planification
