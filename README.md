@@ -12,9 +12,6 @@ BUT Info 2 - G2
 | CATALA-BAILLY Tany | LesaintLineon | tany.catalabailly@iut-rodez.fr | Scrum Master ité2 |
 | CHEIKH-BOUKAL Léo | Leptar | leo.cheikh-boukal@iut-rodez.fr | Scrum Master ité1 |
  
-- Le lien vers le board (Github Project)
-- Le lien vers le dossier Google Drive contenant les documents relatifs au projet.
-
 **Board agile :** https://github.com/users/lbaudroit/projects/3
 **Documents du projet :** //TODO
 
