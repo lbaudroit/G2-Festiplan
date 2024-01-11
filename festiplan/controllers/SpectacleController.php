@@ -4,6 +4,7 @@ namespace controllers;
 use services\CategoriesService;
 use services\SpectaclesService;
 use services\TaillesService;
+use services\ImageService;
 use yasmf\HttpHelper;
 use yasmf\View;
 
@@ -57,8 +58,29 @@ class SpectacleController
 
         // Vérification des champs
         if ($this->checkInfo($titre, $desc, $duree_h, $duree_m, $taille, $cat)) {
-            $id = $this->spectaclesService->createSpectacle($pdo, $titre, $desc, "$duree_h:$duree_m:00", $taille, $cat, $user);
+            $img = $_FILES["img"];
+            if (isset($img)) {
+                $ext = ImageService::extractExtension($img);
+            }
+            $id = $this->spectaclesService->createSpectacle(
+                $pdo,
+                $titre,
+                $desc,
+                "$duree_h:$duree_m:00",
+                $taille,
+                $cat,
+                $user,
+                $ext
+            );
+            if ($ext != null) {
+                ImageService::ajouterImage($id, "spectacle", $img, $ext);
+                $view->setVar("ext", $ext);
+            }
             $view->setVar("spectacle", $id);
+            $sur_scene = $this->spectaclesService->getIntervenantsSurScene($pdo, $id);
+            $hors_scene = $this->spectaclesService->getIntervenantsHorsScene($pdo, $id);
+            $view->setVar("sur_scene", $sur_scene);
+            $view->setVar("hors_scene", $hors_scene);
             $view->setVar("mode", "modif");
         } else {
             $view->setVar("mode", "ajout");
@@ -66,7 +88,7 @@ class SpectacleController
         return $view;
     }
 
-    public function setInfo(View $view, string $titre, string $desc, int $taille, int $cat, int $duree_h, int $duree_m)
+    public function setInfo(View $view, ?string $titre, ?string $desc, ?int $taille, ?int $cat, ?int $duree_h, ?int $duree_m)
     {
         $view->setVar("titre", $titre);
         $view->setVar("desc", $desc);
@@ -90,12 +112,15 @@ class SpectacleController
         $view->setVar("spectacle", $id);
         $view->setVar("mode", "modif");
         $view->setVar("ext", $info["lien_img"]);
-        $view->setVar("titre", $info["titre"]);
-        $view->setVar("desc", $info["description_s"]);
-        $view->setVar("taille", $info["id_taille"]);
-        $view->setVar("cat", $info["id_cat"]);
-        $view->setVar("duree_h", $durees[0]);
-        $view->setVar("duree_m", $durees[1]);
+        $this->setInfo(
+            $view,
+            $info["titre"],
+            $info["description_s"],
+            $info["id_taille"],
+            $info["id_cat"],
+            $durees[0],
+            $durees[1]
+        );
         $view->setVar("categories", $categories);
         $view->setVar("taillescenes", $tailles);
         $view->setVar("sur_scene", $sur_scene);

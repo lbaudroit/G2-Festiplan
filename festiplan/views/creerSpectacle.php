@@ -51,6 +51,8 @@ Liste Variables utilisées
                 if (isset($spectacle)) {
                     echo "<input type='hidden' name='spectacle' value='$spectacle'>";
                 }
+
+                var_dump(get_defined_vars());
                 ?>
                 <!--Soit ajout, soit modif-->
                 <input hidden name="mode" value="<?php echo $mode; ?>">
@@ -99,8 +101,7 @@ Liste Variables utilisées
                                 class="form-control"><?php
                                 if (isset($desc))
                                     echo htmlspecialchars($desc);
-                                ?>
-                            </textarea>
+                                ?></textarea>
                         </div>
                     </div>
                     <div class="col-12 d-md-none">
@@ -172,7 +173,7 @@ Liste Variables utilisées
                 </div>
 
                 <!-- INTERVENANTS -->
-                <?php if (isset($sur_scene, $hors_scene)) {
+                <?php if ($mode == "modif") {
                     $intervenants = [$sur_scene, $hors_scene];
                     $titres = ["Liste des intervenants sur scène", "Liste des intervenants hors scène"];
                     echo "<div class='text-left row row-gap-2'>";

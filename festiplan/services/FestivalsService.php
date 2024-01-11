@@ -241,7 +241,6 @@ class FestivalsService
 
     public function delete(PDO $pdo, int $fest)
     {
-        // TODO ajouter la planification
         $scripts = [
             "DELETE FROM contient WHERE id_festival=:id;",
             "DELETE FROM scenes WHERE id_festival=:id;",
@@ -249,15 +248,20 @@ class FestivalsService
             "DELETE FROM grij WHERE id_festival=:id;",
             "DELETE FROM festivals WHERE id_festival=:id;"
         ];
+
+        // TODO ajouter la planification
         try {
+            $pdo->beginTransaction();
             foreach ($scripts as $sql) {
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindParam(":id", $fest);
                 $stmt->execute();
             }
         } catch (PDOException $e) {
+            $pdo->rollback();
             return false;
         }
+        $pdo->commit();
         return true;
     }
 }
