@@ -105,7 +105,7 @@ class UsersService
      */
     public function valideMdp($mdp) {
         if ($mdp != null) {
-            $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=])[A-Za-z\d!@#$%^&*()_+=]$/'; //A reprendre : regex101.com
+            $regex = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){4,35}$/';
             return preg_match($regex, $mdp, $matches);
         }
         return false;
@@ -115,9 +115,17 @@ class UsersService
      * Vérifie la taille
      * @return user the statement referencing the result set
      */
-    public function insertion(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp) {
-        $sql = "INSERT INTO users VALUES ($login, $lastname,$firstname, $mail, $mdp)";
-        $pdo->query($sql);
+    public function insertion(PDO $pdo, $login, $lastname, $firstname, $mail, $mdp) {
+        $sql = "INSERT INTO users(id_login, nom, prenom, email, hashed_pwd) VALUES (:login, :lastname, :firstname, :mail, :mdp)";
+        $searchStmt = $pdo->prepare($sql);
+        $searchStmt->bindParam(":login", $login);
+        $searchStmt->bindParam(":lastname", $lastname);
+        $searchStmt->bindParam(":firstname", $firstname);
+        $searchStmt->bindParam(":mail", $mail);
+        $searchStmt->bindParam(":mdp", $mdp);
+        $searchStmt->execute();
+        $user = $searchStmt->fetch();
+        //$pdo -> query($sql);
     }
 
 }

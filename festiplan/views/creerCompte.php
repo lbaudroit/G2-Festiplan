@@ -36,7 +36,7 @@
                         
                             if (isset($_POST['nom'])) {
                                 $nom = $_POST['nom'];
-                                var_dump($nomOK);
+                                //var_dump($nomOK);
                                 if (empty($nom) || ($nomOK == 0)) {
                                     echo '<span class="enRouge">Nom(vous devez entrer votre Nom) :</span>';
                                     echo '<input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" />';
@@ -114,7 +114,7 @@
                                     Une lettre majuscule<br/>
                                     Une lettre miniscule<br/>
                                     Un chiffre<br/>
-                                    Un caractère spécial!@#$%^&*()_+=</span>';
+                                    Un caractère spécial</span>';
                                     echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" />';
                                 } else {
                                     echo ' <span>Mot de passe :</span><br/>';
@@ -122,7 +122,7 @@
                                 }
                             } else {
                                 echo ' <span>Mot de passe :</span><br/>';
-                                echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" value="'.$_POST['pswd'].'"/>';
+                                echo '<input type="password" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" value="'.$_POST['pswd'].'"/>';
                             }
                         ?>			
                     </div>
