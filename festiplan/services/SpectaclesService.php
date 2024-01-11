@@ -3,6 +3,7 @@ namespace services;
 
 
 use PDO;
+use PDOException;
 use PDOStatement;
 
 /**
@@ -108,21 +109,26 @@ class SpectaclesService
      * @param string $duree la durée du spectacle
      * @param int $taille l'id de la taille dans la BDD (clé étrangère)
      * @param int $cat l'id de la catégories (clé étrangère)
+     * @param ?string $ext l'extension de l'image
      */
-    public function createSpectacle(PDO $pdo, string $titre, string $desc, string $duree, int $taille, int $cat, string $login): int|false
+    public function createSpectacle(PDO $pdo, string $titre, string $desc, string $duree, int $taille, int $cat, string $login, ?string $ext): int|false
     {
-        $sql = "INSERT INTO spectacles (titre, description_s, lien_img, duree, id_cat, id_login, id_taille) 
-                VALUES (:titre, :descr, :img, :duree, :cat, :user, :taille)";
-        $searchStmt = $pdo->prepare($sql);
-        $searchStmt->bindParam(":titre", $titre);
-        $searchStmt->bindParam(":descr", $desc);
-        $searchStmt->bindParam(":img", $img);
-        $searchStmt->bindParam(":duree", $duree);
-        $searchStmt->bindParam(":cat", $cat);
-        $searchStmt->bindParam(":user", $login);
-        $searchStmt->bindParam(":taille", $taille);
-        $searchStmt->execute();
-        return $pdo->lastInsertId();
+        try {
+            $sql = "INSERT INTO spectacles (titre, description_s, duree, id_cat, id_login, id_taille, lien_img) 
+                VALUES (:titre, :descr, :duree, :cat, :user, :taille, :extension)";
+            $searchStmt = $pdo->prepare($sql);
+            $searchStmt->bindParam(":titre", $titre);
+            $searchStmt->bindParam(":descr", $desc);
+            $searchStmt->bindParam(":duree", $duree);
+            $searchStmt->bindParam(":cat", $cat);
+            $searchStmt->bindParam(":user", $login);
+            $searchStmt->bindParam(":taille", $taille);
+            $searchStmt->bindParam(":extension", $ext);
+            $searchStmt->execute();
+            return $pdo->lastInsertId();
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 }
 ?>

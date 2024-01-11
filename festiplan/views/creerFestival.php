@@ -100,16 +100,14 @@ Variables utilisées
                             <textarea type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
                                 class="form-control"><?php
                                 if (isset($desc))
-                                    echo htmlspecialchars($desc); ?>
-                            </textarea>
+                                    echo htmlspecialchars($desc); ?></textarea>
                         </div>
                     </div>
                     <div class="col-12 d-md-none">
                         <textarea type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
                             class="form-control"><?php
                             if (isset($desc))
-                                echo htmlspecialchars($desc); ?>
-                        </textarea>
+                                echo htmlspecialchars($desc); ?></textarea>
                     </div>
                 </div>
                 <!--CATEGORIES & DATES-->
