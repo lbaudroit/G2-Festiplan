@@ -17,133 +17,136 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-    <link rel="icon" href="favicon.ico" />
-    <link rel="stylesheet" href="css\style.css">
-    <link rel="stylesheet" href="css\authentification.css">
-</head>
-
-<body>
-    <?php include("./views/header.php"); ?>
-    <div class="contenue container">
-        <form method="post" class="bordure formulaire leFormulaire">
-            <div class="col-12 text-center">
-                <i class="fa-solid fa-user fa-4x"></i>
+        <link rel="icon" href="favicon.ico" />
+        <link rel="stylesheet" href="css\style.css">
+        <link rel="stylesheet" href="css\authentification.css">
+    </head>
+    <body>
+        <header>
+            <hspan class="titre">Festiplan</span>
+        </header>
+        <div class = "contenue container">
+            <form method="post" class="bordure formulaire leFormulaire" >
+                <div class ="col-12 text-center">
+                    <i class="fa-solid fa-user fa-4x"></i>
+                </div>
+                <div class="row textFormulaire">
+                    <div class="col-12">
+                    <?php
+                        
+                            if (isset($_POST['nom'])) {
+                                $nom = $_POST['nom'];
+                                var_dump($nomOK);
+                                if (empty($nom) || ($nomOK == 0)) {
+                                    echo '<span class="enRouge">Nom(vous devez entrer votre Nom) :</span>';
+                                    echo '<input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" />';
+                                } else {
+                                    echo ' <span>Nom :</span><br/>';
+                                    echo '<input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" value="'.$_POST['nom'].'"/>';
+                                }
+                            } else {
+                                echo ' <span>Identifiant :</span><br/>';
+                                echo '<input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" value="'.$_POST['nom'].'"/>';
+                            }
+                        ?>
+                    </div>
+                    <div class="col-12">
+                    <?php
+                            if (isset($_POST['prenom'])) {
+                                $prenom = $_POST['prenom'];
+                                if (empty($prenom) || ($prenomOk == 0)) {
+                                    echo '<span class="enRouge">Prenom(vous devez entrer votre Prenom) :</span>';
+                                    echo '<input type="text" name="prenom" placeholder="Entrez votre Prenom" class="form-control" />';
+                                } else {
+                                    echo ' <span>Prenom :</span><br/>';
+                                    echo '<input type="text" name="prenom" placeholder="Entrez votre Prenom" class="form-control" value="'.$_POST['prenom'].'"/>';
+                                }
+                            } else {
+                                echo ' <span>Identifiant :</span><br/>';
+                                echo '<input type="text" name="prenom" placeholder="Entrez votre Prenom" class="form-control" value="'.$_POST['prenom'].'"/>';
+                            }
+                        ?>
+                    </div>
+                    <div class="col-12">
+                    <?php
+                            if (isset($_POST['email'])) {
+                                $email = $_POST['email'];
+                                if (empty($email) || ($emailOk == 0)) {
+                                    echo '<span class="enRouge">Email(vous devez entrer votre Email) :</span>';
+                                    echo '<input type="text" name="email" placeholder="Entrez votre email" class="form-control" />';
+                                } else {
+                                    echo ' <span>Email :</span><br/>';
+                                    echo '<input type="text" name="email" placeholder="Entrez votre email" class="form-control" value="'.$_POST['email'].'"/>';
+                                }
+                            } else {
+                                echo ' <spanEmail :</span><br/>';
+                                echo '<input type="text" name="email" placeholder="Entrez votre email" class="form-control" value="'.$_POST['email'].'"/>';
+                            }
+                        ?>
+                    </div>
+                    <div class="col-12">
+                    <?php
+                            if (isset($_POST['identifiant'])) {
+                                $identifiant = $_POST['identifiant'];
+                                if (empty($identifiant) || ($loginOk == 0)) {
+                                    echo '<span class="enRouge">Identifiant(vous devez entrer votre Identifiant) :</span>';
+                                    echo '<input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control" />';
+                                } else {
+                                    echo ' <span>Mot de passe :</span><br/>';
+                                    echo '<input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control" value="'.$_POST['identifiant'].'"/>';
+                                }
+                            } else {
+                                echo ' <span>Identifiant :</span><br/>';
+                                echo '<input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control" value="'.$_POST['identifiant'].'"/>';
+                            }
+                        ?>
+                    </div>
+                    <br/>
+                    <div class="col-12">
+                        <?php
+                            if (isset($_POST['pswd'])) {
+                                $pwd = $_POST['pswd'];
+                                if (empty($pwd)) {
+                                    echo '<span class="enRouge">Mot de passe(vous devez entrer votre Mot de passe) :</span>';
+                                    echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" />';
+                                } else if($mdpOk == 0) {
+                                    echo '<span class="enRouge">Mot de passe. Votre mot de passe doit contenir au moins : <br/>
+                                    Une lettre majuscule<br/>
+                                    Une lettre miniscule<br/>
+                                    Un chiffre<br/>
+                                    Un caractère spécial!@#$%^&*()_+=</span>';
+                                    echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" />';
+                                } else {
+                                    echo ' <span>Mot de passe :</span><br/>';
+                                    echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" value="'.$_POST['pswd'].'"/>';
+                                }
+                            } else {
+                                echo ' <span>Mot de passe :</span><br/>';
+                                echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" value="'.$_POST['pswd'].'"/>';
+                            }
+                        ?>			
+                    </div>
+                    <br/>
+                    <div class="col-12 text-center">
+                        <input class="btn-blanc btn-modif" type="submit" value="S'inscrire">
+                    </div>
+                    <div class="col-12 text-center">
+                        <a href="./index.php" class="text-decoration-none col-12 texte-bleu">Se connecter</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6">
+                        <! ICI ON MET LE BOUTON DE DECONEXION>
+                    </div>
+                    <div class="col-6 contenue_droite">
+                        <img src="images/logo-iut.png" class ="logo" id="logoIUT" alt="Logo IUT" href="http://www.iut-rodez.fr" target="_blank"/>
+                    </div>
+                </div>
             </div>
-            <div class="row textFormulaire">
-                <div class="col-12">
-                    <span class="<?php
-                    $formulaireValide = true;
-                    $leBool = preg_match("/^.{1,35}$/", $_POST['nom']) == 1;
-
-                    if (isset($_POST['nom']) && !$leBool) {
-                        echo "enRouge";
-                        $formulaireValide = false;
-                    } ?>">Nom :
-                        <?php
-                        if (isset($_POST['nom']) && !$leBool) {
-                            echo " <br/> le nom ne dois pas etre vide ou depasser 35 charactere";
-                        } ?>
-                    </span>
-                    <br />
-                    <input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" <?php
-                    if (isset($_POST['nom'])) {
-                        echo 'value="' . $_POST['nom'] . '"';
-                    }
-                    ?> />
-                </div>
-                <div class="col-12">
-                    <span class="<?php
-                    $leBool = preg_match("/^.{1,35}$/", $_POST['prenom']) == 1;
-
-                    if (isset($_POST['prenom']) && !$leBool) {
-                        $formulaireValide = false;
-                        echo "enRouge";
-                    } ?>">Prenom :
-                        <?php
-                        if (isset($_POST['prenom']) && !$leBool) {
-                            echo " <br/> le prenom ne dois pas etre vide ou depasser 35 charactere";
-                        } ?>
-                    </span>
-                    <br />
-                    <input type="text" name="prenom" placeholder="Entrez votre Prenom" class="form-control" <?php
-                    if (isset($_POST['prenom'])) {
-                        echo 'value="' . $_POST['prenom'] . '"';
-                    }
-                    ?> />
-                </div>
-                <div class="col-12">
-                    <span class="<?php
-                    if (isset($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                        echo "enRouge";
-                        $formulaireValide = false;
-                    } ?>">Email :
-                        <?php
-                        if (isset($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                            echo " <br/> cet email est incorecte";
-                        } ?>
-                    </span>
-                    <br />
-
-                    <input type="text" name="email" placeholder="Entrez votre email" class="form-control" <?php
-                    if (isset($_POST['email'])) {
-                        echo 'value="' . $_POST['email'] . '"';
-                    }
-                    ?> />
-                </div>
-                <div class="col-12">
-                    <span class="<?php
-                    $leBool = preg_match("/^.{1,35}$/", $_POST['identifiant']) == 1;
-
-                    if (isset($_POST['identifiant']) && !$leBool) {
-                        echo "enRouge";
-                        $formulaireValide = false;
-                    } ?>">Identifiant :
-                        <?php
-                        if (isset($_POST['identifiant']) && !$leBool) {
-                            echo " <br/> l'identifiant ne dois pas etre vide ou depasser 35 charactere";
-                        } ?>
-                    </span>
-                    <br />
-                    <input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control" <?php
-                    if (isset($_POST['identifiant'])) {
-                        echo 'value="' . $_POST['identifiant'] . '"';
-                    }
-                    ?> />
-                </div>
-                <br />
-                <div class="col-12">
-                    <span class="<?php
-                    $leBool = preg_match("/^.{1,255}$/", $_POST['pswd']) == 1;
-
-                    if (isset($_POST['pswd']) && !$leBool) {
-                        echo "enRouge";
-                        $formulaireValide = false;
-                    } ?>">Mot de passe :
-                        <?php
-                        if (isset($_POST['pswd']) && !$leBool) {
-                            echo " <br/> le mot de passe ne dois pas etre vide ou depasser 255 charactere";
-                        } ?>
-                    </span>
-                    <br />
-                    <input type="password" name="pswd" placeholder="Tapez votre mot de passe" class="form-control" />
-                </div>
-                <?php
-                if ($formulaireValide) {
-                    header('Location: ./index.php?controller=CreerUser&action=formulaireValide');
-                    exit;
-                }
-                ?>
-                <br />
-                <div class="col-12 text-center">
-                    <input class="btn-blanc btn-modif" type="submit" value="S'inscrire">
-                </div>
-                <div class="col-12 text-center">
-                    <a href="./index.php" class="text-decoration-none col-12 texte-bleu">Se connecter</a>
-                </div>
-            </div>
-        </form>
-    </div>
-    <?php include("./views/footer.php"); ?>
-</body>
-
+        </footer>
+    </body>
 </html>

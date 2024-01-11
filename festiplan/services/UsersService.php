@@ -72,6 +72,53 @@ class UsersService
         }
     }
 
+    /**
+     * Vérifie la taille
+     * @return user the statement referencing the result set
+     */
+    public function valideTaille($verif) {
+        //var_dump($verif);
+        if ($verif != null) {
+            $regex = "/^.{1,35}$/";
+            var_dump(preg_match($regex, $verif));
+            return preg_match($regex, $verif, $matches);
+        }
+        return false;
+    }
+
+    /**
+     * Vérifie la taille
+     * @return user the statement referencing the result set
+     */
+    public function valideMail($mail) {
+        //var_dump($mail);
+        if ($mail != null) {
+            $regex = "/^.{1,35}$/";
+            return preg_match($regex, $mail, $matches)  && filter_var($mail, FILTER_VALIDATE_EMAIL);
+        }
+        return false;
+    }
+    
+    /**
+     * Vérifie la taille
+     * @return user the statement referencing the result set
+     */
+    public function valideMdp($mdp) {
+        if ($mdp != null) {
+            $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=])[A-Za-z\d!@#$%^&*()_+=]$/'; //A reprendre : regex101.com
+            return preg_match($regex, $mdp, $matches);
+        }
+        return false;
+    }
+
+    /**
+     * Vérifie la taille
+     * @return user the statement referencing the result set
+     */
+    public function insertion(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp) {
+        $sql = "INSERT INTO users VALUES ($login, $lastname,$firstname, $mail, $mdp)";
+        $pdo->query($sql);
+    }
 
 }
 ?>
