@@ -2,25 +2,30 @@
 namespace controllers;
 
 use services\UsersService;
+use services\CreerIntervenantService;
+
 use yasmf\View;
 use yasmf\HttpHelper;
 
-class CreerUserController
+class CreerIntervenantController
 {
 
     private UsersService $usersService;
+    private CreerIntervenantService $creerIntervenantController;
 
     /**
      * Create a new default controller
      */
-    public function __construct(UsersService $usersService)
+    public function __construct(CreerIntervenantService $creerIntervenantService,UsersService $usersService)
     {
+        $this->creerIntervenantService = $creerIntervenantService;
         $this->usersService = $usersService;
     }
 
 
     public function index($pdo): View
-    {
+    {        
+
         $nom = HttpHelper::getParam("nom");
         $prenom = HttpHelper::getParam("prenom");
         $email = HttpHelper::getParam("email");
@@ -36,7 +41,7 @@ class CreerUserController
             $this -> usersService -> insertion($pdo, $login, $nom, $prenom, $email, $mdp);
             $view = new View("/views/authentification");
         } else {
-            $view = new View("/views/creerCompte"); 
+            $view = new View("/views/creerIntervenant"); 
             $view -> setVar("nomOK", $nomOk);
             $view -> setVar("loginOk", $loginOk);
             $view -> setVar("prenomOk", $prenomOk);
@@ -47,8 +52,5 @@ class CreerUserController
         }
         return $view;
     }
-
-    
-
 
 }

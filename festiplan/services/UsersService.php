@@ -39,7 +39,7 @@ class UsersService
      * Trouve les utilisateurs
      *
      * @param PDO $pdo the pdo object
-     * @return user the statement referencing the result set
+     * @return array the statement referencing the result set
      */
     public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp)
     {
@@ -60,7 +60,7 @@ class UsersService
      * Crée un utilisateur
      *
      * @param PDO $pdo the pdo object
-     * @return user the statement referencing the result set
+     * 
      */
     public function addUsers(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp) {
         if (UsersService::valide($login) && UsersService::valide($mdp) && UsersService::valide($lastname) && UsersService::valide($firstname) && UsersService::valide($mail)) {
@@ -74,7 +74,7 @@ class UsersService
 
     /**
      * Vérifie la taille
-     * @return user the statement referencing the result set
+     * @return boolean the statement referencing the result set
      */
     public function valideTaille($verif) {
         //var_dump($verif);
@@ -88,7 +88,7 @@ class UsersService
 
     /**
      * Vérifie la taille
-     * @return user the statement referencing the result set
+     * @return boolean the statement referencing the result set
      */
     public function valideMail($mail) {
         //var_dump($mail);
@@ -101,7 +101,7 @@ class UsersService
     
     /**
      * Vérifie la taille
-     * @return user the statement referencing the result set
+     * @return boolean the statement referencing the result set
      */
     public function valideMdp($mdp) {
         if ($mdp != null) {
@@ -112,8 +112,8 @@ class UsersService
     }
 
     /**
-     * Vérifie la taille
-     * @return user the statement referencing the result set
+     * Insert user dans la BD
+     * 
      */
     public function insertion(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp) {
         $sql = "INSERT INTO users VALUES ($login, $lastname,$firstname, $mail, $mdp)";

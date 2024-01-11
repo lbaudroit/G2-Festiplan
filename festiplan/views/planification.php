@@ -23,15 +23,15 @@
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialDate:'<?php echo $date["date_deb"]?>',
+                initialDate: '<?php echo $date["date_deb"] ?>',
                 initialView: 'timeGridFest',
                 timeZone: 'UTC+1',
                 validRange: {
-                    start: '<?php echo $date["date_deb"]?>',
-                    end: '<?php echo $date["date_fin"]?>'
+                    start: '<?php echo $date["date_deb"] ?>',
+                    end: '<?php echo $date["date_fin"] ?>'
                 },
-                slotMinTime: '<?php echo $GRIJ["heure_deb"]?>',
-                slotMaxTime: '<?php echo $GRIJ["heure_fin"]?>',
+                slotMinTime: '<?php echo $GRIJ["heure_deb"] ?>',
+                slotMaxTime: '<?php echo $GRIJ["heure_fin"] ?>',
                 expandRows: true,
                 views: {
                     timeGridFest: {
@@ -55,15 +55,16 @@
 
 <body>
     <?php include("./views/header.php"); ?>
-    <div class="contenue">
+    <div class="contenue container mb-2">
+        
         <div class="underline titre2 width-to-size">
             Planification de
-            <?php echo $nomFestival["titre"]?>
+            <?php echo $nomFestival["titre"] ?>
         </div>
+
+
+        <div id='calendar'></div>
     </div>
-
-    <div id='calendar'></div>
-
     <?php include("./views/footer.php"); ?>
 </body>
 
