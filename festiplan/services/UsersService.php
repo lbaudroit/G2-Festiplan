@@ -82,7 +82,6 @@ class UsersService
         //var_dump($verif);
         if ($verif != null) {
             $regex = "/^.{1,35}$/";
-            var_dump(preg_match($regex, $verif));
             return preg_match($regex, $verif, $matches);
         }
         return false;

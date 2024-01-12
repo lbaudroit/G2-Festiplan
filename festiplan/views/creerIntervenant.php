@@ -44,7 +44,69 @@ Variables utilisées
 <body>
     <?php include("./views/header.php"); ?>
     <div class="contenue container mb-2">
-        ok ok le gros test sa mere
+        <form method="post" class="bordure formulaire leFormulaire">
+            <div class="col-12 text-center">
+                <i class="fa-solid fa-user fa-4x"></i>
+            </div>
+            <div class="row textFormulaire">
+                <div class="col-12">
+                    <?php
+
+                    if (isset($_POST['nom'])) {
+                        $nom = $_POST['nom'];
+                        var_dump($nomOK);
+                        if (empty($nom) || ($nomOK == 0)) {
+                            echo '<span class="enRouge">Nom(vous devez entrer votre Nom) :</span>';
+                            echo '<input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" />';
+                        } else {
+                            echo ' <span>Nom :</span><br/>';
+                            echo '<input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" value="' . $_POST['nom'] . '"/>';
+                        }
+                    } else {
+                        echo ' <span>Nom :</span><br/>';
+                        echo '<input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" value=""/>';
+                    }
+                    ?>
+                </div>
+                <div class="col-12">
+                    <?php
+                    if (isset($_POST['prenom'])) {
+                        $prenom = $_POST['prenom'];
+                        if (empty($prenom) || ($prenomOk == 0)) {
+                            echo '<span class="enRouge">Prenom(vous devez entrer votre Prenom) :</span>';
+                            echo '<input type="text" name="prenom" placeholder="Entrez votre Prenom" class="form-control" />';
+                        } else {
+                            echo ' <span>Prenom :</span><br/>';
+                            echo '<input type="text" name="prenom" placeholder="Entrez votre Prenom" class="form-control" value="' . $_POST['prenom'] . '"/>';
+                        }
+                    } else {
+                        echo ' <span>Prenom :</span><br/>';
+                        echo '<input type="text" name="prenom" placeholder="Entrez votre Prenom" class="form-control" value=""/>';
+                    }
+                    ?>
+                </div>
+                <div class="col-12">
+                    <?php
+                    if (isset($_POST['email'])) {
+                        $email = $_POST['email'];
+                        if (empty($email) || ($emailOk == 0)) {
+                            echo '<span class="enRouge">Email(vous devez entrer votre Email) :</span>';
+                            echo '<input type="text" name="email" placeholder="Entrez votre email" class="form-control" />';
+                        } else {
+                            echo ' <span>Email :</span><br/>';
+                            echo '<input type="text" name="email" placeholder="Entrez votre email" class="form-control" value="' . $_POST['email'] . '"/>';
+                        }
+                    } else {
+                        echo ' <span>Email :</span><br/>';
+                        echo '<input type="text" name="email" placeholder="Entrez votre email" class="form-control" value=""/>';
+                    }
+                    ?>
+                </div>
+                <div class="col-12 text-center">
+                    <input class="btn-blanc btn-modif" type="submit" value="Ajouter">
+                </div>
+            </div>
+        </form>
     </div>
     <?php include("./views/footer.php"); ?>
 </body>
