@@ -109,17 +109,17 @@
                                 $pwd = $_POST['pswd'];
                                 if (empty($pwd)) {
                                     echo '<span class="enRouge">Mot de passe(vous devez entrer votre Mot de passe) :</span>';
-                                    echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" />';
+                                    echo '<input type="password" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" />';
                                 } else if($mdpOk == 0) {
                                     echo '<span class="enRouge">Mot de passe. Votre mot de passe doit contenir au moins : <br/>
                                     Une lettre majuscule<br/>
                                     Une lettre miniscule<br/>
                                     Un chiffre<br/>
                                     Un caractère spécial</span>';
-                                    echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" />';
+                                    echo '<input type="password" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control" />';
                                 } else {
                                     echo ' <span>Mot de passe :</span><br/>';
-                                    echo '<input type="text" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control"/>';
+                                    echo '<input type="password" name="pswd" placeholder="Entrez votre Mot de passe" class="form-control"/>';
                                 }
                             } else {
                                 echo ' <span>Mot de passe :</span><br/>';
