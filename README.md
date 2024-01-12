@@ -13,6 +13,7 @@ BUT Info 2 - G2
 | CHEIKH-BOUKAL Léo | Leptar | leo.cheikh-boukal@iut-rodez.fr | Scrum Master ité1 |
  
 **Board agile :** https://github.com/users/lbaudroit/projects/3
+
 **Documents du projet :** https://drive.google.com/drive/folders/0AH6MxUVCAAKnUk9PVA
 
 ## Commandes d'exécution du projet
