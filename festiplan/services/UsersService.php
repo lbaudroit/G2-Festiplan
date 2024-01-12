@@ -47,7 +47,6 @@ class UsersService
             $searchStmt->bindParam(1, $login);
             $searchStmt->execute();
             $user = $searchStmt->fetch();
-            //var_dump($user);
             if (password_verify($mdp, $user["hashed_pwd"])) {
                 $searchStmt = $pdo->prepare('SELECT * FROM users WHERE id_login= ?');
                 $searchStmt->bindParam(1, $login);
