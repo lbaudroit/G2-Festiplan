@@ -151,10 +151,21 @@ class UsersService
     }
 
     
-    public function insertion(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp)
-    {
-        $sql = "INSERT INTO users VALUES ($login, $lastname,$firstname, $mail, $mdp)";
-        $pdo->query($sql);
+    /**
+     * Vérifie la taille
+     * 
+     */
+    public function insertion(PDO $pdo, $login, $lastname, $firstname, $mail, $mdp) {
+        $sql = "INSERT INTO users(id_login, nom, prenom, email, hashed_pwd) VALUES (:logi, :lastname, :firstname, :mail, :mdp)";
+        $hashMDP = password_hash($mdp, PASSWORD_DEFAULT);
+        $searchStmt = $pdo->prepare($sql);
+        $searchStmt->bindParam(":logi", $login);
+        $searchStmt->bindParam(":lastname", $lastname);
+        $searchStmt->bindParam(":firstname", $firstname);
+        $searchStmt->bindParam(":mail", $mail);
+        $searchStmt->bindParam(":mdp", $hashMDP);
+        $searchStmt->execute();
+        $user = $searchStmt->fetch();
     }
 
 }
