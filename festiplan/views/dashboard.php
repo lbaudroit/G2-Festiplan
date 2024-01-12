@@ -22,16 +22,16 @@
 <body>
     <?php include("./views/header.php"); ?>
 
-    <?php
-    $aAfficher = [$listeFestivals, $listeSpectacles];
-    $nom = ["festival", "spectacle"];
-    $nom_pluriel = ["festivals", "spectacles"];
-    $prefixe_img = ["f", "s"];
-    foreach ($aAfficher as $e => $liste) {
-        $id = "id_" . $nom[$e];
-        ?>
-        <!--LISTE DES FESTIVALS OU SPECTACLES-->
-        <div class="container contenue">
+    <div class="container contenue">
+        <?php
+        $aAfficher = [$listeFestivals, $listeSpectacles];
+        $nom = ["festival", "spectacle"];
+        $nom_pluriel = ["festivals", "spectacles"];
+        $prefixe_img = ["f", "s"];
+        foreach ($aAfficher as $e => $liste) {
+            $id = "id_" . $nom[$e];
+            ?>
+            <!--LISTE DES FESTIVALS OU SPECTACLES-->
             <div class="row mb-2">
                 <!-- Titre -->
                 <div class="underline titre2 width-to-size">
@@ -48,7 +48,7 @@
                     </a>
                 </div>
             </div>
-            <div class="row row-gap-2">
+            <div class="row row-gap-2 mb-5">
                 <?php // affichage des cartes  
                     foreach ($liste as $i => $elt) {
                         ?>
@@ -109,10 +109,10 @@
                     </a>
                 </div>
             </div>
-        </div>
-        <?php
-    }
-    ?>
+            <?php
+        }
+        ?>
+    </div>
 
     <?php include("./views/footer.php"); ?>
 </body>

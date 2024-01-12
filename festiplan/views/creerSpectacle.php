@@ -42,7 +42,13 @@ Liste Variables utilisées
 <body>
     <?php include("./views/header.php"); ?>
     <div class="contenue container mb-2">
-        <?php echo isset($error) ? "<div class='col-12 bg-danger'>$error</div>" : "" ?>
+        <?php if (isset($error)) { ?>
+            <div class="col-12 text-center bordure fond-rouge">
+                <?php echo $error; ?>
+            </div>
+            <?php
+        }
+        ?>
         <div class="col-12">
             <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
                 <input hidden name="controller" value="spectacle">
@@ -55,13 +61,6 @@ Liste Variables utilisées
                 <!--Soit ajout, soit modif-->
                 <input hidden name="mode" value="<?php echo $mode; ?>">
                 <!--INFOS GENERALES-->
-                <?php if (isset($erreur)) { ?>
-                    <div class="text-center bordure fond-rouge">
-                        <?php echo $erreur; ?>
-                    </div>
-                    <?php
-                }
-                ?>
                 <div class="text-center row textFormulaire bordure fondFormulaire">
                     <div class="col-md-4 col-sm-5 col-12">
                         <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif"

@@ -83,6 +83,7 @@ class SpectacleController
             $view->setVar("hors_scene", $hors_scene);
             $view->setVar("mode", "modif");
         } else {
+            $view->setVar("error", "Tous les champs n'ont pas été correctement remplis.");
             $view->setVar("mode", "ajout");
         }
         return $view;
