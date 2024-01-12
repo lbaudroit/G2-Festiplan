@@ -4,6 +4,7 @@ namespace services;
 use Exception;
 use PDO;
 use PDOStatement;
+use DateTime;
 use services\FestivalsService;
 
 /**
@@ -69,7 +70,7 @@ class PlanificationService
                             $heureDebut = $sceneChoisi[1];
                         }
 
-                        $heureDeFin = $heureDebut + $spectacle[1] + $grijFestival[2];
+                        $heureDeFin = date_add(date_add($heureDebut, $spectacle[1]), $grijFestival[2]);
 
                         if ($heureDeFin <= $grijFestival[1]){
                             $res[] = [$spectacle[0], $heureDebut, $jour, $sceneChoisi[0]];
@@ -137,11 +138,12 @@ class PlanificationService
         foreach ($listeIntervenantSpectacle as $idIntervenant) {
             if ($i == 0) {
                 $heureMaxIntervenantDispo = $listeIntervenantDisponible[$idIntervenant];
+                $res = array($idIntervenant, $heureMaxIntervenantDispo);
                 $i ++;
             }
 
             if (isset($heureMaxIntervenantDispo) 
-                && $heureMaxIntervenantDispo < $listeIntervenantDisponible[$idIntervenant]) {
+                && $heureMaxIntervenantDispo <= $listeIntervenantDisponible[$idIntervenant]) {
                 $heureMaxIntervenantDispo = $listeIntervenantDisponible[$idIntervenant];  
                 $res = array($idIntervenant, $heureMaxIntervenantDispo); 
             }
@@ -181,6 +183,7 @@ class PlanificationService
 
         return $res;
     }
+
     /**
      * Choisie une scene disponible au plus tot pour le spectacle, d'une taille 
      * egal ou supérieur a celle nécessaire
@@ -189,13 +192,14 @@ class PlanificationService
         $i = 0;
 
         foreach ($listeDesScenesDisponible as $idScene => $infos) {
-            if ($spectacle[2] <= $infos[1] && $i == 0){
+            if ($spectacle[2] >= $infos[1] && $i == 0){
                 $heureMinSceneDispo = $infos[0];
+                $res = array($idScene, $infos[0], $infos[1]);
                 $i++;
             }
             
             if (isset($heureMinSceneDispo) && 
-                ($spectacle[2] = $infos[1] || $heureMinSceneDispo > $infos[0])) {
+                ($spectacle[2] = $infos[1] || $heureMinSceneDispo >= $infos[0])) {
                 $res = array($idScene, $infos[0], $infos[1]);
             }  
         }
@@ -322,7 +326,7 @@ class PlanificationService
      * Convertit le resultat de la requete rq$rqt qui recupere la plannif en
      * tableau pour la vue
      */
-    function convertirEnTableauPlannif(PDOstatement $resDeRequete) {
+    function convertirEnTableauPlannif(PDO $pdo ,PDOstatement $resDeRequete) {
         while ($ligne = $resDeRequete->fetch()){
             // requete pour recupérer le titre et la duree du spectacle
             $rqt = "SELECT titre, duree
