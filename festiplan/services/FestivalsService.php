@@ -254,7 +254,7 @@ class FestivalsService
      * @param string $fest l'ID du festival
      * @return array les données du festival
      */
-    public function getDateOfFestival(PDO $pdo, String $fest): array 
+    public function getDateOfFestival(PDO $pdo, string $fest): array
     {
         $sql = "SELECT date_deb,DATE_ADD(date_fin,INTERVAL 1 DAY) AS date_fin FROM festivals
                 WHERE id_festival=:id;";
@@ -272,7 +272,7 @@ class FestivalsService
      * @param string $fest l'ID du festival
      * @return array les données du festival
      */
-    public function getDureeOfFestival(PDO $pdo, String $fest): int
+    public function getDureeOfFestival(PDO $pdo, string $fest): int
     {
         $sql = "SELECT date_fin-date_deb+1 FROM festivals
                 WHERE id_festival=:id;";
@@ -281,24 +281,39 @@ class FestivalsService
         $stmt->execute();
         return $stmt->fetch()["date_fin-date_deb+1"];
     }
-    
+
     public function delete(PDO $pdo, int $fest)
     {
+        // Récupération ID grij
+        $sql_grij = "SELECT id_grij FROM festivals WHERE id_festival=?";
+        $stmt = $pdo->prepare($sql_grij);
+        $stmt->execute([$fest]);
+        $res = $stmt->fetch();
+        $id_grij = $res["id_grij"];
+
         $scripts = [
             "DELETE FROM contient WHERE id_festival=:id;",
             "DELETE FROM scenes WHERE id_festival=:id;",
             "DELETE FROM organise WHERE id_festival=:id;",
-            "DELETE FROM grij WHERE id_festival=:id;",
-            "DELETE FROM festivals WHERE id_festival=:id;"
+            "DELETE FROM festivals WHERE id_festival=:id;",
+            "DELETE FROM grij WHERE id_grij=:id;"
         ];
 
         // TODO ajouter la planification
         try {
             $pdo->beginTransaction();
-            foreach ($scripts as $sql) {
+            for ($i = 0; $i < count($scripts); $i++) {
+                $sql = $scripts[$i];
                 $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(":id", $fest);
-                $stmt->execute();
+                if ($i = 4) {
+                    $stmt->bindParam(":id", $id_grij);
+                } else {
+                    $stmt->bindParam(":id", $fest);
+                }
+                $res = $stmt->execute();
+                if (!$res) {
+                    return false;
+                }
             }
         } catch (PDOException $e) {
             $pdo->rollback();

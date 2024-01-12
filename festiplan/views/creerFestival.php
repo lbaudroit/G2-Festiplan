@@ -329,7 +329,7 @@ Variables utilisées
                         if ($mode == "ajout") {
                             echo "<a name='page_precedente' class='btn btn-rouge form-control'>Annuler</a>";
                         } else {
-                            echo "<a href='index.php?controller=festival&action=delete&festival=$fest' class='btn btn-rouge form-control'>Supprimer</a>";
+                            echo "<a id='delete' class='btn btn-rouge form-control'>Supprimer</a>";
                         } ?>
                     </div>
                     <!--planif-->
@@ -358,5 +358,6 @@ Variables utilisées
 </body>
 <script src="./js/common.js" defer></script>
 <script src="./js/creerFestival.js" defer></script>
+<script src="./js/suppr.js" defer></script>
 
 </html>

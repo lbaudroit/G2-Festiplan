@@ -35,6 +35,7 @@ class SpectacleController
 
     public function create($pdo): View
     {
+        $mode = HttpHelper::getParam("mode");
         $view = new View("views/creerSpectacle");
         $user = $_SESSION["user"]["id_login"];
 
@@ -57,7 +58,7 @@ class SpectacleController
         $view->setVar("taillescenes", $tailles);
 
         // Vérification des champs
-        if ($this->checkInfo($titre, $desc, $duree_h, $duree_m, $taille, $cat)) {
+        if ($mode == "ajout" & $this->checkInfo($titre, $desc, $duree_h, $duree_m, $taille, $cat)) {
             $img = $_FILES["img"];
             if (isset($img)) {
                 $ext = ImageService::extractExtension($img);
@@ -83,7 +84,7 @@ class SpectacleController
             $view->setVar("hors_scene", $hors_scene);
             $view->setVar("mode", "modif");
         } else {
-            $view->setVar("error", "Tous les champs n'ont pas été correctement remplis.");
+            //$view->setVar("error", "Tous les champs n'ont pas été correctement remplis.");
             $view->setVar("mode", "ajout");
         }
         return $view;

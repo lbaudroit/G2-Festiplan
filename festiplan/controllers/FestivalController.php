@@ -206,7 +206,8 @@ class FestivalController
             header("Location: index.php?controller=Dashboard");
             exit();
         } else {
-            return new View("views/not_done");
+            header("Location: error.php");
+            exit();
         }
     }
 
