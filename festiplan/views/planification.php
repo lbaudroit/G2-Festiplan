@@ -36,7 +36,7 @@
                 views: {
                     timeGridFest: {
                         type: 'timeGrid',
-                        duration: { days: 3 },
+                        duration: { days: <?php if ($duree>3){echo "3";}else{echo $duree;} ?> },
                     }
                 }
             });

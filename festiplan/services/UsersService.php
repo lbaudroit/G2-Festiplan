@@ -39,7 +39,7 @@ class UsersService
      * Trouve les utilisateurs
      *
      * @param PDO $pdo the pdo object
-     * @return array the statement referencing the result set
+     * 
      */
     public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp) {
         if (UsersService::valide($login) && UsersService::valide($mdp)) {

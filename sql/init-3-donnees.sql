@@ -2,8 +2,8 @@
 -- Création des utilisateurs
 INSERT INTO users (id_login, nom, prenom, email, hashed_pwd)
 VALUES 
-("herverous", "Hervé", "ROUS", "herve.rous@gmal.com", "hr"),
-("francksilvestre", "Franck", "SILVESTRE", "franck.silvestre@gmal.com", "fs");
+("herverous", "Hervé", "ROUS", "herve.rous@gmal.com", "$2y$10$zWpcvPGM3GQshtYIkAAMg.mSK18iCRXE7NkTATX93Xo5CWIMrePCO"),
+("francksilvestre", "Franck", "SILVESTRE", "franck.silvestre@gmal.com", "$2y$10$wm61a8daHRAPpYjg9/Ju.uUI8veLCq2iqx6RGKCm/jZSqwJL2H5i2");
 
 -- Création de la grij
 INSERT INTO grij (heure_deb, heure_fin, temps_pause)
