@@ -254,41 +254,37 @@ class FestivalController
             header("Location: ./index.php");
             exit();
         }
-        
+
         $view = new View("views/creerScene");
         $mode = HttpHelper::getParam("mode");
 
-        // cas où le formulaire a déjà été affiché et rempli
-        if ($mode == "ajout") {
+        $nomScene = (string) HttpHelper::getParam("nomScene");
+        $nombreSpec = (int) HttpHelper::getParam("nbSpecMax");
+        $IDFest = (int) HttpHelper::getParam("festival");
+        $tailles = TaillesService::getList($pdo);
+        $taillescenes = (int) HttpHelper::getParam("tailleScene");
+        $GPSLat = (float) HttpHelper::getParam("coordGPSLat");
+        $GPSLong = (float) HttpHelper::getParam("coordGPSLong");
+
+        $view->setVar("taillescenes", $tailles); 
+        $view->setVar("IDFest", $IDFest);
+
+        if ($this->festivalsService->verifScene($nomScene, $nombreSpec, $IDFest, $taillescenes, $GPSLat, $GPSLong)) {       
             try {
                 $erreur = false;
                 $pdo->beginTransaction();
                 
-                $nomScene = (string) HttpHelper::getParam("nomScene");
-                $nombreSpec = (int) HttpHelper::getParam("nbSpecMax");
-                $IDFest = (int) HttpHelper::getParam("festival");
-                $tailles = TaillesService::getList($pdo);
-                $GPSLat = (int) HttpHelper::getParam("coordGPSLat");
-                $GPSLong = (int) HttpHelper::getParam("coordGPSLong");
-
-                if (!$this->festivalsService->verifScene($nomScene, $nombreSpec, $IDFest, $tailles, $GPSLat, $GPSLong)) {
-                   throw new Exception("Les champs du festival ne sont pas saisis correctement.");
-                }
-
-                $idScene = $this->festivalsService->addScene($nomScene, $nombreSpec, $IDFest, $tailles, $GPSLat, $GPSLong);
+                $idScene = $this->festivalsService->addScene($pdo, $nomScene, $nombreSpec, $IDFest, $taillescenes, $GPSLat, $GPSLong);
 
                 $pdo->commit();
-                $view->setVar("idFest", $IDFest);
-                $view->setVar("taillescenes", $tailles);
             } catch (Exception $e) {
+                
                 $pdo->rollback();
-                $view->setVar("mode", "ajout");
                 $view->setVar("erreur", $e->getMessage());
             }
         }
-        $view->setVar("IDFest", $IDFest);
-        $view->setVar("taillescenes", $tailles);
         return $view;
+
     }
 
     public function deleteScene($pdo): View

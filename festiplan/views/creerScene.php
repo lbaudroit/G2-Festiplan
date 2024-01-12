@@ -19,19 +19,7 @@
         <link rel="stylesheet" href="css\style.css">
     </head>
     <body>
-        <header>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-6">
-                        <hspan class="titre">Festiplan</span>
-                    </div>
-                    <div class="col-6 contenue_droite">
-                        <i class="fa-solid fa-user fa-4x"></i>
-                        <hspan class="secondTitre">Mon Compte </hspan>
-                    </div>
-                </div>
-            </div>
-        </header>
+        <?php include("./views/header.php"); ?>
         <div class = "contenue container">
             <div class="col-12">
                 <form method="post" class="formulaire">
@@ -56,12 +44,12 @@
                         <u class ="offset-md-2 offset-1 col-4"><h5>
                             Coordonnées GPS :
                         </h5></u>
-                        <input type="text" id="coordGPSLat" name="coordGPSLat" class ="textFormulaire offset-md-1 offset-2 col-3" placeholder="Entrez la latitude de la scène"<?php
+                        <input type="text" id="coordGPSLat" name="coordGPSLat" class ="textFormulaire offset-md-1 offset-2 col-3" placeholder="(Ex : 49.604461669921873)"<?php
                             if (isset($_POST['coordGPSLat'])) {
                                 echo 'value="' . $_POST['coordGPSLat'] . '"';
                             }?>
                         />
-                        <input type="text" id="coordGPSLong" name="coordGPSLong" class ="textFormulaire offset-7 col-3" placeholder="Entrez la longitude de la scène"<?php
+                        <input type="text" id="coordGPSLong" name="coordGPSLong" class ="textFormulaire offset-7 col-3" placeholder="(Ex : 1.4442468881607056)"<?php
                             if (isset($_POST['coordGPSLong'])) {
                                 echo 'value="' . $_POST['coordGPSLong'] . '"';
                             }?>
@@ -71,13 +59,12 @@
                         <u class ="offset-md-2 offset-1 col-4"><h5>
                             Nombre de spectateurs maximum :
                         </h5></u>
-                        <input type="text" id="nbMaxSpec" name="nbMaxSpec" class ="textFormulaire offset-md-1 offset-2 col-3" <?php
-                            if (isset($_POST['nbMaxSpec'])){
-                                echo 'value="' . $_POST['nbMaxSpec'] . '"';
+                        <input type="number" id="nbSpecMax" name="nbSpecMax" class ="textFormulaire offset-md-1 offset-2 col-3" placeholder="Entre (1 et 200 000)" <?php
+                            if (isset($_POST['nbSpecMax'])){
+                                echo 'value="' . $_POST['nbSpecMax'] . '"';
                             }?>
                         />
                     </div>
-                    <?php var_dump(get_defined_vars());?>
                     <<div class ="row">
                         <u class ="offset-md-2 offset-1 col-4"><h5>
                             Taille minimum requise :
@@ -89,11 +76,12 @@
                                     Choisir une taille de scène
                                 </option>
                                 <?php
+                                $tailleScene = $_POST["tailleScene"];
                                 foreach ($taillescenes as $taillesc) {
                                     $name = ucfirst($taillesc["libelle"]);
                                     $id = $taillesc["id_taille"];
-                                    $selected = isset($taille) && $taille === $id ? "checked" : "";
-                                    echo "<option value='$id'>$name</option>";
+                                    $selected = isset($tailleScene) && $tailleScene == $id ? "selected" : "";
+                                    echo "<option value='$id' $selected>$name</option>";
                                 }
                                 ?>
                             </select>
@@ -104,10 +92,9 @@
                         <!--supprimer-->
                         <button type="button" name='page_precedente' class="offset-2 col-3 btn btn-rouge">Annuler</button>
                         <!--sauvegarder-->
-                        <a class="btn btn-bleu offset-2 col-3"
-                                href="index.php?controller=festival&action=create&festival=<?php echo $fest ?>">
-                                Ajouter la scène 
-                        </a>
+                        <div class="col-3 offset-2">
+                            <input class="btn btn-bleu form-control wrap text-wrap" type="submit" value="Ajouter la scène">
+                        </div>
                     </div>
                 </form>
             </div>
