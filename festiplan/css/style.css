@@ -42,11 +42,22 @@ body {
     margin: 5px;
 }
 
+.grandEspacementHauteur {
+    margin-top: 50px;
+}
+
+.moyenEspacementHauteur {
+    margin-top: 20px;
+}
+
 .espacementLargeurGauche {
     margin-left: 150px;
 }
 
 .espacementLargeur {
+    margin-right: 5px;
+}
+.petitEspacementLargeur {
     margin-right: 5px;
 }
 
@@ -219,4 +230,8 @@ footer {
 
 .enRouge {
     color: red;
+}
+
+.taille4em {
+    width: 4em;
 }
