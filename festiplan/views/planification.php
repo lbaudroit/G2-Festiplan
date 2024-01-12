@@ -47,14 +47,11 @@
 
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href=".\css\style.css">
-
-
-
-
 </head>
 
 <body>
-    <?php include("./views/header.php"); ?>
+    <?php 
+        include("./views/header.php"); ?>
     <div class="contenue">
         <div class="underline titre2 width-to-size">
             Planification de
