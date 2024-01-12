@@ -10,5 +10,5 @@ use PDOStatement;
  */
 class PlanificationService
 {
-
+    
 }
