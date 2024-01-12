@@ -85,6 +85,7 @@ CREATE TABLE scenes (
     latitude DOUBLE NOT NULL,
     id_festival INTEGER NOT NULL,
     id_taille INTEGER NOT NULL,
+    nom VARCHAR(35) NOT NULL,
     FOREIGN KEY (id_festival) REFERENCES festivals(id_festival),
     FOREIGN KEY (id_taille) REFERENCES taillescene(id_taille),
     PRIMARY KEY (id_scene)
