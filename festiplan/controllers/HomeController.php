@@ -19,8 +19,7 @@ class HomeController
     }
 
 
-    public function index($pdo): View
-    {
+    public function index($pdo): View{
         $login = HttpHelper::getParam("identifiant");
         $mdp = HttpHelper::getParam("pswd");
         $user = $this->usersService->getUsersLoginAndMdp($pdo, $login, $mdp);

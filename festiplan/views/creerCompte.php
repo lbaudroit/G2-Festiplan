@@ -45,8 +45,8 @@
                                     echo '<input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" value="'.$_POST['nom'].'"/>';
                                 }
                             } else {
-                                echo ' <span>Identifiant :</span><br/>';
-                                echo '<input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" value="'.$_POST['nom'].'"/>';
+                                echo ' <span>Nom :</span><br/>';
+                                echo '<input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control"/>';
                             }
                         ?>
                     </div>
@@ -62,8 +62,8 @@
                                     echo '<input type="text" name="prenom" placeholder="Entrez votre Prenom" class="form-control" value="'.$_POST['prenom'].'"/>';
                                 }
                             } else {
-                                echo ' <span>Identifiant :</span><br/>';
-                                echo '<input type="text" name="prenom" placeholder="Entrez votre Prenom" class="form-control" value="'.$_POST['prenom'].'"/>';
+                                echo ' <span>Prenom :</span><br/>';
+                                echo '<input type="text" name="prenom" placeholder="Entrez votre Prenom" class="form-control"/>';
                             }
                         ?>
                     </div>
@@ -79,8 +79,8 @@
                                     echo '<input type="text" name="email" placeholder="Entrez votre email" class="form-control" value="'.$_POST['email'].'"/>';
                                 }
                             } else {
-                                echo ' <spanEmail :</span><br/>';
-                                echo '<input type="text" name="email" placeholder="Entrez votre email" class="form-control" value="'.$_POST['email'].'"/>';
+                                echo ' <span>Email :</span><br/>';
+                                echo '<input type="text" name="email" placeholder="Entrez votre email" class="form-control"/>';
                             }
                         ?>
                     </div>
@@ -98,7 +98,7 @@
                                 }
                             } else {
                                 echo ' <span>Identifiant :</span><br/>';
-                                echo '<input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control" value="'.$_POST['identifiant'].'"/>';
+                                echo '<input type="text" name="identifiant" placeholder="Entrez votre Identifiant" class="form-control"/>';
                             }
                         ?>
                     </div>

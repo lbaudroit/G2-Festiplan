@@ -41,16 +41,21 @@ class UsersService
      * @param PDO $pdo the pdo object
      * @return user the statement referencing the result set
      */
-    public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp)
-    {
-        if (UsersService::valide($login) && UsersService::valide($mdp)){
-
-            $searchStmt = $pdo->prepare('SELECT * FROM users WHERE id_login= ? AND hashed_pwd= ? ');
+    public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp) {
+        if (UsersService::valide($login) && UsersService::valide($mdp)) {
+            $searchStmt = $pdo->prepare('SELECT hashed_pwd FROM users WHERE id_login= ?');
             $searchStmt->bindParam(1, $login);
-            $searchStmt->bindParam(2, $mdp);
             $searchStmt->execute();
             $user = $searchStmt->fetch();
-            return $user;
+            //var_dump($user);
+            if (password_verify($mdp, $user["hashed_pwd"])) {
+                $searchStmt = $pdo->prepare('SELECT * FROM users WHERE id_login= ?');
+                $searchStmt->bindParam(1, $login);
+                $searchStmt->execute();
+                $user = $searchStmt->fetch();
+                return $user;
+            }
+            return  null;
         } else {
             return null;
         }
@@ -61,16 +66,16 @@ class UsersService
      *
      * @param PDO $pdo the pdo object
      * @return user the statement referencing the result set
-     */
-    public function addUsers(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp) {
-        if (UsersService::valide($login) && UsersService::valide($mdp) && UsersService::valide($lastname) && UsersService::valide($firstname) && UsersService::valide($mail)) {
-            $searchStmt = $pdo->prepare('INSERT INTO users VALUES ()');
-            $searchStmt->bindParam(1, $login);
-            $searchStmt->bindParam(2, $mdp);
-            $searchStmt->execute();
-            $user = $searchStmt->fetch();
-        }
-    }
+     *
+    *public function addUsers(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp) {
+     *   if (UsersService::valide($login) && UsersService::valide($mdp) && UsersService::valide($lastname) && UsersService::valide($firstname) && UsersService::valide($mail)) {
+      *      $searchStmt = $pdo->prepare('INSERT INTO users VALUES ()');
+       *     $searchStmt->bindParam(1, $login);
+        *    $searchStmt->bindParam(2, $mdp);
+         *   $searchStmt->execute();
+          *  $user = $searchStmt->fetch();
+       * }
+    *}*/
 
     /**
      * Vérifie la taille
@@ -149,12 +154,13 @@ class UsersService
      */
     public function insertion(PDO $pdo, $login, $lastname, $firstname, $mail, $mdp) {
         $sql = "INSERT INTO users(id_login, nom, prenom, email, hashed_pwd) VALUES (:logi, :lastname, :firstname, :mail, :mdp)";
+        $hashMDP = password_hash($mdp, PASSWORD_DEFAULT);
         $searchStmt = $pdo->prepare($sql);
         $searchStmt->bindParam(":logi", $login);
         $searchStmt->bindParam(":lastname", $lastname);
         $searchStmt->bindParam(":firstname", $firstname);
         $searchStmt->bindParam(":mail", $mail);
-        $searchStmt->bindParam(":mdp", $mdp);
+        $searchStmt->bindParam(":mdp", $hashMDP);
         $searchStmt->execute();
         $user = $searchStmt->fetch();
     }
