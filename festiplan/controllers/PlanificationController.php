@@ -34,6 +34,7 @@ class PlanificationController
         $vue->setVar("spectacles", $this->festivalsService->getSpectaclesOfFestival($pdo,$festival));
         $vue->setVar("date",$this->festivalsService->getDateOfFestival($pdo,$festival));
         $vue->setVar("duree",$this->festivalsService->getDureeOfFestival($pdo,$festival));
+        $vue->setVar("plannification",$this->planificationService->getPlannif($pdo,$festival));
         return $vue;
     }
 
