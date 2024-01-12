@@ -8,7 +8,7 @@ if (isset($_SESSION["user"])) { ?>
                 </div>
                 <div class="col-6 contenue_droite">
                     <i class="fa-solid fa-user fa-4x"></i>
-                    <span class="secondTitre">Mon Compte </span>
+                    <span class="secondTitre">Mon Compte</span>
                 </div>
             </div>
     </header>

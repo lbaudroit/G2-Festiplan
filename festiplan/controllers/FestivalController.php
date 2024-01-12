@@ -1,12 +1,11 @@
 <?php
 namespace controllers;
 
-use DateInterval;
 use Exception;
-use PDOException;
 use services\CategoriesService;
 use services\FestivalsService;
 use services\TaillesService;
+use services\ImageService;
 use yasmf\HttpHelper;
 use yasmf\View;
 
@@ -74,7 +73,7 @@ class FestivalController
                 // Récupération de l'extension de fichier
                 $img = $_FILES["img_fest"];
                 if (isset($img)) {
-                    $ext = $this->extractExtension($img);
+                    $ext = ImageService::extractExtension($img);
                 }
 
                 if (!$this->checkGrijData($grij_deb, $grij_fin, $grij_delai)) {
@@ -91,7 +90,7 @@ class FestivalController
 
                 // Récupère l'image et la stocke
                 if ($ext) {
-                    $this->ajouterImage($id, $img, $ext);
+                    ImageService::ajouterImage($id, "festival", $img, $ext);
                 }
                 $pdo->commit();
                 $view->setVar("fest", $id);
@@ -144,47 +143,6 @@ class FestivalController
         return $d_deb[0] < $d_fin[0]
             && $d_deb[1] <= $d_fin[1]
             && $d_deb[2] <= $d_fin[2];
-    }
-
-    /**
-     * Récupère l'image telle que passée dans $_FILES et son extension pour la renommer
-     * et la rajouter dans le dossier des images
-     * @param int $id_fest l'identifiant du spectacle auquel on ajoute une image
-     * @param array $img l'image telle que passée dans $_FILES
-     * @param string $ext l'extension sous la forme ".png" par exemple
-     * Lance une exception si le format ou les dimensions sont invalides ou si le fichier 
-     * ne peut être créé.
-     */
-    public function ajouterImage(int $id_fest, array $img, string $ext)
-    {
-        // Vérification du type de fichier
-        $accepted_types = [".png", ".gif", ".jpg"];
-        if (!in_array($ext, $accepted_types)) {
-            throw new Exception("Le type du fichier est invalide.");
-        }
-        $target_dir = "./images/festival/";
-        $target_file = $target_dir . "f" . $id_fest . $ext;
-        $check = getimagesize($img["tmp_name"]);
-        if ($check == false || $check[0] > 800 || $check[1] > 600) {
-            throw new Exception("Les dimensions du fichier sont invalides.");
-        }
-        if (!move_uploaded_file($img["tmp_name"], $target_file)) {
-            throw new Exception("Impossible d'uploader l'image.");
-        }
-    }
-
-    /**
-     * Récupère l'extension du fichier depuis son tableau extrait de $_FILES.
-     */
-    public function extractExtension(array $img): string|null
-    {
-        $extraction_regex = "/\.[^\.]{3}$/";
-        $extension = array();
-        preg_match($extraction_regex, $img["name"], $extension);
-        if (isset($extension)) {
-            return $extension[0];
-        }
-        return null;
     }
 
     public function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
@@ -290,6 +248,20 @@ class FestivalController
     public function seeSpectacles($pdo): View
     {
         // TODO voir la liste des spectacles
+        $view = new View("views/not_done");
+        return $view;
+    }
+
+    public function deleteIntervenantHorsScene($pdo): View
+    {
+        // TODO supprimer intervenant
+        $view = new View("views/not_done");
+        return $view;
+    }
+
+    public function deleteIntervenantSurScene($pdo): View
+    {
+        // TODO supprimer intervenant
         $view = new View("views/not_done");
         return $view;
     }
