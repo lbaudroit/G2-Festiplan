@@ -39,7 +39,7 @@ class UsersService
      * Trouve les utilisateurs
      *
      * @param PDO $pdo the pdo object
-     * @return user the statement referencing the result set
+     * @return array the statement referencing the result set
      */
     public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp) {
         if (UsersService::valide($login) && UsersService::valide($mdp)) {
@@ -47,7 +47,6 @@ class UsersService
             $searchStmt->bindParam(1, $login);
             $searchStmt->execute();
             $user = $searchStmt->fetch();
-            //var_dump($user);
             if (password_verify($mdp, $user["hashed_pwd"])) {
                 $searchStmt = $pdo->prepare('SELECT * FROM users WHERE id_login= ?');
                 $searchStmt->bindParam(1, $login);
@@ -65,27 +64,28 @@ class UsersService
      * Crée un utilisateur
      *
      * @param PDO $pdo the pdo object
-     * @return user the statement referencing the result set
-     *
-    *public function addUsers(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp) {
-     *   if (UsersService::valide($login) && UsersService::valide($mdp) && UsersService::valide($lastname) && UsersService::valide($firstname) && UsersService::valide($mail)) {
-      *      $searchStmt = $pdo->prepare('INSERT INTO users VALUES ()');
-       *     $searchStmt->bindParam(1, $login);
-        *    $searchStmt->bindParam(2, $mdp);
-         *   $searchStmt->execute();
-          *  $user = $searchStmt->fetch();
-       * }
-    *}*/
+     * 
+     */
+    public function addUsers(PDO $pdo, $lastname, $firstname, $mail, $login, $mdp)
+    {
+        if (UsersService::valide($login) && UsersService::valide($mdp) && UsersService::valide($lastname) && UsersService::valide($firstname) && UsersService::valide($mail)) {
+            $searchStmt = $pdo->prepare('INSERT INTO users VALUES ()');
+            $searchStmt->bindParam(1, $login);
+            $searchStmt->bindParam(2, $mdp);
+            $searchStmt->execute();
+            $user = $searchStmt->fetch();
+        }
+    }
 
     /**
      * Vérifie la taille
-     * @return user the statement referencing the result set
+     * @return boolean the statement referencing the result set
      */
-    public function valideTaille($verif) {
+    public function valideTaille($verif)
+    {
         //var_dump($verif);
         if ($verif != null) {
             $regex = "/^.{1,35}$/";
-            //var_dump(preg_match($regex, $verif));
             return preg_match($regex, $verif, $matches);
         }
         return false;
@@ -93,22 +93,24 @@ class UsersService
 
     /**
      * Vérifie la taille
-     * @return user the statement referencing the result set
+     * @return boolean the statement referencing the result set
      */
-    public function valideMail($mail) {
+    public function valideMail($mail)
+    {
         //var_dump($mail);
         if ($mail != null) {
             $regex = "/^.{1,35}$/";
-            return preg_match($regex, $mail, $matches)  && filter_var($mail, FILTER_VALIDATE_EMAIL);
+            return preg_match($regex, $mail, $matches) && filter_var($mail, FILTER_VALIDATE_EMAIL);
         }
         return false;
     }
-    
+
     /**
      * Vérifie la taille
-     * @return user the statement referencing the result set
+     * @return boolean the statement referencing the result set
      */
-    public function valideMdp($mdp) {
+    public function valideMdp($mdp)
+    {
         if ($mdp != null) {
             $regex = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){4,35}$/';
             return preg_match($regex, $mdp, $matches);
@@ -117,8 +119,8 @@ class UsersService
     }
 
     /**
-     * Vérifie la taille
-     * @return user the statement referencing the result set
+     * Insert user dans la BD
+     * 
      */
     public function verifDoublonEmail(PDO $pdo, $email) {
         $searchStmt = $pdo->prepare("SELECT email FROM users");
@@ -134,7 +136,7 @@ class UsersService
 
     /**
      * Vérifie la taille
-     * @return user the statement referencing the result set
+     * @return boolean the statement referencing the result set
      */
     public function verifDoublonLogin(PDO $pdo, $login) {
         $searchStmt = $pdo->prepare("SELECT id_login FROM users");
@@ -148,9 +150,10 @@ class UsersService
         return $logOk;
     }
 
+    
     /**
      * Vérifie la taille
-     * @return user the statement referencing the result set
+     * 
      */
     public function insertion(PDO $pdo, $login, $lastname, $firstname, $mail, $mdp) {
         $sql = "INSERT INTO users(id_login, nom, prenom, email, hashed_pwd) VALUES (:logi, :lastname, :firstname, :mail, :mdp)";
