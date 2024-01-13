@@ -180,7 +180,7 @@ Variables utilisées
                                                     class="col-11 order-1     col-sm-4           col-md-4     py-2 px-1 text-left fs-3">
                                                     <a href="./index.php?controller=festival&action=modifyScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>"
                                                         class="text-decoration-none text-black">
-                                                        <?php echo "Scène&nbsp$i"; ?>
+                                                        <?php echo $sc["nom"]; ?>
                                                     </a>
                                                 </div>
                                                 <!--GPS-->

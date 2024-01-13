@@ -56,11 +56,11 @@ VALUES
 -- Création des scènes
 INSERT INTO scenes (capacite, latitude, longitude, id_festival, id_taille)
 VALUES
-(500, 43.6044622, 1.4442469,'Scene moyene', 1, 2),
-(1000, 43.6044622, 1.4442469,'Giga Scene', 2, 3),
-(50, 43.6044622, 1.4442469,'piti scene', 3, 1),
-(600, 43.6044622, 1.4442469,'random scene', 4, 2),
-(900, 43.6044622, 1.4442469,'grosse scene', 5, 3);
+(500, 43.6044622, 1.4442469,'Scène 1', 1, 2),
+(1000, 43.6044622, 1.4442469,'Stade', 2, 3),
+(50, 43.6044622, 1.4442469,'Petit local', 3, 1),
+(600, 43.6044622, 1.4442469,'Scène principale', 4, 2),
+(900, 43.6044622, 1.4442469,'Scène 2', 5, 3);
 
 -- Création de la table des organisateurs d'un festival
 INSERT INTO organise (id_festival,id_login)
