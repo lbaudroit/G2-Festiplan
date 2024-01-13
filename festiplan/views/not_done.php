@@ -27,13 +27,14 @@
             <p>
                 Cette fonctionnalité n'a pas encore été implémentée.
             </p>
-            <p>
-                Retournez à la page précédente.
-            </p>
+            <button id="go_back" class="btn bordure">
+                Retourner à la page précédente.
+            </button>
         </div>
     </div>
 
     <?php include("./views/footer.php"); ?>
+    <script src="./js/redirect.js" defer></script>
 </body>
 
 </html>

@@ -27,9 +27,13 @@
             Impossible d'accéder à la base de données.
         </p>
         </br>
+        <button id="go_back" class="btn bordure">
+            Retourner à la page précédente
+        </button>
     </div>
 
     <?php include("./views/header.php"); ?>
+    <script src="./js/redirect.js" defer></script>
 </body>
 
 </html>

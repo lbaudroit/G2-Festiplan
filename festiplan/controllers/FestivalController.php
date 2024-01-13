@@ -9,6 +9,7 @@ use services\TaillesService;
 use services\ImageService;
 use yasmf\HttpHelper;
 use yasmf\View;
+use PDO;
 
 class FestivalController
 {
@@ -29,10 +30,26 @@ class FestivalController
         $this->spectaclesService = $spectaclesService;
     }
 
+    /**
+     * Redirige l'utilisateur 
+     */
+    private function badUser()
+    {
+        return new View("views/no_rights");
+    }
 
-    public function index($pdo): View
+
+    /**
+     * Affiche la liste des festivals.
+     * @param PDO $pdo la connexion à la bdd
+     */
+    public function index(PDO $pdo): View
     {
         $user = $_SESSION["user"]["id_login"];
+        if (!isset($user)) {
+            return $this->badUser();
+        }
+
         $view = new View("views/liste");
         $resultSet = $this->festivalsService->getListThatUserOrganizes($pdo, $user);
         $view->setVar("liste", $resultSet);
@@ -42,13 +59,16 @@ class FestivalController
         return $view;
     }
 
+    /**
+     * Création d'un festival
+     * @param PDO $pdo la connexion à la bdd
+     */
     public function create($pdo): View
     {
         $user = $_SESSION["user"]["id_login"];
 
         if (!isset($user)) {
-            header("Location: ./index.php");
-            exit();
+            return $this->badUser();
         }
 
         // création de la vue commune aux différents cas
@@ -60,7 +80,6 @@ class FestivalController
         // cas où le formulaire a déjà été affiché et rempli
         if ($mode == "ajout") {
             try {
-                $erreur = false;
                 $pdo->beginTransaction();
                 // Création de la grij
                 $grij_deb = HttpHelper::getParam("grij_deb");
@@ -118,7 +137,10 @@ class FestivalController
         return $view;
     }
 
-    public function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
+    /**
+     * Remplit les champs de "creerFestival"
+     */
+    private function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
     {
         $view->setVar("titre", $titre);
         $view->setVar("desc", $desc);
@@ -127,20 +149,34 @@ class FestivalController
         $view->setVar("fin", $fin);
     }
 
-    public function setGrij(View $view, ?string $heure_deb, ?string $heure_fin, ?string $delai)
+    /**
+     * Remplit les champs de "creerFestival"
+     */
+    private function setGrij(View $view, ?string $heure_deb, ?string $heure_fin, ?string $delai)
     {
         $view->setVar("grij_deb", $heure_deb);
         $view->setVar("grij_fin", $heure_fin);
         $view->setVar("grij_delai", $delai);
     }
 
-    public function modify($pdo): View
+    /**
+     * Page de modification d'un festival.
+     * En lecture seulement.
+     * @param PDO $pdo la connexion à la bdd
+     */
+    public function modify(PDO $pdo): View
     {
+        $fest = (int) HttpHelper::getParam("festival");
+        $user = $_SESSION["user"]["id_login"];
+
+        if (!isset($user) || !$this->festivalsService->checkOrganisateur($pdo, $user, $fest)) {
+            return $this->badUser();
+        }
+
         $aModifier = HttpHelper::getParam("mode") == "modif"; // n'existe que si le formulaire a été validé
         if ($aModifier) {
             return new View("views/not_done");
         }
-        $fest = (int) HttpHelper::getParam("festival");
         $cat = $this->categoriesService->getList($pdo);
         $sc = $this->festivalsService->getScenesOfFestival($pdo, $fest);
         $org = $this->festivalsService->getOrganisateursOfFestival($pdo, $fest);
@@ -175,6 +211,12 @@ class FestivalController
     public function delete($pdo): View
     {
         $id = HttpHelper::getParam("festival");
+        $user = $_SESSION["user"]["id_login"];
+
+        if (!isset($user) || !$this->festivalsService->checkOwner($pdo, $user, $id)) {
+            return $this->badUser();
+        }
+
         if ($this->festivalsService->delete($pdo, $id)) {
             header("Location: index.php?controller=Dashboard");
             exit();
@@ -219,25 +261,24 @@ class FestivalController
         return $view;
     }
 
-    public function seeSpectacles($pdo): View
+    /**
+     * Affiche la liste des spectacles et permet sa modification.
+     * @param PDO pdo la connexion à la bdd
+     */
+    public function seeSpectacles(PDO $pdo): View
     {
         $id_fest = HttpHelper::getParam("festival");
+        $user = $_SESSION["user"]["id_login"];
+
+        if (!isset($user) || !$this->festivalsService->checkOrganisateur($pdo, $user, $id_fest)) {
+            return $this->badUser();
+        }
+
         $selection = HttpHelper::getParam("selection_fin");
         $view = new View("views/ajouterSpec");
 
         if (!empty($selection)) {
-            if ($selection == "none") {
-                $this->festivalsService->ajusterSpectacles($pdo, $id_fest, array());
-            } else {
-                $id_selectionnes = explode(",", $selection);
-                // enlever les entrées vides
-                $id_selectionnes =
-                    array_filter($id_selectionnes, function ($value, $key) {
-                        return strlen($value) != 0;
-                    }, ARRAY_FILTER_USE_BOTH);
-                $this->festivalsService->ajusterSpectacles($pdo, $id_fest, $id_selectionnes);
-            }
-            $view->setVar("selection_fin", $selection);
+            $this->festivalsService->ajusterSpectacles($pdo, $id_fest, $selection);
         } // else premier passage
 
         $infos_fest = $this->festivalsService->getInfo($pdo, $id_fest);

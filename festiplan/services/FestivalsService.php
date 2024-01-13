@@ -360,8 +360,19 @@ class FestivalsService
      * @param int $id_fest l'identifiant du festival
      * @param array $id_nouveaux la liste des id des nouveaux spectacles
      */
-    public function ajusterSpectacles(PDO $pdo, int $id_fest, array $id_nouveaux)
+    public function ajusterSpectacles(PDO $pdo, int $id_fest, string $selection)
     {
+        // Récupération de la liste des nouveaux.
+        if ($selection == "none") {
+            $id_nouveaux = array();
+        } else {
+            $liste = explode(",", $selection);
+            $id_nouveaux =
+                array_filter($liste, function ($value, $key) {
+                    return strlen($value) != 0;
+                }, ARRAY_FILTER_USE_BOTH); // enlever les entrées vides
+        }
+
         // récupérer listes spectacles sélectionnés
         $anciens_spectacles = $this->getListOfSpectacle($pdo, $id_fest);
         $id_anciens = array();
@@ -398,6 +409,12 @@ class FestivalsService
         return true;
     }
 
+    /**
+     * Supprime le spectacle du festival.
+     * @param PDO $pdo l'objet PDO
+     * @param int $id_fest l'identifiant du festival concerné
+     * @param int $id_spec l'identifiant du spectacle à supprimer
+     */
     function supprimerSpectacle(PDO $pdo, int $id_fest, int $id_spec): bool
     {
         $sql = "DELETE FROM contient WHERE id_festival = :fest AND id_spectacle = :spec";
@@ -407,6 +424,12 @@ class FestivalsService
         return $stmt->execute();
     }
 
+    /**
+     * Ajoute le spectacle dans le festival.
+     * @param PDO $pdo l'objet PDO
+     * @param int $id_fest l'identifiant du festival concerné
+     * @param int $id_spec l'identifiant du spectacle à ajouter
+     */
     function ajouterSpectacle($pdo, $id_fest, $id_spec)
     {
         $sql = "INSERT INTO contient (id_festival, id_spectacle) VALUES (:fest, :spec)";
