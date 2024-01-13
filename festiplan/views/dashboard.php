@@ -20,19 +20,18 @@
 </head>
 
 <body>
-    <header>
-        <span class="titre">Festiplan</span>
-    </header>
+    <?php include("./views/header.php"); ?>
 
-    <?php
-    $aAfficher = [$listeFestivals, $listeSpectacles];
-    $nom = ["festival", "spectacle"];
-    $nom_pluriel = ["festivals", "spectacles"];
-    foreach ($aAfficher as $e => $liste) {
-        $id = "id_" . $nom[$e];
-        ?>
-        <!--LISTE DES FESTIVALS OU SPECTACLES-->
-        <div class="container contenue">
+    <div class="container contenue">
+        <?php
+        $aAfficher = [$listeFestivals, $listeSpectacles];
+        $nom = ["festival", "spectacle"];
+        $nom_pluriel = ["festivals", "spectacles"];
+        $prefixe_img = ["f", "s"];
+        foreach ($aAfficher as $e => $liste) {
+            $id = "id_" . $nom[$e];
+            ?>
+            <!--LISTE DES FESTIVALS OU SPECTACLES-->
             <div class="row mb-2">
                 <!-- Titre -->
                 <div class="underline titre2 width-to-size">
@@ -49,9 +48,9 @@
                     </a>
                 </div>
             </div>
-            <div class="row row-gap-2">
+            <div class="row row-gap-2 mb-5">
                 <?php // affichage des cartes  
-                    foreach ($liste as $i => $elt) {
+                    foreach ($liste as $i => $spec) {
                         ?>
                     <div class="col-6 col-sm-4 col-md-3 min-card
                             <?php
@@ -63,29 +62,30 @@
                                 echo "d-none";
                             }
                             ?>">
-                        <a href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>"
+                        <a href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $spec[$id]; ?>"
                             class="text-decoration-none text-black">
                             <div class="bordure-basique d-flex flex-column justify-content-between h-100">
                                 <div class="p-2 row">
                                     <!-- TITRE -->
                                     <a class="col-9 text-decoration-none text-black"
-                                        href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
-                                        <?php echo $elt['titre']; ?>
+                                        href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $spec[$id]; ?>">
+                                        <?php echo $spec['titre']; ?>
                                     </a>
                                     <!-- ICONE POUBELLE -->
                                     <a class="col-3 text-end text-decoration-none text-black my-auto"
-                                        href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=delete&" . $nom[$e] . "=" . $elt[$id]; ?>">
+                                        href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=delete&" . $nom[$e] . "=" . $spec[$id]; ?>">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </div>
                                 <!-- IMAGE -->
                                 <a
-                                    href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $elt[$id]; ?>">
+                                    href="<?php echo "./index.php?controller=" . $nom[$e] . "&action=modify&" . $nom[$e] . "=" . $spec[$id]; ?>">
                                     <div class="">
                                         <?php
-                                        echo "<img  alt='Image du " . $nom[$e] . htmlspecialchars($elt['titre']) . "' 
-                                    src='images/" . $nom[$e] . "/" . $elt['lien_img'] . "'
-                                    class='img-fluid'>";
+                                        $ext = $spec["lien_img"];
+                                        $url = "images/" . $nom[$e] . "/" . $prefixe_img[$e] . (isset($ext) ? $spec[$id] . $ext : "0.jpg");
+                                        echo "<img  alt='Image du " . $nom[$e] . " " . htmlspecialchars($spec['titre']) . "' 
+                                    src='$url' class='img-fluid'>";
                                         ?>
                                     </div>
                                 </a>
@@ -109,32 +109,12 @@
                     </a>
                 </div>
             </div>
-        </div>
-        <?php
-    }
-    ?>
+            <?php
+        }
+        ?>
+    </div>
 
-    <footer>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-6">
-                    <form method="post" action="./index.php?controller=Deconnexion">
-                        <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
-                            <i class="fa-solid fa-power-off"></i>
-                            Deconnexion
-                        </button>
-                        <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
-                            <i class="fa-solid fa-power-off"></i>
-                        </button>
-                    </form>
-                </div>
-                <div class="col-6 contenue_droite">
-                    <img src="./images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
-                        href="http://www.iut-rodez.fr" target="_blank" />
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include("./views/footer.php"); ?>
 </body>
 
 </html>

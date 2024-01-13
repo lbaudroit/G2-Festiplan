@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300&display=swap');
 
-.aGauche {
-    text-align: left;
+.aDroite {
+    text-align: right;
 }
 
 body {
@@ -40,6 +40,25 @@ body {
 
 .formulaire > * {
     margin: 5px;
+}
+
+.grandEspacementHauteur {
+    margin-top: 50px;
+}
+
+.moyenEspacementHauteur {
+    margin-top: 20px;
+}
+
+.espacementLargeurGauche {
+    margin-left: 150px;
+}
+
+.espacementLargeur {
+    margin-right: 5px;
+}
+.petitEspacementLargeur {
+    margin-right: 5px;
 }
 
 .textFormulaire {
@@ -198,4 +217,21 @@ footer {
 
 .btn-deco-rond:hover {
     background-color: #ed5959;
+}
+
+.wrap {
+    white-space: break;
+    word-break: break-word;
+}
+
+.fond-rouge {
+    background-color: #ff6161;
+}
+
+.enRouge {
+    color: red;
+}
+
+.taille4em {
+    width: 4em;
 }

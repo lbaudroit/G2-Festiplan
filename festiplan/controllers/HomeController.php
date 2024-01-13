@@ -19,8 +19,7 @@ class HomeController
     }
 
 
-    public function index($pdo): View
-    {
+    public function index($pdo): View{
         $login = HttpHelper::getParam("identifiant");
         $mdp = HttpHelper::getParam("pswd");
         $user = $this->usersService->getUsersLoginAndMdp($pdo, $login, $mdp);
@@ -32,6 +31,22 @@ class HomeController
         $view = new View("/views/authentification");
 
         return $view;
+
+        //header('Location: ./index.php?controller=planification');
+        //exit;
+
+        /* $login = HttpHelper::getParam("identifiant");
+        $mdp = HttpHelper::getParam("pswd");
+        $user = $this->usersService->getUsersLoginAndMdp($pdo, $login, $mdp);
+        if ($user != null) {
+            $_SESSION['user'] = $user;
+            header('Location: ./index.php?controller=Dashboard');
+            exit;
+        }
+        $view = new View("/views/authentification");
+
+        return $view; */
+
     }
 
 }
