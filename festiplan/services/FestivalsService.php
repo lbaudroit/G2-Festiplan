@@ -329,24 +329,24 @@ class FestivalsService
          * S'il ne l'est pas : le rajouter
          * Si un sélectionné n'est pas dans id : le supprimer
          */
-        // $pdo->beginTransaction();
-        // try {
-        foreach ($anciens_diff as $ancien) {
-            if (!$this->supprimerSpectacle($pdo, $id_fest, $ancien)) {
-                throw new Exception("Impossible de supprimer le spectacle.");
+        $pdo->beginTransaction();
+        try {
+            foreach ($anciens_diff as $ancien) {
+                if (!$this->supprimerSpectacle($pdo, $id_fest, $ancien)) {
+                    throw new Exception("Impossible de supprimer le spectacle.");
+                }
             }
-        }
-        foreach ($nouveaux_diff as $nouveau) {
-            if (!$this->ajouterSpectacle($pdo, $id_fest, $nouveau)) {
-                throw new Exception("Impossible d'ajouter le spectacle.");
+            foreach ($nouveaux_diff as $nouveau) {
+                if (!$this->ajouterSpectacle($pdo, $id_fest, $nouveau)) {
+                    throw new Exception("Impossible d'ajouter le spectacle.");
+                }
             }
+        } catch (Exception $e) {
+            $pdo->rollback();
+            return false;
         }
-        // } catch (Exception $e) {
-        //     $pdo->rollback();
-        //     return false;
-        // }
-        // $pdo->commit();
-        // return true;
+        $pdo->commit();
+        return true;
     }
 
     function supprimerSpectacle(PDO $pdo, int $id_fest, int $id_spec): bool

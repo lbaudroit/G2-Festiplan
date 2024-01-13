@@ -254,6 +254,7 @@ class FestivalController
     {
         $id_fest = HttpHelper::getParam("festival");
         $selection = HttpHelper::getParam("selection_fin");
+        $view = new View("views/ajouterSpec");
 
         if (!empty($selection)) {
             if ($selection == "none") {
@@ -267,13 +268,13 @@ class FestivalController
                     }, ARRAY_FILTER_USE_BOTH);
                 $this->festivalsService->ajusterSpectacles($pdo, $id_fest, $id_selectionnes);
             }
+            $view->setVar("selection_fin", $selection);
         } // else premier passage
 
         $infos_fest = $this->festivalsService->getInfo($pdo, $id_fest);
         $tous_spec = $this->spectaclesService::getList($pdo);
         $select_spec = $this->festivalsService->getListOfSpectacle($pdo, $id_fest);
 
-        $view = new View("views/ajouterSpec");
         $view->setVar("id_fest", $id_fest);
         $view->setVar("festival", $infos_fest);
         $view->setVar("spectacles", $tous_spec);

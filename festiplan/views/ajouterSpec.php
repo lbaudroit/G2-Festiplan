@@ -39,6 +39,7 @@ Variables utilisées
             $id_selectionnes[] = $spec["id_spectacle"];
         }
     }
+    var_dump($selection_fin);
 
     ?>
     <div class="contenue container mb-2">
@@ -127,6 +128,7 @@ Variables utilisées
                         }
                     }
                     ?><!-- FIN LISTE SPECTACLES-->
+                    <input id="liste_a_envoyer" type="hidden" name="selection_fin">
                 </div>
                 <!-- BOUTONS -->
                 <div class="row mb-2">
