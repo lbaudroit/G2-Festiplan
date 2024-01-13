@@ -142,6 +142,55 @@ class FestivalsService
     }
 
     /**
+     * Vérifie les informations de base du festival
+     */
+    public function checkInfo(?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
+    {
+        $d_deb = date_create($deb);
+        $d_fin = date_create($fin);
+        return isset($titre, $desc, $cat, $deb, $fin)
+            && strlen($titre) > 0 && strlen($titre) <= 100
+            && $cat >= 1 && $cat <= 5
+            && $d_deb != false && $d_fin != false
+            && $d_fin >= $d_deb;
+    }
+
+    /**
+     * Vérifie les informations de la Grij
+     */
+    public function checkGrijData(?string $deb, ?string $fin, ?string $delai)
+    {
+        $d_deb = explode(":", $deb);
+        $d_fin = explode(":", $fin);
+
+        /**
+         * Il faut qu'au moins un facteur soit supérieur et que tous soient au moins égaux
+         */
+        $tousAuMoinsEgaux =
+            $d_deb[0] <= $d_fin[0]
+            && $d_deb[1] <= $d_fin[1];
+
+        $auMoinsUnSuperieur =
+            $d_deb[0] < $d_fin[0]
+            || $d_deb[1] < $d_fin[1];
+
+        return $this->isValidTime($d_deb) && $this->isValidTime($d_fin)
+            && $tousAuMoinsEgaux
+            && $auMoinsUnSuperieur;
+    }
+
+    /**
+     * Vérifie qu'il s'agit d'une heure valide
+     * @param array $time un tableau contenant les heures, puis les minutes, puis les secondes
+     */
+    public function isValidTime(array $time)
+    {
+        return count($time) == 2 &&
+            $time[0] >= 0 && $time[0] < 24 // 24:00 date impossible
+            && $time[1] >= 0 && $time[1] < 60;
+    }
+
+    /**
      * Crée une grij.
      *
      * @param PDO $pdo the pdo object

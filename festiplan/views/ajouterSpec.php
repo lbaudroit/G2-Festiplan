@@ -39,7 +39,6 @@ Variables utilisées
             $id_selectionnes[] = $spec["id_spectacle"];
         }
     }
-    var_dump($selection_fin);
 
     ?>
     <div class="contenue container mb-2">
