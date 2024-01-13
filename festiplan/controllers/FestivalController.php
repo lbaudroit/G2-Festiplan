@@ -4,6 +4,7 @@ namespace controllers;
 use Exception;
 use services\CategoriesService;
 use services\FestivalsService;
+use services\SpectaclesService;
 use services\TaillesService;
 use services\ImageService;
 use yasmf\HttpHelper;
@@ -16,13 +17,16 @@ class FestivalController
 
     private CategoriesService $categoriesService;
 
+    private SpectaclesService $spectaclesService;
+
     /**
      * Create a new default controller
      */
-    public function __construct(FestivalsService $festivalsService, CategoriesService $categoriesService)
+    public function __construct(FestivalsService $festivalsService, CategoriesService $categoriesService, SpectaclesService $spectaclesService)
     {
         $this->festivalsService = $festivalsService;
         $this->categoriesService = $categoriesService;
+        $this->spectaclesService = $spectaclesService;
     }
 
 
@@ -248,8 +252,32 @@ class FestivalController
 
     public function seeSpectacles($pdo): View
     {
-        // TODO voir la liste des spectacles
-        $view = new View("views/not_done");
+        $id_fest = HttpHelper::getParam("festival");
+        $selection = HttpHelper::getParam("selection_fin");
+
+        if (!empty($selection)) {
+            if ($selection == "none") {
+                $this->festivalsService->ajusterSpectacles($pdo, $id_fest, array());
+            } else {
+                $id_selectionnes = explode(",", $selection);
+                // enlever les entrées vides
+                $id_selectionnes =
+                    array_filter($id_selectionnes, function ($value, $key) {
+                        return strlen($value) != 0;
+                    }, ARRAY_FILTER_USE_BOTH);
+                $this->festivalsService->ajusterSpectacles($pdo, $id_fest, $id_selectionnes);
+            }
+        } // else premier passage
+
+        $infos_fest = $this->festivalsService->getInfo($pdo, $id_fest);
+        $tous_spec = $this->spectaclesService::getList($pdo);
+        $select_spec = $this->festivalsService->getListOfSpectacle($pdo, $id_fest);
+
+        $view = new View("views/ajouterSpec");
+        $view->setVar("id_fest", $id_fest);
+        $view->setVar("festival", $infos_fest);
+        $view->setVar("spectacles", $tous_spec);
+        $view->setVar("selection_debut", $select_spec);
         return $view;
     }
 

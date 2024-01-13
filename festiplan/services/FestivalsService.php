@@ -63,7 +63,7 @@ class FestivalsService
     }
 
     /*
-     * Trouve les spectacles créés par cet utilisateur.
+     * Trouve les spectacles liés à ce festival.
      *
      * @param PDO $pdo the pdo object
      * @param string $festival le festival dont on cherche les spectacles
@@ -78,24 +78,6 @@ class FestivalsService
                 WHERE id_festival = :festival";
         $searchStmt = $pdo->prepare($sql);
         $searchStmt->bindParam(":festival", $festival);
-        $searchStmt->execute();
-        return $searchStmt;
-    }
-
-    /**
-     * Trouve les spectacles liés à un festival.
-     *
-     * @param PDO $pdo the pdo object
-     * @param string $user l'utilisateur dont on cherche les spectacles
-     * @return PDOStatement the statement referencing the result set
-     */
-    public function getSpectaclesOfFestival(PDO $pdo, int $id_fest): PDOStatement
-    {
-        $sql = "SELECT * 
-            FROM spectacles
-            WHERE id_login = :login";
-        $searchStmt = $pdo->prepare($sql);
-        $searchStmt->bindParam(":login", $user);
         $searchStmt->execute();
         return $searchStmt;
     }
@@ -321,6 +303,68 @@ class FestivalsService
         }
         $pdo->commit();
         return true;
+    }
+
+    /**
+     * Met à jour les spectacles du festival
+     * @param PDO $pdo l'objet PDO
+     * @param int $id_fest l'identifiant du festival
+     * @param array $id_nouveaux la liste des id des nouveaux spectacles
+     */
+    public function ajusterSpectacles(PDO $pdo, int $id_fest, array $id_nouveaux)
+    {
+        // récupérer listes spectacles sélectionnés
+        $anciens_spectacles = $this->getListOfSpectacle($pdo, $id_fest);
+        $id_anciens = array();
+        foreach ($anciens_spectacles as $ancien) {
+            $id_anciens[] = $ancien["id_spectacle"];
+        }
+
+        // permet de sélectionner ceux qui ne sont pas dans les deux array
+        $anciens_diff = array_diff($id_anciens, $id_nouveaux);
+        $nouveaux_diff = array_diff($id_nouveaux, $id_anciens);
+
+        /*
+         * Si id est parmi les sélectionnés : ne rien faire
+         * S'il ne l'est pas : le rajouter
+         * Si un sélectionné n'est pas dans id : le supprimer
+         */
+        // $pdo->beginTransaction();
+        // try {
+        foreach ($anciens_diff as $ancien) {
+            if (!$this->supprimerSpectacle($pdo, $id_fest, $ancien)) {
+                throw new Exception("Impossible de supprimer le spectacle.");
+            }
+        }
+        foreach ($nouveaux_diff as $nouveau) {
+            if (!$this->ajouterSpectacle($pdo, $id_fest, $nouveau)) {
+                throw new Exception("Impossible d'ajouter le spectacle.");
+            }
+        }
+        // } catch (Exception $e) {
+        //     $pdo->rollback();
+        //     return false;
+        // }
+        // $pdo->commit();
+        // return true;
+    }
+
+    function supprimerSpectacle(PDO $pdo, int $id_fest, int $id_spec): bool
+    {
+        $sql = "DELETE FROM contient WHERE id_festival = :fest AND id_spectacle = :spec";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":fest", $id_fest);
+        $stmt->bindParam(":spec", $id_spec);
+        return $stmt->execute();
+    }
+
+    function ajouterSpectacle($pdo, $id_fest, $id_spec)
+    {
+        $sql = "INSERT INTO contient (id_festival, id_spectacle) VALUES (:fest, :spec)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":fest", $id_fest);
+        $stmt->bindParam(":spec", $id_spec);
+        return $stmt->execute();
     }
 }
 ?>
