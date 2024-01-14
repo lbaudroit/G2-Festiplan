@@ -1,12 +1,11 @@
 <?php
 namespace controllers;
 
-use DateInterval;
 use Exception;
-use PDOException;
 use services\CategoriesService;
 use services\FestivalsService;
 use services\TaillesService;
+use services\ImageService;
 use yasmf\HttpHelper;
 use yasmf\View;
 
@@ -74,25 +73,24 @@ class FestivalController
                 // Récupération de l'extension de fichier
                 $img = $_FILES["img_fest"];
                 if (isset($img)) {
-                    $ext = $this->extractExtension($img);
+                    $ext = ImageService::extractExtension($img);
                 }
 
-                if (!isset($grij_deb, $grij_fin, $grij_delai)) {
-                    $erreur = "On est rentré dans la boucle";
-                    throw new Exception("La GriJ n'est pas entièrement remplie.");
+                if (!$this->checkGrijData($grij_deb, $grij_fin, $grij_delai)) {
+                    throw new Exception("La GriJ n'est pas correctement remplie.");
                 }
                 $id_grij = $this->festivalsService->addGrij($pdo, $grij_deb, $grij_fin, $grij_delai);
 
                 // Le créateur est automatiquement ajouté avec un trigger
                 // Pas disponibles lors de la création mais disponible après dans l'interface de modification
-                if (!isset($titre, $desc, $cat, $deb, $fin)) {
-                    throw new Exception("Les champs du festivals ne sont pas saisis correctement.");
+                if (!$this->checkInfo($titre, $desc, $cat, $deb, $fin)) {
+                    throw new Exception("Les champs du festival ne sont pas saisis correctement.");
                 }
                 $id = $this->festivalsService->addFestival($pdo, $titre, $desc, $deb, $fin, $id_grij, $user, $cat);
 
                 // Récupère l'image et la stocke
                 if ($ext) {
-                    $this->ajouterImage($id, $img, $ext);
+                    ImageService::ajouterImage($id, "festival", $img, $ext);
                 }
                 $pdo->commit();
                 $view->setVar("fest", $id);
@@ -121,10 +119,13 @@ class FestivalController
      */
     public function checkInfo(?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
     {
+        $d_deb = date_create($deb);
+        $d_fin = date_create($fin);
         return isset($titre, $desc, $cat, $deb, $fin)
             && strlen($titre) > 0 && strlen($titre) <= 100
             && $cat >= 1 && $cat <= 5
-            && date_create($deb) != false && date_create($fin) != false;
+            && $d_deb != false && $d_fin != false
+            && $d_fin >= $d_deb;
     }
 
     /**
@@ -132,54 +133,16 @@ class FestivalController
      */
     public function checkGrijData(?string $deb, ?string $fin, ?string $delai)
     {
-        try {
-            new DateInterval($delai);
-        } catch (Exception $e) {
+        $time_regex = "/^(\d{1,2}:\d{1,2}(:\d{1,2})?)$/";
+        // Validation
+        if (!preg_match($time_regex, $deb) || !preg_match($time_regex, $fin) || !preg_match($time_regex, $delai)) {
             return false;
         }
-        return date_create($deb) != false && date_create($fin) != false;
-    }
-
-    /**
-     * Récupère l'image telle que passée dans $_FILES et son extension pour la renommer
-     * et la rajouter dans le dossier des images
-     * @param int $id_fest l'identifiant du spectacle auquel on ajoute une image
-     * @param array $img l'image telle que passée dans $_FILES
-     * @param string $ext l'extension sous la forme ".png" par exemple
-     * Lance une exception si le format ou les dimensions sont invalides ou si le fichier 
-     * ne peut être créé.
-     */
-    public function ajouterImage(int $id_fest, array $img, string $ext)
-    {
-        // Vérification du type de fichier
-        $accepted_types = [".png", ".gif", ".jpg"];
-        if (!in_array($ext, $accepted_types)) {
-            throw new Exception("Le type du fichier est invalide.");
-        }
-        $target_dir = "./images/festival/";
-        $target_file = $target_dir . "f" . $id_fest . $ext;
-        $check = getimagesize($img["tmp_name"]);
-        if ($check == false || $check[0] > 800 || $check[1] > 600) {
-            throw new Exception("Les dimensions du fichier sont invalides.");
-        }
-        if (!move_uploaded_file($img["tmp_name"], $target_file)) {
-            throw new Exception("Impossible d'uploader l'image.");
-        }
-    }
-
-    /**
-     * Récupère l'extension du fichier depuis son tableau extrait de $_FILES.
-     */
-    public function extractExtension(array $img): string|null
-    {
-        $extraction_regex = "/\.[^\.]{3}$/";
-        $extension = array();
-        preg_match($extraction_regex, $img["name"], $extension);
-        if (isset($extension)) {
-            return $extension[0];
-        }
-        return null;
-
+        $d_deb = explode(":", $deb);
+        $d_fin = explode(":", $fin);
+        return $d_deb[0] < $d_fin[0]
+            && $d_deb[1] <= $d_fin[1]
+            && $d_deb[2] <= $d_fin[2];
     }
 
     public function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
@@ -238,9 +201,13 @@ class FestivalController
 
     public function delete($pdo): View
     {
-        // TODO
-        $view = new View("views/not_done");
-        return $view;
+        $id = HttpHelper::getParam("festival");
+        if ($this->festivalsService->delete($pdo, $id)) {
+            header("Location: index.php?controller=Dashboard");
+            exit();
+        } else {
+            return new View("views/not_done");
+        }
     }
 
     public function createScene($pdo): View
@@ -281,6 +248,20 @@ class FestivalController
     public function seeSpectacles($pdo): View
     {
         // TODO voir la liste des spectacles
+        $view = new View("views/not_done");
+        return $view;
+    }
+
+    public function deleteIntervenantHorsScene($pdo): View
+    {
+        // TODO supprimer intervenant
+        $view = new View("views/not_done");
+        return $view;
+    }
+
+    public function deleteIntervenantSurScene($pdo): View
+    {
+        // TODO supprimer intervenant
         $view = new View("views/not_done");
         return $view;
     }

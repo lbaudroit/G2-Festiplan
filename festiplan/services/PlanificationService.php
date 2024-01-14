@@ -353,4 +353,5 @@ class PlanificationService
         $stmt->execute();
         return $stmt->fetch()["date_fin-date_deb+1"];
     }
+
 }

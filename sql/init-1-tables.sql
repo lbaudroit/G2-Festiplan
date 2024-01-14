@@ -78,6 +78,24 @@ CREATE TABLE intervenants (
     PRIMARY KEY (id_intervenant)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE estsurscene (
+    id_esthorsscene INTEGER NOT NULL AUTO_INCREMENT,
+    id_spectacle INTEGER NOT NULL,
+    id_intervenant INTEGER NOT NULL,
+    FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
+    FOREIGN KEY (id_intervenant) REFERENCES intervenants(id_intervenant),
+    PRIMARY KEY (id_estsurscene)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE esthorsscene (
+    id_esthorsscene INTEGER NOT NULL AUTO_INCREMENT,
+    id_spectacle INTEGER NOT NULL,
+    id_intervenant INTEGER NOT NULL,
+    FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
+    FOREIGN KEY (id_intervenant) REFERENCES intervenants(id_intervenant),
+    PRIMARY KEY (id_esthorsscene)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE scenes (
     id_scene INTEGER NOT NULL AUTO_INCREMENT,
     capacite INTEGER NOT NULL,
@@ -126,7 +144,7 @@ CREATE TABLE contient (
 CREATE TABLE planifie (
     id_scene INTEGER NOT NULL,
     id_spectacle INTEGER NOT NULL,
-    date_spectacle DATE NOT NULL,
+    date_spectacle INTEGER NOT NULL,
     heure_deb TIME NOT NULL,
     FOREIGN KEY (id_scene) REFERENCES scenes(id_scene),
     FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
