@@ -19,7 +19,7 @@ class PlanificationService
      * forme de tableau a double entrées.
      */
     public function getPlannif(PDO $pdo, string $idFestival) {
-        $rqt = "SELECT  planifie.id_scene, planifie.id_spectacle, planifie.date_spectacle, planifie.heure_deb
+        $rqt = "SELECT planifie.id_scene, planifie.id_spectacle, planifie.date_spectacle, planifie.heure_deb
                 FROM planifie
                 INNER JOIN scenes
                 ON planifie.id_scene = scenes.id_scene
@@ -63,7 +63,7 @@ class PlanificationService
                         $sceneChoisi = $this->choisirLaSceneDisponibleAuPlusTot($spectacle, $listeDesScenesDisponible);
                         $listeIntervenantSpectacle = $this->getListeIntervenantSpectacle($pdo, $spectacle[0]);
                         $intervenantDisponibleAuPlusTard = $this->choisirIntervenantDisponibleAuPlusTard($listeIntervenantSpectacle ,$listeIntervenantDisponible);
-                    
+                        
                         if ($sceneChoisi[1] < $intervenantDisponibleAuPlusTard[1]) {
                             $heureDebut = $intervenantDisponibleAuPlusTard[1];
                         } else {
@@ -194,12 +194,13 @@ class PlanificationService
         foreach ($listeDesScenesDisponible as $idScene => $infos) {
             if ($spectacle[2] >= $infos[1] && $i == 0){
                 $heureMinSceneDispo = $infos[0];
-                $res = array($idScene, $infos[0], $infos[1]);
+                $res = array($idScene, $heureMinSceneDispo, $infos[1]);
                 $i++;
             }
             
             if (isset($heureMinSceneDispo) && 
-                ($spectacle[2] = $infos[1] || $heureMinSceneDispo >= $infos[0])) {
+                ($spectacle[2] == $infos[1] || $heureMinSceneDispo >= $infos[0])) {
+                $heureMinSceneDispo = $infos[0];
                 $res = array($idScene, $infos[0], $infos[1]);
             }  
         }
@@ -328,14 +329,6 @@ class PlanificationService
      */
     function convertirEnTableauPlannif(PDO $pdo ,PDOstatement $resDeRequete) {
         while ($ligne = $resDeRequete->fetch()){
-            // requete pour recupérer le titre et la duree du spectacle
-            $rqt = "SELECT titre, duree
-                    FROM spectacles
-                    WHERE id_spectacle = :idSpectacle ";
-            $searchStmt = $pdo->prepare($rqt);
-            $searchStmt->bindParam(":idSpectacle", $ligne["idSpectacle"]);
-            $searchStmt->execute();
-
             // stock le resultat dans un tableau a double entreé
             $res[]= [$ligne["id_spectacle"], $ligne["heureDebut"], $ligne["id_scene"],$ligne["date"]];
 
