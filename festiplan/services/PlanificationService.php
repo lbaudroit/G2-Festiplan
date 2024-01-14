@@ -54,13 +54,20 @@ class PlanificationService
 
             // On fait jour apres jour pour placer les spectacles
             for ($jour = 1; $jour <= $DureeFestivalEnJour; $jour++) {
-                $listeDesScenesDisponible = $this->resetSceneHeureDispo( $listeDesScenesDisponible, $grijFestival[0]);
+                echo($jour."<br/>");
+                $listeDesScenesDisponible = $this->resetSceneHeureDispo($listeDesScenesDisponible, $grijFestival[0]);
                 $listeIntervenantDisponible = $this->resetIntervenantHeureDispo($listeIntervenantDisponible, $grijFestival[0]);
+                if($jour == 1){
+                    $listeDesSpectaclesDeLaBoucle = $listeDesSpectacles;
+                }
+                
 
-                foreach ($listeDesSpectacles as $spectacle) {
+                foreach ($listeDesSpectaclesDeLaBoucle as $spectacle) {
+                    echo($spectacle[3].'/');
 
                     // si le spectacle n'est pas deja placé (= 0), essaye de le placer sinon prochain spectacle
                     if ($spectacle[3] !=  1) {
+                        echo($spectacle[0].'/');
                         $sceneChoisi = $this->choisirLaSceneDisponibleAuPlusTot($spectacle, $listeDesScenesDisponible);
                         $listeIntervenantSpectacle = $this->getListeIntervenantSpectacle($pdo, $spectacle[0]);
                         $intervenantDisponibleAuPlusTard = $this->choisirIntervenantDisponibleAuPlusTard($listeIntervenantSpectacle ,$listeIntervenantDisponible);
@@ -77,12 +84,17 @@ class PlanificationService
                             $res[] = [$spectacle[0], $heureDebut, $jour, $sceneChoisi[0]];
                             $listeDesScenesDisponible = $this->miseAJourDisponibiliteScene($sceneChoisi[0], $heureDeFin, $listeDesScenesDisponible);
                             $listeIntervenantDisponible = $this->miseAJourDisponibiliteIntervenant($listeIntervenantSpectacle, $heureDeFin, $listeIntervenantDisponible);
-                            $spectacle[3] = 1;
+                            echo($spectacle[3].'/');
+                            $spectacle[3] ++;
+                            echo($spectacle[3].'/<br/>');
                         }
                     }
                 }
+                echo("<br/>");
             }
 
+            echo(count($listeDesSpectacles)); 
+            echo(count($res)); 
             if (count($listeDesSpectacles) != count($res)) {
                 throw new Exception("Problème plannification : Un ou plusieurs spectacles n'ont pas pu etre placé pour des raisons de temps ou disponibilités des scenes et intervenants");
             } else {
@@ -118,14 +130,14 @@ class PlanificationService
             $listeIntervenantDisponible[$idIntervenant] = $heureDeFin;
         }
         
-        return  $listeIntervenantDisponible;
+        return $listeIntervenantDisponible;
     }
 
     /**
      * Met a jour l'heure de disponibilités d'une scene
      */
     function miseAJourDisponibiliteScene(string $idScene, $heureDeFin, $listeDesScenesDisponible) {
-        $listeDesScenesDisponible[$idScene] = $heureDeFin;
+        $listeDesScenesDisponible[$idScene][0] = $heureDeFin;
         return $listeDesScenesDisponible;
     }
 
@@ -193,7 +205,6 @@ class PlanificationService
         $i = 0;
 
         foreach ($listeDesScenesDisponible as $idScene => $infos) {
-            print_r($infos);
             if ($spectacle[2] <= $infos[1] && $i == 0){
                 $heureMinSceneDispo = $infos[0];
                 $res = array($idScene, $heureMinSceneDispo, $infos[1]);
@@ -204,7 +215,7 @@ class PlanificationService
             if (isset($heureMinSceneDispo) && 
                 ($spectacle[2] == $infos[1] || $heureMinSceneDispo >= $infos[0])) {
                     $heureMinSceneDispo = $infos[0];
-                    $res = array($idScene, $heureMinSceneDispo, $infos[1]);
+                    $res = array($idScene, $infos[0], $infos[1]);
             }  
         }
 
