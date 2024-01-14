@@ -5,6 +5,7 @@ use Exception;
 use PDO;
 use PDOStatement;
 use DateTime;
+use DateInterval;
 use services\FestivalsService;
 
 /**
@@ -53,7 +54,7 @@ class PlanificationService
 
             // On fait jour apres jour pour placer les spectacles
             for ($jour = 1; $jour <= $DureeFestivalEnJour; $jour++) {
-                $listeDesScenesDisponible = $this->resetSceneHeureDispo($listeDesSpectacles, $grijFestival[0]);
+                $listeDesScenesDisponible = $this->resetSceneHeureDispo( $listeDesScenesDisponible, $grijFestival[0]);
                 $listeIntervenantDisponible = $this->resetIntervenantHeureDispo($listeIntervenantDisponible, $grijFestival[0]);
 
                 foreach ($listeDesSpectacles as $spectacle) {
@@ -69,8 +70,8 @@ class PlanificationService
                         } else {
                             $heureDebut = $sceneChoisi[1];
                         }
-
-                        $heureDeFin = date_add(date_add($heureDebut, $spectacle[1]), $grijFestival[2]);
+                        $etape1 = date_add($heureDebut, $spectacle[1]);
+                        $heureDeFin = date_add($etape1, $grijFestival[2]);
 
                         if ($heureDeFin <= $grijFestival[1]){
                             $res[] = [$spectacle[0], $heureDebut, $jour, $sceneChoisi[0]];
@@ -192,16 +193,18 @@ class PlanificationService
         $i = 0;
 
         foreach ($listeDesScenesDisponible as $idScene => $infos) {
-            if ($spectacle[2] >= $infos[1] && $i == 0){
-                $heureMinSceneDispo = $infos[0];
+            print_r($infos);
+            if ($spectacle[2] <= $infos[1] && $i == 0){
+                $heureMinSceneDispo = $infos;
                 $res = array($idScene, $heureMinSceneDispo, $infos[1]);
                 $i++;
             }
             
+            
             if (isset($heureMinSceneDispo) && 
                 ($spectacle[2] == $infos[1] || $heureMinSceneDispo >= $infos[0])) {
-                $heureMinSceneDispo = $infos[0];
-                $res = array($idScene, $infos[0], $infos[1]);
+                    $heureMinSceneDispo = $infos[0];
+                    $res = array($idScene, $heureMinSceneDispo, $infos[1]);
             }  
         }
 
@@ -218,11 +221,11 @@ class PlanificationService
      * Permet de reinitialiser l'heure de disponibilité des scenes pour une
      * nouvelle journée
      */
-    function resetSceneHeureDispo($listeDesSpectacles, $heureDebutGrij) {
-        foreach ($listeDesSpectacles as $scene) {
-            $scene[1] = $heureDebutGrij;
+    function resetSceneHeureDispo($listeDesScenesDisponible, $heureDebutGrij) {
+        foreach ($listeDesScenesDisponible as $scene) {
+            $scene[0] = $heureDebutGrij;
         }
-        return $listeDesSpectacles;
+        return $listeDesScenesDisponible;
     }
 
     /**
@@ -271,8 +274,12 @@ class PlanificationService
         $searchStmt->execute();
 
         $row = $searchStmt->fetch();
+        $heure_deb = date_create($row["heure_deb"]);
+        $heure_fin = date_create($row["heure_fin"]);
+        $temps_pause = new DateInterval('PT'.$row["temps_pause"][0].$row["temps_pause"][1].'H'.$row["temps_pause"][3].$row["temps_pause"][4].'M'.$row["temps_pause"][6].$row["temps_pause"][7].'S');
+
         // stock le resultat dans un tableau
-        $res = array($row["heure_deb"], $row["heure_fin"], $row["temps_pause"]);
+        $res = array($heure_deb, $heure_fin, $temps_pause);
 
         return $res;
     }
@@ -293,7 +300,8 @@ class PlanificationService
         $searchStmt->execute();
 
         while ($ligne = $searchStmt->fetch()){
-            $res[] = [$ligne["id_spectacle"],$ligne["duree"],$ligne["id_taille"],0];
+            $duree = new DateInterval('PT'.$ligne["duree"][0].$ligne["duree"][1].'H'.$ligne["duree"][3].$ligne["duree"][4].'M'.$ligne["duree"][6].$ligne["duree"][7].'S');
+            $res[] = [$ligne["id_spectacle"],$duree ,$ligne["id_taille"],0];
         } 
 
         if(!isset($res)){
@@ -317,9 +325,10 @@ class PlanificationService
         $searchStmt->execute();
 
         while ($ligne = $searchStmt->fetch()){
-            $res[$ligne["id_scene"]] = [$heureDebut ,$ligne["id_taille"]];
+            $res[$ligne["id_scene"]] = array($heureDebut ,$ligne["id_taille"]);
         } 
 
+        
         return $res;
     }
 
@@ -329,8 +338,10 @@ class PlanificationService
      */
     function convertirEnTableauPlannif(PDO $pdo ,PDOstatement $resDeRequete) {
         while ($ligne = $resDeRequete->fetch()){
+
+            $heure_deb = date_create($ligne["heure_deb"]);
             // stock le resultat dans un tableau a double entreé
-            $res[]= [$ligne["id_spectacle"], $ligne["heureDebut"], $ligne["id_scene"],$ligne["date"]];
+            $res[]= [$ligne["id_spectacle"], $heure_deb, $ligne["id_scene"],$ligne["date"]];
 
         }
 
@@ -353,5 +364,4 @@ class PlanificationService
         $stmt->execute();
         return $stmt->fetch()["date_fin-date_deb+1"];
     }
-
 }
