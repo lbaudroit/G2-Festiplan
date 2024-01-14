@@ -195,7 +195,7 @@ class PlanificationService
         foreach ($listeDesScenesDisponible as $idScene => $infos) {
             print_r($infos);
             if ($spectacle[2] <= $infos[1] && $i == 0){
-                $heureMinSceneDispo = $infos;
+                $heureMinSceneDispo = $infos[0];
                 $res = array($idScene, $heureMinSceneDispo, $infos[1]);
                 $i++;
             }
