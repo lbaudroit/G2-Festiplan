@@ -50,9 +50,11 @@
 </head>
 
 <body>
-    <?php include("./views/header.php"); ?>
+    <?php include("./views/header.php"); 
+    var_dump($plannification);
+    ?>
     <div class="contenue container mb-2">
-        
+        var_dump()
         <div class="underline titre2 width-to-size">
             Planification de
             <?php echo $nomFestival["titre"] ?>
