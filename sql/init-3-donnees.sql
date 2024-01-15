@@ -59,8 +59,7 @@ VALUES
 (500, 43.6044622, 1.4442469,'Scène 1', 1, 2),
 (1000, 43.6044622, 1.4442469,'Stade', 2, 3),
 (50, 43.6044622, 1.4442469,'Petit local', 3, 1),
-(600, 43.6044622, 1.4442469,'Scène principale', 4, 2),
-(900, 43.6044622, 1.4442469,'Scène 2', 5, 3);
+(600, 43.6044622, 1.4442469,'Scène principale', 4, 2);
 
 -- Création de la table des organisateurs d'un festival
 INSERT INTO organise (id_festival,id_login)
