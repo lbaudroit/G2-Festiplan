@@ -59,16 +59,11 @@ class FestivalController
         return $view;
     }
 
-<<<<<<< HEAD
     /**
      * Création d'un festival
      * @param PDO $pdo la connexion à la bdd
      */
-    public function create($pdo): View
-    {
-=======
     public function create($pdo): View {
->>>>>>> creerScene
         $user = $_SESSION["user"]["id_login"];
 
         if (!isset($user)) {
@@ -144,80 +139,8 @@ class FestivalController
     /**
      * Remplit les champs de "creerFestival"
      */
-<<<<<<< HEAD
-    private function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
-    {
-=======
-    public function checkInfo(?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
-    {
-        $d_deb = date_create($deb);
-        $d_fin = date_create($fin);
-        return isset($titre, $desc, $cat, $deb, $fin)
-            && strlen($titre) > 0 && strlen($titre) <= 100
-            && $cat >= 1 && $cat <= 5
-            && $d_deb != false && $d_fin != false
-            && $d_fin >= $d_deb;
-    }
+    private function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin) {
 
-    /**
-     * Vérifie les informations de la Grij
-     */
-    public function checkGrijData(?string $deb, ?string $fin, ?string $delai)
-    {
-        $time_regex = "/^(\d{1,2}:\d{1,2}(:\d{1,2})?)$/";
-        // Validation
-        if (!preg_match($time_regex, $deb) || !preg_match($time_regex, $fin) || !preg_match($time_regex, $delai)) {
-            return false;
-        }
-        $d_deb = explode(":", $deb);
-        $d_fin = explode(":", $fin);
-        return $d_deb[0] < $d_fin[0]
-            && $d_deb[1] <= $d_fin[1]
-            && $d_deb[2] <= $d_fin[2];
-    }
-
-    /**
-     * Récupère l'image telle que passée dans $_FILES et son extension pour la renommer
-     * et la rajouter dans le dossier des images
-     * @param int $id_fest l'identifiant du spectacle auquel on ajoute une image
-     * @param array $img l'image telle que passée dans $_FILES
-     * @param string $ext l'extension sous la forme ".png" par exemple
-     * Lance une exception si le format ou les dimensions sont invalides ou si le fichier 
-     * ne peut être créé.
-     */
-    public function ajouterImage(int $id_fest, array $img, string $ext)
-    {
-        // Vérification du type de fichier
-        $accepted_types = [".png", ".gif", ".jpg"];
-        if (!in_array($ext, $accepted_types)) {
-            throw new Exception("Le type du fichier est invalide.");
-        }
-        $target_dir = "./images/festival/";
-        $target_file = $target_dir . "f" . $id_fest . $ext;
-        $check = getimagesize($img["tmp_name"]);
-        if ($check == false || $check[0] > 800 || $check[1] > 600) {
-            throw new Exception("Les dimensions du fichier sont invalides.");
-        }
-        if (!move_uploaded_file($img["tmp_name"], $target_file)) {
-            throw new Exception("Impossible d'uploader l'image.");
-        }
-    }
-
-    /**
-     * Récupère l'extension du fichier depuis son tableau extrait de $_FILES.
-     */
-    public function extractExtension(array $img): string|null {
-        $extraction_regex = "/\.[^\.]{3}$/";
-        $extension = array();
-        preg_match($extraction_regex, $img["name"], $extension);
-        if (isset($extension)) {
-            return $extension[0];
-        }
-        return null;
-    }
-
-    public function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin) {
->>>>>>> creerScene
         $view->setVar("titre", $titre);
         $view->setVar("desc", $desc);
         $view->setVar("cat", $cat);
@@ -225,15 +148,10 @@ class FestivalController
         $view->setVar("fin", $fin);
     }
 
-<<<<<<< HEAD
     /**
      * Remplit les champs de "creerFestival"
      */
-    private function setGrij(View $view, ?string $heure_deb, ?string $heure_fin, ?string $delai)
-    {
-=======
-    public function setGrij(View $view, ?string $heure_deb, ?string $heure_fin, ?string $delai) {
->>>>>>> creerScene
+    private function setGrij(View $view, ?string $heure_deb, ?string $heure_fin, ?string $delai) {
         $view->setVar("grij_deb", $heure_deb);
         $view->setVar("grij_fin", $heure_fin);
         $view->setVar("grij_delai", $delai);
@@ -404,7 +322,7 @@ class FestivalController
         return $view;
     }
 
-    public function deleteIntervenantHorsScene($pdo): View
+    public function deleteIntervenantHorsScene($pdo): Viewi
     {
         // TODO supprimer intervenant
         $view = new View("views/not_done");
