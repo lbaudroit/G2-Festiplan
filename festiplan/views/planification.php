@@ -17,16 +17,52 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialDate: '<?php echo $date["date_deb"] ?>',
+                initialView: 'timeGridFest',
+                timeZone: 'UTC+1',
+                validRange: {
+                    start: '<?php echo $date["date_deb"] ?>',
+                    end: '<?php echo $date["date_fin"] ?>'
+                },
+                slotMinTime: '<?php echo $GRIJ["heure_deb"] ?>',
+                slotMaxTime: '<?php echo $GRIJ["heure_fin"] ?>',
+                expandRows: true,
+                views: {
+                    timeGridFest: {
+                        type: 'timeGrid',
+                        duration: { days: <?php if ($duree>3){echo "3";}else{echo $duree;} ?> },
+                    }
+                }
+            });
+
+            calendar.render();
+        });
+    </script>
+
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href=".\css\style.css">
 </head>
 
 <body>
-    <?php include("./views/header.php"); ?>
-    <div class="contenue">
-        bloups
-    </div>
+    <?php include("./views/header.php"); 
+    var_dump($plannification);
+    ?>
+    <div class="contenue container mb-2">
+        var_dump()
+        <div class="underline titre2 width-to-size">
+            Planification de
+            <?php echo $nomFestival["titre"] ?>
+        </div>
 
+
+        <div id='calendar'></div>
+    </div>
     <?php include("./views/footer.php"); ?>
 </body>
 

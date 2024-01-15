@@ -8,12 +8,14 @@ use controllers\DeconnexionController;
 use controllers\CreerUserController;
 use controllers\SpectacleController;
 use controllers\PlanificationController;
+use controllers\CreerIntervenantController;
 
 use services\CategoriesService;
 use services\FestivalsService;
 use services\PlanificationService;
 use services\SpectaclesService;
 use services\UsersService;
+use services\IntervenantService;
 
 use yasmf\ComponentFactory;
 use yasmf\NoControllerAvailableForNameException;
@@ -42,6 +44,7 @@ class DefaultComponentFactory implements ComponentFactory
             "festival" => $this->buildFestivalController(),
             "spectacle" => $this->buildSpectacleController(),
             "planification" => $this->buildPlanificationController(),
+            "creerIntervenant" => $this->buildCreerIntervenantController(),
             default => throw new NoControllerAvailableForNameException($controller_name)
         };
     }
@@ -101,7 +104,7 @@ class DefaultComponentFactory implements ComponentFactory
 
     private function buildFestivalController(): FestivalController
     {
-        return new FestivalController(new FestivalsService(), new CategoriesService());
+        return new FestivalController(new FestivalsService(), new CategoriesService(), new SpectaclesService());
     }
 
     private function buildSpectacleController(): SpectacleController
@@ -114,6 +117,11 @@ class DefaultComponentFactory implements ComponentFactory
     {
         return new PlanificationController(new PlanificationService(), new FestivalsService());
 
+    }
+
+    private function buildCreerIntervenantController(): CreerIntervenantController
+    {
+        return new CreerIntervenantController(new IntervenantService(), new UsersService());
     }
 }
 

@@ -22,18 +22,18 @@
 <body>
     <?php include("./views/header.php"); ?>
 
-    <div class="container contenue d-flex justify-content-center">
-        <p class="fs-1 bordure-basique bg-danger my-auto p-2 text-center">
-            Impossible d'accéder à la base de données.
-        </p>
-        </br>
-        <button id="go_back" class="btn bordure">
-            Retourner à la page précédente
-        </button>
+    <div class="container contenue d-flex justify-content-center my-5">
+        <div class="fs-1 bordure-basique fond-bleu-clair my-auto p-2 text-center">
+            <p>
+                Vous n'avez pas les droits pour effectuer cette action.
+            </p>
+            <p>
+                Connectez-vous avec le compte correspondant pour continuer.
+            </p>
+        </div>
     </div>
 
-    <?php include("./views/header.php"); ?>
-    <script src="./js/redirect.js" defer></script>
+    <?php include("./views/footer.php"); ?>
 </body>
 
 </html>

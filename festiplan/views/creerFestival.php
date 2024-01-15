@@ -42,8 +42,9 @@ Variables utilisées
 </head>
 
 <body>
-    <?php include("./views/header.php"); ?>
-    <div class="contenue container">
+    <?php include("./views/header.php");
+    ?>
+    <div class="contenue container mb-2">
         <div class="col-12">
             <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
                 <input hidden name="controller" value="festival">
@@ -63,11 +64,12 @@ Variables utilisées
                     <?php
                 }
                 ?>
+                <!-- TITRE DESC ET IMAGE -->
                 <div class="text-center row textFormulaire bordure fondFormulaire">
                     <div class="col-md-4 col-sm-5 col-12">
                         <input type="file" id="img_fest" name="img_fest" accept="image/png, image/jpeg, image/gif"
                             class="d-none" />
-                        <label for="img_fest" class="">
+                        <label for="img_fest" class="m-1">
                             <?php
                             if (isset($fest)) {
                                 $url = "images/festival/" . (isset($ext) ? "f$fest$ext" : "f0.jpg");
@@ -87,7 +89,7 @@ Variables utilisées
                                 echo "value='" . htmlspecialchars($titre) . "'";
                             } ?> />
                     </div>
-                    <div class="col-8">
+                    <div class="col-12 col-md-8">
                         <div class="col-12 d-sm-none d-md-block">
                             <input type="text" name="titre" placeholder="Tapez le titre (35 caractères max.)"
                                 class="form-control" <?php if (isset($titre)) {
@@ -96,17 +98,17 @@ Variables utilisées
                         </div>
                         <br />
                         <div class="col-12 d-none d-md-block">
-                            <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
-                                class="form-control" <?php if (isset($desc)) {
-                                    echo "value='" . htmlspecialchars($desc) . "'";
-                                } ?> />
+                            <textarea type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
+                                class="form-control"><?php
+                                if (isset($desc))
+                                    echo htmlspecialchars($desc); ?></textarea>
                         </div>
                     </div>
                     <div class="col-12 d-md-none">
-                        <input type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
-                            class="form-control" <?php if (isset($desc)) {
-                                echo "value='" . htmlspecialchars($desc) . "'";
-                            } ?> />
+                        <textarea type="text" name="desc" placeholder="Tapez la description (1000 caractères max.)"
+                            class="form-control"><?php
+                            if (isset($desc))
+                                echo htmlspecialchars($desc); ?></textarea>
                     </div>
                 </div>
                 <!--CATEGORIES & DATES-->
@@ -130,16 +132,19 @@ Variables utilisées
                         ?>
                     </div>
                     <div class="bordure col-md-3 col-sm-6 col-12">
-                        <u class="aGauche">
-                            Date de début du Festival&nbsp:
-                        </u>
+
+                        <label for="deb">
+                            <u class="aGauche">
+                                Date de début du Festival&nbsp:
+                            </u>
+                        </label>
                         <br />
                         <input type="date" id="deb" name="deb" <?php if (isset($deb)) {
                             echo "value='$deb'";
                         } ?> />
                     </div>
                     <div class="bordure col-md-3 col-sm-6 col-12">
-                        <label for="tailleSceneSelect">
+                        <label for="fin">
                             <u class="aGauche">
                                 Date de fin du Festival&nbsp:
                             </u>
@@ -151,121 +156,87 @@ Variables utilisées
                     </div>
                 </div>
                 <!--SCENES ET ORGANISATEURS-->
-                <div class="m-0 text-center row textFormulaire">
-                    <div class="col-12 col-md-6 bordure p-0">
-                        <table class="table table-striped">
-                            <div>Scènes</div>
-                            <?php
-                            if (!is_array($scenes)) {
-                                $i = 0;
-                                while ($sc = $scenes->fetch()) {
-                                    $i++;
-                                    $lat = (float) $sc["latitude"];
-                                    $long = (float) $sc["longitude"];
-                                    $cap = $sc['capacite']; ?>
 
-                                    <tr>
-                                        <td class="row m-0 w-100 text-start">
-                                            <!--NOM-->
-                                            <div
-                                                class="col-11 order-1     col-sm-4           col-md-4     py-2 px-1 text-left fs-3">
-                                                <a href="./index.php?controller=festival&action=modifyScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>"
-                                                    class="text-decoration-none text-black">
-                                                    <?php echo "Scène&nbsp$i"; ?>
-                                                </a>
-                                            </div>
-                                            <!--GPS-->
-                                            <div class="col-8 order-4   col-sm-7 order-sm-2   col-md-7     py-2 px-1">
-                                                <div class="d-flex">
-                                                    <label class="my-auto">GPS&nbsp</label>
-                                                    <input disabled class="form-control"
-                                                        value="<?php echo round($lat, 3) . " : " . round($long, 3); ?>">
-                                                </div>
-                                            </div>
-                                            <!--SUPPR-->
-                                            <div class="col-1 order-2   order-sm-3            text-end     py-2 px-1">
-                                                <a
-                                                    href="./index.php?controller=festival&action=deleteScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>">
-                                                    <i class="fas fa-trash-alt text-black"></i>
-                                                </a>
-                                            </div>
-                                            <!--TAILLE-->
-                                            <div class="col-4 order-5    col-sm-4 order-sm-4   col-md-5     my-auto py-2 px-1">
-                                                <select disabled class="form-select">
-                                                    <?php
-                                                    while ($taille = $tailles->fetch()) {
-                                                        if ($taille["id_taille"] == $sc["id_taille"]) {
-                                                            $selected = "selected";
-                                                        } else {
-                                                            $selected = "";
-                                                        }
-                                                        echo "<option $selected>" . $taille["libelle"] . "</option>";
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <!--CAPACITE-->
-                                            <div class="col-12 order-3   col-sm-8 order-sm-5   col-md-7     my-auto py-2 px-1">
-                                                <div class="d-flex">
-                                                    <span class="my-auto">
-                                                        <label class="form-label">Spectateurs max&nbsp</label>
-                                                    </span>
-                                                    <span class="flex-grow-1">
-                                                        <input disabled type="number" value=<?php echo $cap; ?>
-                                                            class="form-control">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                }
-                            }
-                            ?>
-                            <!--Bouton d'ajout de scène-->
-                            <tr>
-                                <td>
-                                    <a class="btn fond-bleu-clair col-12 p-0 not_now" <?php
-                                    if ($mode == "modif") {
-                                        echo "href='index.php?controller=festival&action=createScene&festival=$fest' ";
-                                    }
-                                    ?>>
-                                        <i class="fas fa-plus texte-bleu"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-12 col-md-6 bordure p-0">
-                        <div>
-                            <div>Organisateurs</div>
+                <?php
+                if ($mode == "modif") {
+                    ?>
+                    <div class="m-0 text-center row textFormulaire">
+                        <div class="col-12 col-md-6 bordure p-0">
                             <table class="table table-striped">
+                                <div>Scènes</div>
                                 <?php
-                                if (!is_array($organisateurs)) {
-                                    while ($org = $organisateurs->fetch()) {
-                                        ?>
+                                if (!is_array($scenes)) {
+                                    $i = 0;
+                                    while ($sc = $scenes->fetch()) {
+                                        $i++;
+                                        $lat = (float) $sc["latitude"];
+                                        $long = (float) $sc["longitude"];
+                                        $cap = $sc['capacite']; ?>
 
                                         <tr>
-                                            <td class='row m-0 w-100'>
-                                                <?php
-                                                echo "<div class='col-10 text-start'>" . $org["nom"] . " " . $org["prenom"] . "</div>";
-                                                echo "<div class='col-2 text-end'>";
-                                                echo "<a href='./index.php?controller=festival&action=removeOrg&festival=$fest&org=" . $org["id_login"] . "'>";
-                                                echo "<i class='fas fa-trash-alt text-black'></i>";
-                                                echo "</a></div>";
-                                                ?>
+                                            <td class="row m-0 w-100 text-start">
+                                                <!--NOM-->
+                                                <div
+                                                    class="col-11 order-1     col-sm-4           col-md-4     py-2 px-1 text-left fs-3">
+                                                    <a href="./index.php?controller=festival&action=modifyScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>"
+                                                        class="text-decoration-none text-black">
+                                                        <?php echo $sc["nom"]; ?>
+                                                    </a>
+                                                </div>
+                                                <!--GPS-->
+                                                <div class="col-8 order-4   col-sm-7 order-sm-2   col-md-7     py-2 px-1">
+                                                    <div class="d-flex">
+                                                        <label class="my-auto">GPS&nbsp</label>
+                                                        <input disabled class="form-control"
+                                                            value="<?php echo round($lat, 3) . " : " . round($long, 3); ?>">
+                                                    </div>
+                                                </div>
+                                                <!--SUPPR-->
+                                                <div class="col-1 order-2   order-sm-3            text-end     py-2 px-1">
+                                                    <a
+                                                        href="./index.php?controller=festival&action=deleteScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>">
+                                                        <i class="fas fa-trash-alt text-black"></i>
+                                                    </a>
+                                                </div>
+                                                <!--TAILLE-->
+                                                <div class="col-4 order-5    col-sm-4 order-sm-4   col-md-5     my-auto py-2 px-1">
+                                                    <select disabled class="form-select">
+                                                        <?php
+                                                        foreach ($tailles as $taille_existante) {
+                                                            if ($taille_existante["id_taille"] == $sc["id_taille"]) {
+                                                                $selected = "selected";
+                                                            } else {
+                                                                $selected = "";
+                                                            }
+                                                            echo "<option $selected>" . $taille_existante["libelle"] . "</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                                <!--CAPACITE-->
+                                                <div class="col-12 order-3   col-sm-8 order-sm-5   col-md-7     my-auto py-2 px-1">
+                                                    <div class="d-flex">
+                                                        <span class="my-auto">
+                                                            <label class="form-label">Spectateurs max&nbsp</label>
+                                                        </span>
+                                                        <span class="flex-grow-1">
+                                                            <input disabled type="number" value=<?php echo $cap; ?>
+                                                                class="form-control">
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                         <?php
                                     }
                                 }
                                 ?>
-                                <!--Bouton d'ajout d'organisateurs-->
+                                <!--Bouton d'ajout de scène-->
                                 <tr>
                                     <td>
                                         <a class="btn fond-bleu-clair col-12 p-0 not_now" <?php
                                         if ($mode == "modif") {
-                                            echo "href='index.php?controller=festival&action=addOrg&festival=$fest' ";
+                                            echo "href='index.php?controller=festival&action=modifyScene&festival=$fest' ";
                                         }
                                         ?>>
                                             <i class="fas fa-plus texte-bleu"></i>
@@ -274,8 +245,49 @@ Variables utilisées
                                 </tr>
                             </table>
                         </div>
+                        <div class="col-12 col-md-6 bordure p-0">
+                            <div>
+                                <div>Organisateurs</div>
+                                <table class="table table-striped">
+                                    <?php
+                                    if (!is_array($organisateurs)) {
+                                        while ($org = $organisateurs->fetch()) {
+                                            ?>
+
+                                            <tr>
+                                                <td class='row m-0 w-100'>
+                                                    <?php
+                                                    echo "<div class='col-10 text-start'>" . $org["nom"] . " " . $org["prenom"] . "</div>";
+                                                    echo "<div class='col-2 text-end'>";
+                                                    echo "<a href='./index.php?controller=festival&action=removeOrg&festival=$fest&org=" . $org["id_login"] . "'>";
+                                                    echo "<i class='fas fa-trash-alt text-black'></i>";
+                                                    echo "</a></div>";
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                    <!--Bouton d'ajout d'organisateurs-->
+                                    <tr>
+                                        <td>
+                                            <a class="btn fond-bleu-clair col-12 p-0 not_now" <?php
+                                            if ($mode == "modif") {
+                                                echo "href='index.php?controller=festival&action=addOrg&festival=$fest' ";
+                                            }
+                                            ?>>
+                                                <i class="fas fa-plus texte-bleu"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <?php
+                }
+                ?>
                 <!--GRIJ-->
                 <div class="m-0 text-center row textFormulaire">
                     <div class="col-12 bordure">
@@ -306,29 +318,30 @@ Variables utilisées
                 <!--BOUTONS-->
                 <div class="text-left row row-gap-2">
                     <!--spectacles-->
-                    <div class="col-3 p-0 h-100 <?php echo $mode == "modif" ? "order-2" : ""; ?>">
-                        <a class=" btn btn-bleu form-control text-wrap wrap" <?php
+                    <div
+                        class="col-12 col-md-3 p-0 h-100 <?php echo $mode == "modif" ? "order-2 order-md-2 col-sm-6 order-sm-2" : "d-none"; ?>">
+                        <a class="btn btn-bleu form-control text-wrap wrap" <?php
                         if (isset($fest)) {
                             echo "href='./index.php?controller=festival&action=seeSpectacles&festival=$fest'";
-                        } else {
-                            echo "disabled";
                         } ?>>
                             Gérer les spectacles
                         </a>
                     </div>
                     <!--supprimer-->
-                    <div class=" col-3 p-0 <?php echo $mode == "modif" ? "offset-6 order-3" : "offset-6"; ?>">
+                    <div
+                        class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-3 offset-md-6 order-md-3 col-sm-6 order-sm-3" : "offset-sm-2 col-sm-4 offset-md-9"; ?>">
                         <?php
                         if ($mode == "ajout") {
                             echo "<a name='page_precedente' class='btn btn-rouge form-control'>Annuler</a>";
                         } else {
-                            echo "<a href='index.php?controller=festival&action=delete&festival=$fest' class='btn btn-rouge form-control'>Supprimer</a>";
+                            echo "<a id='delete' class='btn btn-rouge form-control'>Supprimer</a>";
                         } ?>
                     </div>
                     <!--planif-->
                     <?php if ($mode == "modif") {
                         ?>
-                        <div class="col-3 p-0 <?php echo $mode == "modif" ? "offset-6 order-1" : "offset-9"; ?>">
+                        <div
+                            class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-1 offset-md-6 order-md-1 col-sm-6 order-sm-1" : "offset-md-9"; ?>">
                             <a class="btn btn-bleu form-control wrap text-wrap"
                                 href="index.php?controller=planification&festival=<?php echo $fest ?>">
                                 Consulter la planification
@@ -337,7 +350,8 @@ Variables utilisées
                         <?php
                     } ?>
                     <!--sauvegarder-->
-                    <div class="col-3 p-0 <?php echo $mode == "modif" ? "order-4" : "offset-9"; ?>">
+                    <div
+                        class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-4 order-md-4 col-sm-6 order-sm-4" : "col-sm-4 offset-md-9"; ?>">
                         <input class="btn btn-bleu form-control wrap text-wrap" type="submit"
                             value="<?php echo $mode == "ajout" ? "Créer" : "Sauvegarder les changements"; ?>">
                     </div>
@@ -349,5 +363,6 @@ Variables utilisées
 </body>
 <script src="./js/common.js" defer></script>
 <script src="./js/creerFestival.js" defer></script>
+<script src="./js/suppr.js" defer></script>
 
 </html>

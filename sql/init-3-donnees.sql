@@ -2,15 +2,15 @@
 -- Création des utilisateurs
 INSERT INTO users (id_login, nom, prenom, email, hashed_pwd)
 VALUES 
-("herverous", "Hervé", "ROUS", "herve.rous@gmal.com", "hr"),
-("francksilvestre", "Franck", "SILVESTRE", "franck.silvestre@gmal.com", "fs");
+("herverous", "Hervé", "ROUS", "herve.rous@gmal.com", "$2y$10$zWpcvPGM3GQshtYIkAAMg.mSK18iCRXE7NkTATX93Xo5CWIMrePCO"),
+("francksilvestre", "Franck", "SILVESTRE", "franck.silvestre@gmal.com", "$2y$10$wm61a8daHRAPpYjg9/Ju.uUI8veLCq2iqx6RGKCm/jZSqwJL2H5i2");
 
 -- Création de la grij
 INSERT INTO grij (heure_deb, heure_fin, temps_pause)
 VALUES 
-("08:00:00", "02:00:00", "00:30:00"),
+("08:00:00", "24:00:00", "00:30:00"),
 ("10:00:00", "22:00:00", "00:20:00"),
-("18:00:00", "02:00:00", "00:45:00"),
+("18:00:00", "24:00:00", "00:45:00"),
 ("06:00:00", "21:00:00", "00:05:00");
 
 -- Création des categories
@@ -40,11 +40,11 @@ VALUES
 -- Création de spectacles
 INSERT INTO spectacles (titre, description_s, lien_img, duree, id_cat, id_login, id_taille)
 VALUES 
-("JeChante", "Si vous aimez chanter alors vous chantez ou pas je sais pas.", "s1.png", "00:01:40", 1, "francksilvestre", 1),
-("JActe", "Des gens sur scène.", "s2.png", "00:01:40", 2, "francksilvestre", 2),
-("JeCirque", "Des clowns et des équilibristes (ou pas)", "s3.png", "00:01:40", 3, "francksilvestre", 2),
-("JeDanse", "Des gens qui bougent beaucoup mais c\'est beau.", "s4.png", "00:01:40", 4, "francksilvestre", 3),
-("JeProjette", "Tu t\'assoies et tu regardes...", "s5.png", "00:01:40", 5, "francksilvestre", 3);
+("JeChante", "Si vous aimez chanter alors vous chantez ou pas je sais pas.", "s1.png", "01:40:00", 1, "francksilvestre", 1),
+("JActe", "Des gens sur scène.", "s2.png", "01:40:00", 2, "francksilvestre", 2),
+("JeCirque", "Des clowns et des équilibristes (ou pas)", "s3.png", "01:40:00", 3, "francksilvestre", 2),
+("JeDanse", "Des gens qui bougent beaucoup mais c\'est beau.", "s4.png", "01:40:00", 4, "francksilvestre", 3),
+("JeProjette", "Tu t\'assoies et tu regardes...", "s5.png", "01:40:00", 5, "francksilvestre", 3);
 
 -- Création d'intervenants
 INSERT INTO intervenants (nom, prenom, email)
@@ -56,11 +56,11 @@ VALUES
 -- Création des scènes
 INSERT INTO scenes (capacite, latitude, longitude, id_festival, id_taille)
 VALUES
-(500, 43.6044622, 1.4442469, 1, 2),
-(1000, 43.6044622, 1.4442469, 2, 3),
-(50, 43.6044622, 1.4442469, 3, 1),
-(600, 43.6044622, 1.4442469, 4, 2),
-(900, 43.6044622, 1.4442469, 5, 3);
+(500, 43.6044622, 1.4442469,'Scène 1', 1, 2),
+(1000, 43.6044622, 1.4442469,'Stade', 2, 3),
+(50, 43.6044622, 1.4442469,'Petit local', 3, 1),
+(600, 43.6044622, 1.4442469,'Scène principale', 4, 2),
+(900, 43.6044622, 1.4442469,'Scène 2', 5, 3);
 
 -- Création de la table des organisateurs d'un festival
 INSERT INTO organise (id_festival,id_login)
