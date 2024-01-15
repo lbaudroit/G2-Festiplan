@@ -405,7 +405,7 @@ class FestivalsService
         try {
             foreach ($anciens_diff as $ancien) {
                 if (!$this->supprimerSpectacle($pdo, $id_fest, $ancien)) {
-                    throw new Exception("Impossible de supprimer le spectacle.");
+                    throw new Exception("Impossible de supprimer le spectacle ");
                 }
             }
             foreach ($nouveaux_diff as $nouveau) {
@@ -415,6 +415,7 @@ class FestivalsService
             }
         } catch (Exception $e) {
             $pdo->rollback();
+            throw new Exception($e);
             return false;
         }
         $pdo->commit();

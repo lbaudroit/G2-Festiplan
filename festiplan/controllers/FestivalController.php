@@ -278,7 +278,10 @@ class FestivalController
         $view = new View("views/ajouterSpec");
 
         if (!empty($selection)) {
-            $this->festivalsService->ajusterSpectacles($pdo, $id_fest, $selection);
+            $reussi = $this->festivalsService->ajusterSpectacles($pdo, $id_fest, $selection);
+            if (!$reussi) {
+                throw new Exception("Ca marche pas " . $selection);
+            }
         } // else premier passage
 
         $infos_fest = $this->festivalsService->getInfo($pdo, $id_fest);
