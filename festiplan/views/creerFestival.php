@@ -156,7 +156,6 @@ Variables utilisées
                     </div>
                 </div>
                 <!--SCENES ET ORGANISATEURS-->
-
                 <?php
                 if ($mode == "modif") {
                     ?>
@@ -236,7 +235,7 @@ Variables utilisées
                                     <td>
                                         <a class="btn fond-bleu-clair col-12 p-0 not_now" <?php
                                         if ($mode == "modif") {
-                                            echo "href='index.php?controller=festival&action=modifyScene&festival=$fest' ";
+                                            echo "href='index.php?controller=festival&action=createScene&festival=$fest' ";
                                         }
                                         ?>>
                                             <i class="fas fa-plus texte-bleu"></i>
@@ -353,7 +352,7 @@ Variables utilisées
                     <div
                         class="col-12 col-md-3 p-0 <?php echo $mode == "modif" ? "order-4 order-md-4 col-sm-6 order-sm-4" : "col-sm-4 offset-md-9"; ?>">
                         <input class="btn btn-bleu form-control wrap text-wrap" type="submit"
-                            value="<?php echo $mode == "ajout" ? "Créer" : "Sauvegarder les changements"; ?>">
+                        value="<?php echo $mode == "ajout" ? "Créer" : "Sauvegarder les changements"; ?>">
                     </div>
                 </div>
             </form>

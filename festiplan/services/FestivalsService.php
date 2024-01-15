@@ -237,11 +237,31 @@ class FestivalsService
      * @param int $nbSpecMax
      * @param int $tailleScene
      */
-    public function addScene(PDO $pdo, int $nbSpecMax, int $idFest, int $tailleScene, float $coordGPSLat, float $coordGPSLong): int|null {
-        $sql = "INSERT INTO scenes VALUES(:nbSpecMax, :idFest, :tailleScene, :coordGPSLat, :coordGPSLong)";
-    
+    public function addScene(PDO $pdo, string $nomScene, int $nbSpecMax, int $idFest, int $tailleScene, float $coordGPSLat, float $coordGPSLong): int|false {
+        $sql = "INSERT INTO scenes (capacite, id_festival, id_taille, latitude, longitude, nom) 
+        VALUES(:nbSpecMax, :idFest, :tailleScene, :coordGPSLat, :coordGPSLong, :nomScene)";
+        $insertStmt = $pdo->prepare($sql);
+        $insertStmt->bindParam(":nbSpecMax", $nbSpecMax);
+        $insertStmt->bindParam(":idFest", $idFest);
+        $insertStmt->bindParam(":tailleScene", $tailleScene);
+        $insertStmt->bindParam(":coordGPSLat", $coordGPSLat);
+        $insertStmt->bindParam(":coordGPSLong", $coordGPSLong);
+        $insertStmt->bindParam(":nomScene", $nomScene);
+        $result = $insertStmt->execute();
+        if ($result == false){
+            return false;
+        }
+        $idScene = $pdo->lastInsertId();
+        return $idScene;
     }
-
+    public function verifScene(string $nomScene, int $nombreSpec, int $IDFest, int $taillescenes, float $GPSLat, float $GPSLong){
+        return isset($nomScene, $nombreSpec, $IDFest, $taillescenes, $GPSLat, $GPSLong)
+       && strlen($nomScene) > 0 && strlen($nomScene) <= 35
+       && $nombreSpec > 0 && $nombreSpec < 200000
+       && $taillescenes >= 1 && $taillescenes <= 3
+       && $GPSLat >= -90.0 && $GPSLat <= 90.0
+       && $GPSLong >= -180.0 && $GPSLong <= 180.0;
+    }
     /**
      * Crée le festival
      *
