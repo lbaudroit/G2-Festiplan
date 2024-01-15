@@ -54,7 +54,7 @@ VALUES
 ("LBATH", "Redouane", "redouane.lbath@gmal.com");
 
 -- Création des scènes
-INSERT INTO scenes (capacite, latitude, longitude, id_festival, id_taille)
+INSERT INTO scenes (capacite, latitude, longitude, nom, id_festival, id_taille)
 VALUES
 (500, 43.6044622, 1.4442469,'Scène 1', 1, 2),
 (1000, 43.6044622, 1.4442469,'Stade', 2, 3),
