@@ -12,6 +12,10 @@ DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS grij;
 DROP TABLE IF EXISTS users;
 
+SELECT COLLATION_NAME, PAD_ATTRIBUTE
+       FROM INFORMATION_SCHEMA.COLLATIONS
+       WHERE CHARACTER_SET_NAME = 'utf8mb4';
+
 CREATE TABLE users (
     id_login VARCHAR(35) NOT NULL,
     nom VARCHAR(35) NOT NULL,
@@ -135,4 +139,4 @@ CREATE TABLE planifie (
     FOREIGN KEY (id_scene) REFERENCES scenes(id_scene),
     FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
     PRIMARY KEY(id_scene, id_spectacle)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
