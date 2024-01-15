@@ -36,17 +36,23 @@
                 views: {
                     timeGridFest: {
                         type: 'timeGrid',
-                        duration: { days: <?php if ($duree>3){echo "3";}else{echo $duree;} ?> },
+                        duration: {
+                            days: <?php if ($duree > 3) {
+                                echo "3";
+                            } else {
+                                echo $duree;
+                            } ?> },
                     }
                 }
             });
-            <?php 
-            foreach($plannification as &$event) {
-                $horaire_deb = date('Y-m-d', strtotime($date["date_deb"]. ' + '.($event[2]-1).' day')).'T'.date_format($event[1], 'H:i:s');
+            <?php
+            foreach ($plannification as &$event) {
+                $horaire_deb = date('Y-m-d', strtotime($date["date_deb"] . ' + ' . ($event[2] - 1) . ' day')) . 'T' . date_format($event[1], 'H:i:s');
+                $horaire_fin = date('Y-m-d', strtotime($date["date_deb"] . ' + ' . ($event[2] - 1) . ' day')) . 'T' . date_format(date_add($event[1], $event[5]), 'H:i:s');
                 echo 'calendar.addEvent({';
-                    echo 'title: "Second Event",';
-                    echo 'start: "'.$horaire_deb.'",';
-                    echo 'end: "2020-08-08T13:30:00"});';
+                echo 'title: "' . $event[4] . '",';
+                echo 'start: "' . $horaire_deb . '",';
+                echo 'end: "' . $horaire_fin . '"});';
             }
             ?>
             calendar.render();
@@ -58,21 +64,22 @@
 </head>
 
 <body>
-    <?php include("./views/header.php"); 
-    var_dump($plannification["0"]);
-    echo '<br/>';
-    var_dump($horaire_deb);
-    ?>
+    <?php include("./views/header.php"); ?>
     <div class="contenue container mb-2">
         <div class="underline titre2 width-to-size">
-            Planification de
-            <?php echo $nomFestival["titre"] ?>
+            
+            <?php 
+
+            if ($plannification != null) {
+                echo 'Planification de'.$nomFestival["titre"];
+                echo '</div>';
+                echo "<div id='calendar'></div>";
+            } else { ?>
+                <br />Il n'y a pas de spectacle dans ce festival.
+                <?php echo '</div>';
+            } ?>
         </div>
-
-
-        <div id='calendar'></div>
-    </div>
-    <?php include("./views/footer.php"); ?>
+        <?php include("./views/footer.php"); ?>
 </body>
 
 </html>

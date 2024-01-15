@@ -7,6 +7,7 @@ use yasmf\HttpHelper;
 use yasmf\View;
 
 use PDO;
+use Exception;
 
 class PlanificationController
 {
@@ -25,16 +26,20 @@ class PlanificationController
 
     public function index(PDO $pdo)
     {
-        $festival =  HttpHelper::getParam("festival");
+        $festival = HttpHelper::getParam("festival");
         $listSpectacle = $this->festivalsService->getListOfSpectacle($pdo, $festival);
         $vue = new View("/views/planification");
         $vue->setVar("listeFestivals", $listSpectacle);
-        $vue->setVar("nomFestival", $this->festivalsService->getNomFestivalByID($pdo,$festival));
-        $vue->setVar("GRIJ", $this->festivalsService->getInfo($pdo,$festival));
-        $vue->setVar("spectacles", $this->festivalsService->getSpectaclesOfFestival($pdo,$festival));
-        $vue->setVar("date",$this->festivalsService->getDateOfFestival($pdo,$festival));
-        $vue->setVar("duree",$this->festivalsService->getDureeOfFestival($pdo,$festival));
-        $vue->setVar("plannification",$this->planificationService->getPlannif($pdo,$festival));
+        $vue->setVar("nomFestival", $this->festivalsService->getNomFestivalByID($pdo, $festival));
+        $vue->setVar("GRIJ", $this->festivalsService->getInfo($pdo, $festival));
+        $vue->setVar("spectacles", $this->festivalsService->getSpectaclesOfFestival($pdo, $festival));
+        $vue->setVar("date", $this->festivalsService->getDateOfFestival($pdo, $festival));
+        $vue->setVar("duree", $this->festivalsService->getDureeOfFestival($pdo, $festival));
+        try {
+            $vue->setVar("plannification", $this->planificationService->getPlannif($pdo, $festival));
+        } catch (Exception $e) {
+            $vue->setVar("plannification", null);
+        }
         return $vue;
     }
 
