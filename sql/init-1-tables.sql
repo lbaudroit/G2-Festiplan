@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS planifie;
+DROP TABLE IF EXISTS contient;
 DROP TABLE IF EXISTS esthorsscene;
 DROP TABLE IF EXISTS estsurscene;
 DROP TABLE IF EXISTS organise;
@@ -6,7 +8,7 @@ DROP TABLE IF EXISTS intervenants;
 DROP TABLE IF EXISTS spectacles;
 DROP TABLE IF EXISTS festivals;
 DROP TABLE IF EXISTS taillescene;
-DROP TABLE IF EXISTS categorie;
+DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS grij;
 DROP TABLE IF EXISTS users;
 
@@ -51,7 +53,7 @@ CREATE TABLE festivals (
     id_cat INTEGER NOT NULL,
     FOREIGN KEY (id_grij) REFERENCES grij(id_grij),
     FOREIGN KEY (id_login) REFERENCES users(id_login),
-    FOREIGN KEY (id_cat) REFERENCES categorie(id_cat),
+    FOREIGN KEY (id_cat) REFERENCES categories(id_cat),
     PRIMARY KEY (id_festival)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -66,7 +68,7 @@ CREATE TABLE spectacles (
     id_taille INTEGER NOT NULL,
     FOREIGN KEY (id_login) REFERENCES users(id_login),
     FOREIGN KEY (id_taille) REFERENCES taillescene(id_taille),
-    FOREIGN KEY (id_cat) REFERENCES categorie(id_cat),
+    FOREIGN KEY (id_cat) REFERENCES categories(id_cat),
     PRIMARY KEY (id_spectacle)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -79,7 +81,7 @@ CREATE TABLE intervenants (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE estsurscene (
-    id_esthorsscene INTEGER NOT NULL AUTO_INCREMENT,
+    id_estsurscene INTEGER NOT NULL AUTO_INCREMENT,
     id_spectacle INTEGER NOT NULL,
     id_intervenant INTEGER NOT NULL,
     FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
@@ -132,5 +134,5 @@ CREATE TABLE planifie (
     heure_deb TIME NOT NULL,
     FOREIGN KEY (id_scene) REFERENCES scenes(id_scene),
     FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
-    PRIMARY KEY(id_festival, id_spectacle)
+    PRIMARY KEY(id_scene, id_spectacle)
 )
