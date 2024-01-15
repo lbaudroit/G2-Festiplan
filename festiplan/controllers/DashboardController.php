@@ -27,6 +27,10 @@ class DashboardController
     public function index(PDO $pdo)
     {
         $user = $_SESSION['user']['id_login'];
+
+        if (!isset($user)) {
+            return new View("views/no_rights");
+        }
         $listFestivals = $this->festivalsService->getListThatUserOrganizes($pdo, $user);
         $listSpectacles = $this->spectaclesService->getListOfUser($pdo, $user);
         $vue = new View("/views/dashboard");

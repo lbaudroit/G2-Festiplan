@@ -43,6 +43,26 @@ class SpectaclesService
     }
 
     /**
+     * Vérifie que l'utilisateur a bien les droits d'accéder au spectacle.
+     * 
+     * @param PDO $pdo l'objet pdo
+     * @param string $user l'utilisateur qu'on souhaite vérifier
+     * @param int $spec l'id du spectacle qu'on recherche
+     */
+    public function checkOwner(PDO $pdo, string $user, int $spec): bool
+    {
+        $sql = "SELECT * 
+            FROM spectacles
+            WHERE id_login = :user
+            AND id_spectacle = :spec;";
+        $searchStmt = $pdo->prepare($sql);
+        $searchStmt->bindParam(":user", $user);
+        $searchStmt->bindParam(":spec", $spec);
+        $searchStmt->execute();
+        return $searchStmt->rowCount() > 0;
+    }
+
+    /*
      * Renvoie les informations de ce spectacle.
      *
      * @param PDO $pdo the pdo object

@@ -43,7 +43,6 @@ Variables utilisées
 
 <body>
     <?php include("./views/header.php");
-    var_dump(get_defined_vars());
     ?>
     <div class="contenue container mb-2">
         <div class="col-12">

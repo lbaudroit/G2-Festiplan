@@ -7,6 +7,7 @@ use services\TaillesService;
 use services\ImageService;
 use yasmf\HttpHelper;
 use yasmf\View;
+use PDO;
 
 class SpectacleController
 {
@@ -21,10 +22,26 @@ class SpectacleController
         $this->spectaclesService = $spectaclesService;
     }
 
+    /**
+     * Redirige l'utilisateur 
+     */
+    private function badUser()
+    {
+        return new View("views/no_rights");
+    }
 
-    public function index($pdo): View
+
+    /**
+     * Affiche la liste des spectacles.
+     * @param PDO $pdo la connexion à la BDD
+     */
+    public function index(PDO $pdo): View
     {
         $user = $_SESSION["user"]["id_login"];
+
+        if (!isset($user)) {
+            return $this->badUser();
+        }
         $view = new View("views/liste");
         $resultSet = $this->spectaclesService->getListOfUser($pdo, $user);
         $view->setVar("liste", $resultSet);
@@ -33,11 +50,19 @@ class SpectacleController
         return $view;
     }
 
-    public function create($pdo): View
+    /**
+     * Créer un spectacle.
+     * @param PDO $pdo la connexion à la BDD
+     */
+    public function create(PDO $pdo): View
     {
         $mode = HttpHelper::getParam("mode");
         $view = new View("views/creerSpectacle");
         $user = $_SESSION["user"]["id_login"];
+
+        if (!isset($user)) {
+            return $this->badUser();
+        }
 
         // Récupération des valeurs
         $titre = HttpHelper::getParam("titre");
@@ -90,6 +115,9 @@ class SpectacleController
         return $view;
     }
 
+    /**
+     * Réinsère dans la vue de "creerSpectacle" les champs.
+     */
     public function setInfo(View $view, ?string $titre, ?string $desc, ?int $taille, ?int $cat, ?int $duree_h, ?int $duree_m)
     {
         $view->setVar("titre", $titre);
@@ -100,8 +128,20 @@ class SpectacleController
         $view->setVar("duree_m", $duree_m);
     }
 
-    public function modify($pdo): View
+    /**
+     * Modifier un spectacle.
+     * En lecture seulement.
+     * @param PDO $pdo la connexion à la BDD
+     */
+    public function modify(PDO $pdo): View
     {
+        $id_spec = HttpHelper::getParam("spectacle");
+        $user = $_SESSION["user"]["id_login"];
+
+        if (!isset($user) || !$this->spectaclesService->checkOwner($pdo, $user, $id_spec)) {
+            return $this->badUser();
+        }
+
         $id = HttpHelper::getParam("spectacle");
         $info = $this->spectaclesService->getInfo($pdo, $id);
         $categories = CategoriesService::getList($pdo);
@@ -130,7 +170,11 @@ class SpectacleController
         return $view;
     }
 
-    public function delete($pdo): View
+    /**
+     * Supprimer un spectacle.
+     * @param PDO $pdo la connexion à la BDD
+     */
+    public function delete(PDO $pdo): View
     {
         // TODO
         $view = new View("views/not_done");
@@ -145,6 +189,9 @@ class SpectacleController
         return $view;
     }
 
+    /**
+     * Vérifie la validité des champs du spectacle.
+     */
     public function checkInfo(?string $titre, ?string $desc, ?int $duree_h, ?int $duree_m, ?int $taille, ?int $cat)
     {
         return isset($titre, $desc, $duree_h, $duree_m, $taille, $cat)
