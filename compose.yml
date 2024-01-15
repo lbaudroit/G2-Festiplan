@@ -43,7 +43,7 @@ services:
             - prod
     php-my-admin-distant:
         image: phpmyadmin:latest
-        container_name: php-my-admin
+        container_name: php-my-admin-distant
         working_dir: /pma/
         environment:
             - PMA_HOST=saccharun.fr
@@ -54,7 +54,7 @@ services:
             - dev
     php-my-admin-local:
         image: phpmyadmin:latest
-        container_name: php-my-admin
+        container_name: php-my-admin-local
         working_dir: /pma/
         environment:
             - PMA_HOST=database

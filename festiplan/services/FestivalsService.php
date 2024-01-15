@@ -82,6 +82,18 @@ class FestivalsService
         return $searchStmt;
     }
 
+    /*
+     * Trouve les spectacles liés à ce festival.
+     *
+     * @param PDO $pdo the pdo object
+     * @param string $festival le festival dont on cherche les spectacles
+     * @return PDOStatement the statement referencing the result set
+     */
+    public function getSpectaclesOfFestival(PDO $pdo, string $festival): PDOStatement
+    {
+        return $this->getListOfSpectacle($pdo, $festival);
+    }
+
     /* *
      * Renvvoie le nom du festivale de l'ID
      * @param PDO $pdo the pdo object
