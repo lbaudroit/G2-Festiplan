@@ -54,7 +54,6 @@ Variables utilisées
 
                     if (isset($_POST['nom'])) {
                         $nom = $_POST['nom'];
-                        var_dump($nomOK);
                         if (empty($nom) || ($nomOK == 0)) {
                             echo '<span class="enRouge">Nom(vous devez entrer votre Nom) :</span>';
                             echo '<input type="text" name="nom" placeholder="Entrez votre Nom" class="form-control" />';

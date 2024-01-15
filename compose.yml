@@ -11,6 +11,8 @@ services:
             - ./:/app/
         profiles:
             - prod
+        environment:
+            - php.file_uploads=1
     dev-website:
         image: webdevops/php-apache-dev:8.2-alpine
         container_name: dev-website
@@ -23,7 +25,6 @@ services:
             - dev
             - dev-db
         environment:
-            - PHP_DISPLAY_ERRORS=1
             - php.file_uploads=1
     database:
         image: mysql:8
@@ -37,12 +38,6 @@ services:
             - 6612:3306
         volumes:
             - ./sql/:/docker-entrypoint-initdb.d
-        command:
-            [
-                'mysqld',
-                '--character-set-server=utf8mb4',
-                '--collation-server=utf8mb4_unicode_ci',
-            ]
         profiles:
             - dev-db
             - prod

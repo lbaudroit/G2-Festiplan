@@ -41,7 +41,8 @@ class UsersService
      * @param PDO $pdo the pdo object
      * 
      */
-    public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp) {
+    public function getUsersLoginAndMdp(PDO $pdo, $login, $mdp)
+    {
         if (UsersService::valide($login) && UsersService::valide($mdp)) {
             $searchStmt = $pdo->prepare('SELECT hashed_pwd FROM users WHERE id_login= ?');
             $searchStmt->bindParam(1, $login);
@@ -54,7 +55,7 @@ class UsersService
                 $user = $searchStmt->fetch();
                 return $user;
             }
-            return  null;
+            return null;
         } else {
             return null;
         }
@@ -83,7 +84,6 @@ class UsersService
      */
     public function valideTaille($verif)
     {
-        //var_dump($verif);
         if ($verif != null) {
             $regex = "/^.{1,35}$/";
             return preg_match($regex, $verif, $matches);
@@ -97,7 +97,6 @@ class UsersService
      */
     public function valideMail($mail)
     {
-        //var_dump($mail);
         if ($mail != null) {
             $regex = "/^.{1,35}$/";
             return preg_match($regex, $mail, $matches) && filter_var($mail, FILTER_VALIDATE_EMAIL);
@@ -122,7 +121,8 @@ class UsersService
      * Insert user dans la BD
      * 
      */
-    public function verifDoublonEmail(PDO $pdo, $email) {
+    public function verifDoublonEmail(PDO $pdo, $email)
+    {
         $searchStmt = $pdo->prepare("SELECT email FROM users");
         $searchStmt->execute();
         $mailOk = true;
@@ -138,7 +138,8 @@ class UsersService
      * Vérifie la taille
      * @return boolean the statement referencing the result set
      */
-    public function verifDoublonLogin(PDO $pdo, $login) {
+    public function verifDoublonLogin(PDO $pdo, $login)
+    {
         $searchStmt = $pdo->prepare("SELECT id_login FROM users");
         $searchStmt->execute();
         $logOk = true;
@@ -150,12 +151,13 @@ class UsersService
         return $logOk;
     }
 
-    
+
     /**
      * Vérifie la taille
      * 
      */
-    public function insertion(PDO $pdo, $login, $lastname, $firstname, $mail, $mdp) {
+    public function insertion(PDO $pdo, $login, $lastname, $firstname, $mail, $mdp)
+    {
         $sql = "INSERT INTO users(id_login, nom, prenom, email, hashed_pwd) VALUES (:logi, :lastname, :firstname, :mail, :mdp)";
         $hashMDP = password_hash($mdp, PASSWORD_DEFAULT);
         $searchStmt = $pdo->prepare($sql);
