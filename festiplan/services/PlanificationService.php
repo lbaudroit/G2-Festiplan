@@ -335,6 +335,9 @@ class PlanificationService
             $res[$ligne["id_scene"]] = array($heureDebut ,$ligne["id_taille"]);
         } 
 
+        if(!isset($res)){
+            throw new Exception("Aucune scene n'est associé au festival");
+        }
         
         return $res;
     }
