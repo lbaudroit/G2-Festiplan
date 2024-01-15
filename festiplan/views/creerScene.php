@@ -89,8 +89,10 @@
                     </div>
                     <!--BOUTONS-->
                     <div class="text-left row row-gap-2">
-                        <!--supprimer-->
-                        <button type="button" name='page_precedente' class="offset-2 col-3 btn btn-rouge">Annuler</button>
+                        <!--retour-->
+                        <a class="offset-2 col-3 btn btn-rouge" href="./index.php?controller=festival&action=modifyScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>">
+                            <button type="button" name='page_precedente'>Retour</button>
+                        </a>
                         <!--sauvegarder-->
                         <div class="col-3 offset-2">
                             <input class="btn btn-bleu form-control wrap text-wrap" type="submit" value="Ajouter la scène">
