@@ -33,7 +33,7 @@ class PlanificationService
         if ($searchStmt->rowCount() == 0) {
             $res = $this->genererPlannif($pdo, $idFestival);
         } else {
-            $res = $this->convertirEnTableau($searchStmt);
+            $res = $this->convertirEnTableau($pdo, $searchStmt);
         }
 
         return $res;
@@ -55,12 +55,10 @@ class PlanificationService
             // On fait jour apres jour pour placer les spectacles
             for ($jour = 1; $jour <= $DureeFestivalEnJour; $jour++) {
                 
-                $listeDesScenesDisponible = $this->resetSceneHeureDispo($listeDesScenesDisponible, $grijFestival[0]);
-                $listeIntervenantDisponible = $this->resetIntervenantHeureDispo($listeIntervenantDisponible, $grijFestival[0]);
+                $this->resetSceneHeureDispo($listeDesScenesDisponible, $grijFestival[0]);
+                $this->resetIntervenantHeureDispo($listeIntervenantDisponible, $grijFestival[0]);
 
                 foreach ($listeDesSpectacles as &$spectacle) {
-                    
-
                     // si le spectacle n'est pas deja placé (= 0), essaye de le placer sinon prochain spectacle
                     if ($spectacle[3] !=  1) {
                         
@@ -73,14 +71,15 @@ class PlanificationService
                         } else {
                             $heureDebut = $sceneChoisi[1];
                         }
-                        $etape1 = date_add($heureDebut, $spectacle[1]);
+                        
+                        $copie = clone $heureDebut;
+                        $etape1 = date_add($copie, $spectacle[1]);
                         $heureDeFin = date_add($etape1, $grijFestival[2]);
 
                         if ($heureDeFin <= $grijFestival[1]){
-                            $res[] = [$spectacle[0], $heureDebut, $jour, $sceneChoisi[0]];
-                            $listeDesScenesDisponible = $this->miseAJourDisponibiliteScene($sceneChoisi[0], $heureDeFin, $listeDesScenesDisponible);
+                            $res[] = [$spectacle[0], $heureDebut, $jour, $sceneChoisi[0],$spectacle[1],$spectacle[4]];
+                            $listeIntervenantDisponible = $this->miseAJourDisponibiliteScene($sceneChoisi[0], $heureDeFin, $listeDesScenesDisponible);
                             $listeIntervenantDisponible = $this->miseAJourDisponibiliteIntervenant($listeIntervenantSpectacle, $heureDeFin, $listeIntervenantDisponible);
-                            
                             $spectacle[3] ++;
                             
                         }
@@ -89,8 +88,6 @@ class PlanificationService
                
             }
 
-            echo(count($listeDesSpectacles)); 
-            echo(count($res)); 
             if (count($listeDesSpectacles) != count($res)) {
                 throw new Exception("Problème plannification : Un ou plusieurs spectacles n'ont pas pu etre placé pour des raisons de temps ou disponibilités des scenes et intervenants");
             } else {
@@ -113,7 +110,8 @@ class PlanificationService
             $searchStmt->bindParam(":idscene", $creneau[3]);
             $searchStmt->bindParam(":idSpectacle", $creneau[0]);
             $searchStmt->bindParam(":jour", $creneau[2]);
-            $searchStmt->bindParam(":heured", date_format($creneau[1], 'h:i:s'));
+            $heured = date_format($creneau[1], 'h:i:s');
+            $searchStmt->bindParam(":heured", $heured);
             $searchStmt->execute();
         }
     }
@@ -121,7 +119,7 @@ class PlanificationService
     /**
      * Met a jour l'heure de disponibilités des intervenants du spectacles
      */
-    function miseAJourDisponibiliteIntervenant($listeIntervenantSpectacle, $heureDeFin, $listeIntervenantDisponible) {
+    function miseAJourDisponibiliteIntervenant($listeIntervenantSpectacle, $heureDeFin, &$listeIntervenantDisponible) {
         foreach ($listeIntervenantSpectacle as $idIntervenant) {
             $listeIntervenantDisponible[$idIntervenant] = $heureDeFin;
         }
@@ -132,7 +130,7 @@ class PlanificationService
     /**
      * Met a jour l'heure de disponibilités d'une scene
      */
-    function miseAJourDisponibiliteScene(string $idScene, $heureDeFin, $listeDesScenesDisponible) {
+    function miseAJourDisponibiliteScene(string $idScene, $heureDeFin, &$listeDesScenesDisponible) {
         $listeDesScenesDisponible[$idScene][0] = $heureDeFin;
         return $listeDesScenesDisponible;
     }
@@ -228,7 +226,7 @@ class PlanificationService
      * Permet de reinitialiser l'heure de disponibilité des scenes pour une
      * nouvelle journée
      */
-    function resetSceneHeureDispo($listeDesScenesDisponible, $heureDebutGrij) {
+    function resetSceneHeureDispo(&$listeDesScenesDisponible, $heureDebutGrij) {
         foreach ($listeDesScenesDisponible as $scene) {
             $scene[0] = $heureDebutGrij;
         }
@@ -239,7 +237,7 @@ class PlanificationService
      * Permet de reinitialiser l'heure de disponibilité des intervenant 
      * pour une nouvelle journée
      */
-    function resetIntervenantHeureDispo($listeIntervenantDisponible, $heureDebutGrij) {
+    function resetIntervenantHeureDispo(&$listeIntervenantDisponible, $heureDebutGrij) {
         foreach ($listeIntervenantDisponible as $intervenant) {
             $intervenant = $heureDebutGrij;
         }
@@ -297,7 +295,7 @@ class PlanificationService
     function getlisteDesSpectacles(PDO $pdo, string $idFestival) {
         /* requete pour recupérer le titre, la duree et la taille de scene 
            necessaire pour chaque spectacle d'un festival */
-        $rqt = "SELECT spectacles.id_spectacle, spectacles.duree, id_taille
+        $rqt = "SELECT spectacles.id_spectacle, spectacles.duree, id_taille, spectacles.titre
                 FROM spectacles
                 INNER JOIN contient
                 ON contient.id_spectacle = spectacles.id_spectacle
@@ -308,7 +306,7 @@ class PlanificationService
 
         while ($ligne = $searchStmt->fetch()){
             $duree = new DateInterval('PT'.$ligne["duree"][0].$ligne["duree"][1].'H'.$ligne["duree"][3].$ligne["duree"][4].'M'.$ligne["duree"][6].$ligne["duree"][7].'S');
-            $res[] = [$ligne["id_spectacle"],$duree ,$ligne["id_taille"],0];
+            $res[] = [$ligne["id_spectacle"],$duree ,$ligne["id_taille"],0,$ligne["titre"]];
         } 
 
         if(!isset($res)){
@@ -346,12 +344,20 @@ class PlanificationService
      * Convertit le resultat de la requete rq$rqt qui recupere la plannif en
      * tableau pour la vue
      */
-    function convertirEnTableau(PDOstatement $resDeRequete) {
+    function convertirEnTableau(PDO $pdo, PDOstatement $resDeRequete) {
         while ($ligne = $resDeRequete->fetch()){
+            $rqt = "SELECT spectacles.id_spectacle, spectacles.duree, spectacles.titre
+            FROM spectacles
+            WHERE id_spectacle = :id_spectacle ";
+            $searchStmt = $pdo->prepare($rqt);
+            $searchStmt->bindParam(":id_spectacle", $ligne["id_spectacle"]);
+            $searchStmt->execute();
 
+            $row = $searchStmt->fetch();
             $heure_deb = date_create($ligne["heure_deb"]);
             // stock le resultat dans un tableau a double entreé
-            $res[]= [$ligne["id_spectacle"], $heure_deb, $ligne["date_spectacle"], $ligne["id_scene"]];
+            $duree = new DateInterval('PT'.$row["duree"][0].$row["duree"][1].'H'.$row["duree"][3].$row["duree"][4].'M'.$row["duree"][6].$row["duree"][7].'S');
+            $res[]= [$ligne["id_spectacle"], $heure_deb ,$ligne["date_spectacle"],$ligne["id_scene"],$row['titre'],$duree];
 
         }
 
