@@ -14,7 +14,7 @@ VALUES
 ("06:00:00", "21:00:00", "00:05:00");
 
 -- Création des categories
-INSERT INTO categorie (libelle)
+INSERT INTO categories (libelle)
 VALUES
 ("musique"),
 ("théatre"),
@@ -65,10 +65,6 @@ VALUES
 -- Création de la table des organisateurs d'un festival
 INSERT INTO organise (id_festival,id_login)
 VALUES
-(1, "herverous"),
-(2, "herverous"),
-(3, "herverous"),
-(4, "herverous"),
 (1, "francksilvestre"),
 (3, "francksilvestre");
 
