@@ -63,8 +63,7 @@ class FestivalController
      * Création d'un festival
      * @param PDO $pdo la connexion à la bdd
      */
-    public function create($pdo): View
-    {
+    public function create($pdo): View {
         $user = $_SESSION["user"]["id_login"];
 
         if (!isset($user)) {
@@ -140,8 +139,8 @@ class FestivalController
     /**
      * Remplit les champs de "creerFestival"
      */
-    private function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
-    {
+    private function setChampsGeneraux(View $view, ?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin) {
+
         $view->setVar("titre", $titre);
         $view->setVar("desc", $desc);
         $view->setVar("cat", $cat);
@@ -152,8 +151,7 @@ class FestivalController
     /**
      * Remplit les champs de "creerFestival"
      */
-    private function setGrij(View $view, ?string $heure_deb, ?string $heure_fin, ?string $delai)
-    {
+    private function setGrij(View $view, ?string $heure_deb, ?string $heure_fin, ?string $delai) {
         $view->setVar("grij_deb", $heure_deb);
         $view->setVar("grij_fin", $heure_fin);
         $view->setVar("grij_delai", $delai);
@@ -208,8 +206,7 @@ class FestivalController
         return $view;
     }
 
-    public function delete($pdo): View
-    {
+    public function delete($pdo): View {
         $id = HttpHelper::getParam("festival");
         $user = $_SESSION["user"]["id_login"];
 
@@ -226,11 +223,44 @@ class FestivalController
         }
     }
 
-    public function createScene($pdo): View
-    {
-        // TODO création d'une scène
-        $view = new View("views/not_done");
+    public function createScene($pdo): View {
+        $user = $_SESSION["user"]["id_login"];
+
+        if (!isset($user)) {
+            header("Location: ./index.php");
+            exit();
+        }
+
+        $view = new View("views/creerScene");
+        $mode = HttpHelper::getParam("mode");
+
+        $nomScene = (string) HttpHelper::getParam("nomScene");
+        $nombreSpec = (int) HttpHelper::getParam("nbSpecMax");
+        $IDFest = (int) HttpHelper::getParam("festival");
+        $tailles = TaillesService::getList($pdo);
+        $taillescenes = (int) HttpHelper::getParam("tailleScene");
+        $GPSLat = (float) HttpHelper::getParam("coordGPSLat");
+        $GPSLong = (float) HttpHelper::getParam("coordGPSLong");
+
+        $view->setVar("taillescenes", $tailles); 
+        $view->setVar("IDFest", $IDFest);
+
+        if ($this->festivalsService->verifScene($nomScene, $nombreSpec, $IDFest, $taillescenes, $GPSLat, $GPSLong)) {       
+            try {
+                $erreur = false;
+                $pdo->beginTransaction();
+                
+                $idScene = $this->festivalsService->addScene($pdo, $nomScene, $nombreSpec, $IDFest, $taillescenes, $GPSLat, $GPSLong);
+
+                $pdo->commit();
+            } catch (Exception $e) {
+                
+                $pdo->rollback();
+                $view->setVar("erreur", $e->getMessage());
+            }
+        }
         return $view;
+
     }
 
     public function deleteScene($pdo): View
@@ -295,7 +325,7 @@ class FestivalController
         return $view;
     }
 
-    public function deleteIntervenantHorsScene($pdo): View
+    public function deleteIntervenantHorsScene($pdo): Viewi
     {
         // TODO supprimer intervenant
         $view = new View("views/not_done");

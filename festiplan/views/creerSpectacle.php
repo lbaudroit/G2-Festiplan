@@ -18,8 +18,8 @@ Liste Variables utilisées
 - error
  */
 ?>
+<!DOCTYPE HTML>
 <html lang="fr">
-
 <head>
     <meta charset="utf-8">
     <title>FESTIPLAN - Création de Spectacle</title>
@@ -38,7 +38,6 @@ Liste Variables utilisées
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="css\style.css">
 </head>
-
 <body>
     <?php include("./views/header.php"); ?>
     <div class="contenue container mb-2">
@@ -168,7 +167,6 @@ Liste Variables utilisées
                         </div>
                     </div>
                 </div>
-
                 <!-- INTERVENANTS -->
                 <?php if ($mode == "modif") {
                     $intervenants = [$sur_scene, $hors_scene];
@@ -247,5 +245,4 @@ Liste Variables utilisées
     <script src="js/creerFestival.js"></script>
     <?php include("./views/footer.php"); ?>
 </body>
-
 </html>
