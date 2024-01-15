@@ -35,10 +35,12 @@ class CreerIntervenantController
         $prenomOk = $this->usersService->valideTaille($prenom);
         $emailOk = $this->usersService->valideMail($email);
         if ($nomOk && $prenomOk && $emailOk) {
-            if ($this->intervenantService->intervenantExisteDeja($pdo, $nom, $prenom, $email)){
-                $this->intervenantService->insertion($pdo, $nom, $prenom, $email);
+            if (!$this->intervenantService->intervenantDejaDansSpectacle($pdo, $nom, $prenom, $email, $type, $spectacle)) {
+                if ($this->intervenantService->intervenantExisteDeja($pdo, $nom, $prenom, $email)){
+                    $this->intervenantService->insertion($pdo, $nom, $prenom, $email);
+                }
+                $this->intervenantService->liaison($pdo, $nom, $prenom, $email, $type, $spectacle);
             }
-            $this->intervenantService->liaison($pdo, $nom, $prenom, $email, $type, $spectacle);
             header("Location: ./index.php?controller=spectacle&action=modify&spectacle=".$spectacle );
             exit;
         } else {

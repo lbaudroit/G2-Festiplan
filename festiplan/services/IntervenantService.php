@@ -57,10 +57,38 @@ class IntervenantService
         $stmt->bindParam("prenom", $firstname);
         $stmt->bindParam("email", $mail);
         $stmt->execute();
-        if ($stmt->fetch()==null) {
+        if ($stmt->fetch() == null) {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function intervenantDejaDansSpectacle(PDO $pdo, $lastname, $firstname, $mail, $type, $spectacle)
+    {
+        if ($type == 0) {
+            $sql = "SELECT * FROM estsurscene 
+                    WHERE id_intervenant=
+                        (SELECT id_intervenant FROM intervenants 
+                         WHERE nom=:nom AND prenom=:prenom AND email=:email)
+                    AND id_spectacle=:spectacle";
+        } else if ($type == 1) {
+            $sql = "SELECT * FROM esthorsscene 
+                    WHERE id_intervenant=
+                        (SELECT id_intervenant FROM intervenants 
+                         WHERE nom=:nom AND prenom=:prenom AND email=:email)
+                    AND id_spectacle=:spectacle";
+        }
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam("nom", $lastname);
+        $stmt->bindParam("prenom", $firstname);
+        $stmt->bindParam("email", $mail);
+        $stmt->bindParam("spectacle", $spectacle);
+        $stmt->execute();
+        if ($stmt->fetch() == null) {
+            return false;
+        } else {
+            return true;
         }
     }
 } ?>
