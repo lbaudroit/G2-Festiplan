@@ -117,22 +117,6 @@ CREATE TABLE organise (
     PRIMARY KEY(id_festival, id_login)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE estsurscene (
-    id_intervenant INTEGER NOT NULL,
-    id_spectacle INTEGER NOT NULL,
-    FOREIGN KEY (id_intervenant) REFERENCES intervenants(id_intervenant),
-    FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
-    PRIMARY KEY(id_intervenant, id_spectacle)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE esthorsscene (
-    id_intervenant INTEGER NOT NULL,
-    id_spectacle INTEGER NOT NULL,
-    FOREIGN KEY (id_intervenant) REFERENCES intervenants(id_intervenant),
-    FOREIGN KEY (id_spectacle) REFERENCES spectacles(id_spectacle),
-    PRIMARY KEY(id_intervenant, id_spectacle)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE contient (
     id_festival INTEGER NOT NULL,
     id_spectacle INTEGER NOT NULL,
