@@ -104,7 +104,7 @@ class DefaultComponentFactory implements ComponentFactory
 
     private function buildFestivalController(): FestivalController
     {
-        return new FestivalController(new FestivalsService(), new CategoriesService());
+        return new FestivalController(new FestivalsService(), new CategoriesService(), new SpectaclesService());
     }
 
     private function buildSpectacleController(): SpectacleController

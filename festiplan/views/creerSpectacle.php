@@ -42,7 +42,13 @@ Liste Variables utilisées
 <body>
     <?php include("./views/header.php"); ?>
     <div class="contenue container mb-2">
-        <?php echo isset($error) ? "<div class='col-12 bg-danger'>$error</div>" : "" ?>
+        <?php if (isset($error)) { ?>
+            <div class="col-12 text-center bordure fond-rouge">
+                <?php echo $error; ?>
+            </div>
+            <?php
+        }
+        ?>
         <div class="col-12">
             <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
                 <input hidden name="controller" value="spectacle">
@@ -51,19 +57,10 @@ Liste Variables utilisées
                 if (isset($spectacle)) {
                     echo "<input type='hidden' name='spectacle' value='$spectacle'>";
                 }
-
-                var_dump(get_defined_vars());
                 ?>
                 <!--Soit ajout, soit modif-->
                 <input hidden name="mode" value="<?php echo $mode; ?>">
                 <!--INFOS GENERALES-->
-                <?php if (isset($erreur)) { ?>
-                    <div class="text-center bordure fond-rouge">
-                        <?php echo $erreur; ?>
-                    </div>
-                    <?php
-                }
-                ?>
                 <div class="text-center row textFormulaire bordure fondFormulaire">
                     <div class="col-md-4 col-sm-5 col-12">
                         <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif"
@@ -250,131 +247,5 @@ Liste Variables utilisées
     <script src="js/creerFestival.js"></script>
     <?php include("./views/footer.php"); ?>
 </body>
-
-<!-- 
-<body>
-    <?php include("./views/header.php"); ?>
-    <div class="contenue container">
-        <div class="text-center col-12">
-            <form method="post" class="formulaire">
-                <div class="row textFormulaire bordure fondFormulaire">
-                    <div class="col-md-4 col-sm-5 col-12">
-                        <i class="fa-regular fa-plus fa-4x"></i>
-                        <br />
-                        Rajoutez une image (800x600 maximum) (optionnel)
-                    </div>
-                    <div class="col-sm-7 d-none d-sm-block d-md-none my-auto">
-                        <input type="text" name="nomSpectacleTab" placeholder="Tapez le titre (35 caractères max.)"
-                            class="form-control" />
-                    </div>
-                    <div class="col-8">
-                        <div class="col-12 d-sm-none d-md-block">
-                            <input type="text" name="nomSpectaclePCetTel"
-                                placeholder="Tapez le titre (35 caractères max.)" class="form-control" />
-                        </div>
-                        <br />
-                        <div class="col-12 d-none d-md-block">
-                            <input type="text" name="descSpectaclePC"
-                                placeholder="Tapez la description (1000 caractères max.)" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-12 d-md-none">
-                        <input type="text" name="descSpectacleTabletTel"
-                            placeholder="Tapez la description (1000 caractères max.)" class="form-control" />
-                    </div>
-                </div>
-                    <div class="row">
-                        <div class="col-md-6 bordure">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h5>Intervenant 1</h5>
-                                </div>
-                                <div class="col-6 contenue_droite">
-                                    <i class="fa-solid fa-trash-can fa-2x"></i>
-                                    <input class="btn btn-bleu" type="submit" value="Modifier">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 bordure">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h5>Intervenant 1</h5>
-                                </div>
-                                <div class="col-6 contenue_droite">
-                                    <i class="fa-solid fa-trash-can fa-2x"></i>
-                                    <input class="btn btn-bleu" type="submit" value="Modifier">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 bordure">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h5>Intervenant 2</h5>
-                                </div>
-                                <div class="col-6 contenue_droite">
-                                    <i class="fa-solid fa-trash-can fa-2x"></i>
-                                    <input class="btn btn-bleu" type="submit" value="Modifier">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 bordure">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h5>Intervenant 2</h5>
-                                </div>
-                                <div class="col-6 contenue_droite">
-                                    <i class="fa-solid fa-trash-can fa-2x"></i>
-                                    <input class="btn btn-bleu" type="submit" value="Modifier">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 bordure text-center">
-                            <i class="fa-regular fa-plus fa-2x"></i>
-                        </div>
-                        <div class="col-md-6 bordure text-center">
-                            <i class="fa-regular fa-plus fa-2x"></i>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class=" offset-6 col-3 contenue_droite">
-                            <button name="suppr" class="btn-rouge btn form-control">
-                                Supprimer
-                            </button>
-                        </div>
-                        <div class="col-3 contenue_droite">
-                            <button name="save" class="btn-bleu btn form-control">
-                                Sauvegarder les changements
-                            </button>
-                        </div>
-                    </div>
-            </form>
-        </div>
-    </div>
-    <div class="contenue container">
-        <div class="text-center col-12">
-            <form method="post" class="formulaire bordure">
-                <div class="row fondFormulaire textFormulaire">
-                    <div class="col-md-4 col-sm-5 col-12">
-                        <i class="fa-regular fa-plus fa-4x"></i>
-                        Rajoutez une image (800x600 maximum) (optionnel)
-                    </div>
-                    <div class="col-6 contenue_droite">
-                        <img src="images/logo-iut.png" class="logo" id="logoIUT" alt="Logo IUT"
-                            href="http://www.iut-rodez.fr" target="_blank" />
-                    </div>
-                    <div class="col-12 d-md-none">
-                        <input type="text" name="descSpectacleTabletTel"
-                            placeholder="Tapez la description (1000 caractères max.)" class="form-control" />
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    </div>
-    <?php include("./views/footer.php"); ?>
-</body>
-                -->
 
 </html>

@@ -36,7 +36,7 @@
                 views: {
                     timeGridFest: {
                         type: 'timeGrid',
-                        duration: { days: 3 },
+                        duration: { days: <?php if ($duree>3){echo "3";}else{echo $duree;} ?> },
                     }
                 }
             });
@@ -47,16 +47,14 @@
 
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href=".\css\style.css">
-
-
-
-
 </head>
 
 <body>
-    <?php include("./views/header.php"); ?>
+    <?php include("./views/header.php"); 
+    var_dump($plannification);
+    ?>
     <div class="contenue container mb-2">
-        
+        var_dump()
         <div class="underline titre2 width-to-size">
             Planification de
             <?php echo $nomFestival["titre"] ?>

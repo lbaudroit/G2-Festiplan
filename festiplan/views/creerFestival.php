@@ -42,7 +42,8 @@ Variables utilisées
 </head>
 
 <body>
-    <?php include("./views/header.php"); ?>
+    <?php include("./views/header.php");
+    ?>
     <div class="contenue container mb-2">
         <div class="col-12">
             <form method="post" action="./index.php" class="formulaire" enctype="multipart/form-data">
@@ -131,16 +132,19 @@ Variables utilisées
                         ?>
                     </div>
                     <div class="bordure col-md-3 col-sm-6 col-12">
-                        <u class="aGauche">
-                            Date de début du Festival&nbsp:
-                        </u>
+
+                        <label for="deb">
+                            <u class="aGauche">
+                                Date de début du Festival&nbsp:
+                            </u>
+                        </label>
                         <br />
                         <input type="date" id="deb" name="deb" <?php if (isset($deb)) {
                             echo "value='$deb'";
                         } ?> />
                     </div>
                     <div class="bordure col-md-3 col-sm-6 col-12">
-                        <label for="tailleSceneSelect">
+                        <label for="fin">
                             <u class="aGauche">
                                 Date de fin du Festival&nbsp:
                             </u>
@@ -175,7 +179,7 @@ Variables utilisées
                                                     class="col-11 order-1     col-sm-4           col-md-4     py-2 px-1 text-left fs-3">
                                                     <a href="./index.php?controller=festival&action=modifyScene&<?php echo "festival=$fest&scene=" . $sc["id_scene"]; ?>"
                                                         class="text-decoration-none text-black">
-                                                        <?php echo "Scène&nbsp$i"; ?>
+                                                        <?php echo $sc["nom"]; ?>
                                                     </a>
                                                 </div>
                                                 <!--GPS-->
@@ -197,13 +201,13 @@ Variables utilisées
                                                 <div class="col-4 order-5    col-sm-4 order-sm-4   col-md-5     my-auto py-2 px-1">
                                                     <select disabled class="form-select">
                                                         <?php
-                                                        while ($taille = $tailles->fetch()) {
-                                                            if ($taille["id_taille"] == $sc["id_taille"]) {
+                                                        foreach ($tailles as $taille_existante) {
+                                                            if ($taille_existante["id_taille"] == $sc["id_taille"]) {
                                                                 $selected = "selected";
                                                             } else {
                                                                 $selected = "";
                                                             }
-                                                            echo "<option $selected>" . $taille["libelle"] . "</option>";
+                                                            echo "<option $selected>" . $taille_existante["libelle"] . "</option>";
                                                         }
                                                         ?>
                                                     </select>
@@ -329,7 +333,7 @@ Variables utilisées
                         if ($mode == "ajout") {
                             echo "<a name='page_precedente' class='btn btn-rouge form-control'>Annuler</a>";
                         } else {
-                            echo "<a href='index.php?controller=festival&action=delete&festival=$fest' class='btn btn-rouge form-control'>Supprimer</a>";
+                            echo "<a id='delete' class='btn btn-rouge form-control'>Supprimer</a>";
                         } ?>
                     </div>
                     <!--planif-->
@@ -358,5 +362,6 @@ Variables utilisées
 </body>
 <script src="./js/common.js" defer></script>
 <script src="./js/creerFestival.js" defer></script>
+<script src="./js/suppr.js" defer></script>
 
 </html>

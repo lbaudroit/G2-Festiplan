@@ -37,33 +37,33 @@
             </div>
 
         </div>
-        <div class="row row-gap-2">
+        <div class="row row-gap-2 mb-5">
             <?php // affichage des cartes  
-            foreach ($liste as $i => $elt) {
+            foreach ($liste as $i => $spec) {
                 ?>
                 <div class="col-6 col-sm-4 col-md-3 min-card">
-                    <a href="<?php echo "./index.php?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>"
+                    <a href="<?php echo "./index.php?controller=" . $nom . "&action=modify&" . $nom . "=" . $spec[$id]; ?>"
                         class="text-decoration-none text-black">
                         <div class="bordure-basique d-flex flex-column justify-content-between h-100">
                             <div class="p-2 row">
                                 <!-- TITRE -->
                                 <a class="col-9 text-decoration-none text-black"
-                                    href="<?php echo "./index.php?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>">
-                                    <?php echo $elt['titre']; ?>
+                                    href="<?php echo "./index.php?controller=" . $nom . "&action=modify&" . $nom . "=" . $spec[$id]; ?>">
+                                    <?php echo $spec['titre']; ?>
                                 </a>
                                 <!-- ICONE POUBELLE -->
                                 <a class="col-3 text-end text-decoration-none text-black my-auto"
-                                    href="<?php echo "./index.php?controller=" . $nom . "&action=delete&" . $nom . "=" . $elt[$id]; ?>">
+                                    href="<?php echo "./index.php?controller=" . $nom . "&action=delete&" . $nom . "=" . $spec[$id]; ?>">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
                             <!-- IMAGE -->
                             <a
-                                href="<?php echo "./index.php?controller=" . $nom . "&action=modify&" . $nom . "=" . $elt[$id]; ?>">
+                                href="<?php echo "./index.php?controller=" . $nom . "&action=modify&" . $nom . "=" . $spec[$id]; ?>">
                                 <div class="">
                                     <?php
-                                    $url = $prefixe_img . (isset($elt["lien_img"]) ? ($elt[$id] . $elt['lien_img']) : "0.jpg");
-                                    echo "<img  alt='Image du " . $nom . htmlspecialchars($elt['titre']) . "' 
+                                    $url = $prefixe_img . (isset($spec["lien_img"]) ? ($spec[$id] . $spec['lien_img']) : "0.jpg");
+                                    echo "<img  alt='Image du " . $nom . htmlspecialchars($spec['titre']) . "' 
                                     src='images/$nom/" . $url . "'
                                     class='img-fluid'>";
                                     ?>

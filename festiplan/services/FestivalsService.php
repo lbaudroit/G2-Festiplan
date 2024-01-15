@@ -63,7 +63,7 @@ class FestivalsService
     }
 
     /*
-     * Trouve les spectacles créés par cet utilisateur.
+     * Trouve les spectacles liés à ce festival.
      *
      * @param PDO $pdo the pdo object
      * @param string $festival le festival dont on cherche les spectacles
@@ -82,22 +82,16 @@ class FestivalsService
         return $searchStmt;
     }
 
-    /**
-     * Trouve les spectacles liés à un festival.
+    /*
+     * Trouve les spectacles liés à ce festival.
      *
      * @param PDO $pdo the pdo object
-     * @param string $user l'utilisateur dont on cherche les spectacles
+     * @param string $festival le festival dont on cherche les spectacles
      * @return PDOStatement the statement referencing the result set
      */
-    public function getSpectaclesOfFestival(PDO $pdo, int $id_fest): PDOStatement
+    public function getSpectaclesOfFestival(PDO $pdo, string $festival): PDOStatement
     {
-        $sql = "SELECT * 
-            FROM spectacles
-            WHERE id_login = :login";
-        $searchStmt = $pdo->prepare($sql);
-        $searchStmt->bindParam(":login", $user);
-        $searchStmt->execute();
-        return $searchStmt;
+        return $this->getListOfSpectacle($pdo, $festival);
     }
 
     /* *
@@ -157,6 +151,55 @@ class FestivalsService
         $searchStmt->bindParam(":fest", $id_fest);
         $searchStmt->execute();
         return $searchStmt;
+    }
+
+    /**
+     * Vérifie les informations de base du festival
+     */
+    public function checkInfo(?string $titre, ?string $desc, ?int $cat, ?string $deb, ?string $fin)
+    {
+        $d_deb = date_create($deb);
+        $d_fin = date_create($fin);
+        return isset($titre, $desc, $cat, $deb, $fin)
+            && strlen($titre) > 0 && strlen($titre) <= 100
+            && $cat >= 1 && $cat <= 5
+            && $d_deb != false && $d_fin != false
+            && $d_fin >= $d_deb;
+    }
+
+    /**
+     * Vérifie les informations de la Grij
+     */
+    public function checkGrijData(?string $deb, ?string $fin, ?string $delai)
+    {
+        $d_deb = explode(":", $deb);
+        $d_fin = explode(":", $fin);
+
+        /**
+         * Il faut qu'au moins un facteur soit supérieur et que tous soient au moins égaux
+         */
+        $tousAuMoinsEgaux =
+            $d_deb[0] <= $d_fin[0]
+            && $d_deb[1] <= $d_fin[1];
+
+        $auMoinsUnSuperieur =
+            $d_deb[0] < $d_fin[0]
+            || $d_deb[1] < $d_fin[1];
+
+        return $this->isValidTime($d_deb) && $this->isValidTime($d_fin)
+            && $tousAuMoinsEgaux
+            && $auMoinsUnSuperieur;
+    }
+
+    /**
+     * Vérifie qu'il s'agit d'une heure valide
+     * @param array $time un tableau contenant les heures, puis les minutes, puis les secondes
+     */
+    public function isValidTime(array $time)
+    {
+        return count($time) == 2 &&
+            $time[0] >= 0 && $time[0] < 24 // 24:00 date impossible
+            && $time[1] >= 0 && $time[1] < 60;
     }
 
     /**
@@ -254,7 +297,7 @@ class FestivalsService
      * @param string $fest l'ID du festival
      * @return array les données du festival
      */
-    public function getDateOfFestival(PDO $pdo, String $fest): array 
+    public function getDateOfFestival(PDO $pdo, string $fest): array
     {
         $sql = "SELECT date_deb,DATE_ADD(date_fin,INTERVAL 1 DAY) AS date_fin FROM festivals
                 WHERE id_festival=:id;";
@@ -272,7 +315,7 @@ class FestivalsService
      * @param string $fest l'ID du festival
      * @return array les données du festival
      */
-    public function getDureeOfFestival(PDO $pdo, String $fest): int
+    public function getDureeOfFestival(PDO $pdo, string $fest): int
     {
         $sql = "SELECT date_fin-date_deb+1 FROM festivals
                 WHERE id_festival=:id;";
@@ -281,24 +324,39 @@ class FestivalsService
         $stmt->execute();
         return $stmt->fetch()["date_fin-date_deb+1"];
     }
-    
+
     public function delete(PDO $pdo, int $fest)
     {
+        // Récupération ID grij
+        $sql_grij = "SELECT id_grij FROM festivals WHERE id_festival=?";
+        $stmt = $pdo->prepare($sql_grij);
+        $stmt->execute([$fest]);
+        $res = $stmt->fetch();
+        $id_grij = $res["id_grij"];
+
         $scripts = [
             "DELETE FROM contient WHERE id_festival=:id;",
             "DELETE FROM scenes WHERE id_festival=:id;",
             "DELETE FROM organise WHERE id_festival=:id;",
-            "DELETE FROM grij WHERE id_festival=:id;",
-            "DELETE FROM festivals WHERE id_festival=:id;"
+            "DELETE FROM festivals WHERE id_festival=:id;",
+            "DELETE FROM grij WHERE id_grij=:id;"
         ];
 
         // TODO ajouter la planification
         try {
             $pdo->beginTransaction();
-            foreach ($scripts as $sql) {
+            for ($i = 0; $i < count($scripts); $i++) {
+                $sql = $scripts[$i];
                 $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(":id", $fest);
-                $stmt->execute();
+                if ($i = 4) {
+                    $stmt->bindParam(":id", $id_grij);
+                } else {
+                    $stmt->bindParam(":id", $fest);
+                }
+                $res = $stmt->execute();
+                if (!$res) {
+                    return false;
+                }
             }
         } catch (PDOException $e) {
             $pdo->rollback();
@@ -306,6 +364,133 @@ class FestivalsService
         }
         $pdo->commit();
         return true;
+    }
+
+    /**
+     * Met à jour les spectacles du festival
+     * @param PDO $pdo l'objet PDO
+     * @param int $id_fest l'identifiant du festival
+     * @param array $id_nouveaux la liste des id des nouveaux spectacles
+     */
+    public function ajusterSpectacles(PDO $pdo, int $id_fest, string $selection)
+    {
+        // Récupération de la liste des nouveaux.
+        if ($selection == "none") {
+            $id_nouveaux = array();
+        } else {
+            $liste = explode(",", $selection);
+            $id_nouveaux =
+                array_filter($liste, function ($value, $key) {
+                    return strlen($value) != 0;
+                }, ARRAY_FILTER_USE_BOTH); // enlever les entrées vides
+        }
+
+        // récupérer listes spectacles sélectionnés
+        $anciens_spectacles = $this->getListOfSpectacle($pdo, $id_fest);
+        $id_anciens = array();
+        foreach ($anciens_spectacles as $ancien) {
+            $id_anciens[] = $ancien["id_spectacle"];
+        }
+
+        // permet de sélectionner ceux qui ne sont pas dans les deux array
+        $anciens_diff = array_diff($id_anciens, $id_nouveaux);
+        $nouveaux_diff = array_diff($id_nouveaux, $id_anciens);
+
+        /*
+         * Si id est parmi les sélectionnés : ne rien faire
+         * S'il ne l'est pas : le rajouter
+         * Si un sélectionné n'est pas dans id : le supprimer
+         */
+        $pdo->beginTransaction();
+        try {
+            foreach ($anciens_diff as $ancien) {
+                if (!$this->supprimerSpectacle($pdo, $id_fest, $ancien)) {
+                    throw new Exception("Impossible de supprimer le spectacle.");
+                }
+            }
+            foreach ($nouveaux_diff as $nouveau) {
+                if (!$this->ajouterSpectacle($pdo, $id_fest, $nouveau)) {
+                    throw new Exception("Impossible d'ajouter le spectacle.");
+                }
+            }
+        } catch (Exception $e) {
+            $pdo->rollback();
+            return false;
+        }
+        $pdo->commit();
+        return true;
+    }
+
+    /**
+     * Supprime le spectacle du festival.
+     * @param PDO $pdo l'objet PDO
+     * @param int $id_fest l'identifiant du festival concerné
+     * @param int $id_spec l'identifiant du spectacle à supprimer
+     */
+    function supprimerSpectacle(PDO $pdo, int $id_fest, int $id_spec): bool
+    {
+        $sql = "DELETE FROM contient WHERE id_festival = :fest AND id_spectacle = :spec";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":fest", $id_fest);
+        $stmt->bindParam(":spec", $id_spec);
+        return $stmt->execute();
+    }
+
+    /**
+     * Ajoute le spectacle dans le festival.
+     * @param PDO $pdo l'objet PDO
+     * @param int $id_fest l'identifiant du festival concerné
+     * @param int $id_spec l'identifiant du spectacle à ajouter
+     */
+    function ajouterSpectacle($pdo, $id_fest, $id_spec)
+    {
+        $sql = "INSERT INTO contient (id_festival, id_spectacle) VALUES (:fest, :spec)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":fest", $id_fest);
+        $stmt->bindParam(":spec", $id_spec);
+        return $stmt->execute();
+    }
+
+    /**
+     * Vérifie que l'utilisateur est RESPONSABLE du festival.
+     * 
+     * @param PDO $pdo l'objet pdo
+     * @param string $user l'utilisateur qu'on souhaite vérifier
+     * @param int $spec l'id du festival qu'on recherche
+     */
+    public function checkOwner(PDO $pdo, string $user, int $fest): bool
+    {
+        $sql = "SELECT * 
+            FROM festivals
+            WHERE id_login = :login
+            AND id_festival = :fest;";
+        $searchStmt = $pdo->prepare($sql);
+        $searchStmt->bindParam(":login", $user);
+        $searchStmt->bindParam(":fest", $fest);
+        $searchStmt->execute();
+        return $searchStmt->rowCount() > 0;
+    }
+
+    /**
+     * Vérifie que l'utilisateur est bien ORGANISATEUR du festival.
+     * 
+     * @param PDO $pdo l'objet pdo
+     * @param string $user l'utilisateur qu'on souhaite vérifier
+     * @param int $fest l'id du festival qu'on recherche
+     */
+    public function checkOrganisateur(PDO $pdo, string $user, int $fest): bool
+    {
+        $sql = "SELECT * 
+            FROM users
+            INNER JOIN organise
+            ON organise.id_login = users.id_login
+            WHERE organise.id_festival = :fest
+            AND users.id_login = :login;";
+        $searchStmt = $pdo->prepare($sql);
+        $searchStmt->bindParam(":login", $user);
+        $searchStmt->bindParam(":fest", $fest);
+        $searchStmt->execute();
+        return $searchStmt->rowCount() > 0;
     }
 }
 ?>

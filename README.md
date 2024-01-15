@@ -19,12 +19,19 @@ BUT Info 2 - G2
 ## Commandes d'exécution du projet
 
 Pour lancer en dev :
+
 `docker compose --profile dev up -d`
+
 `docker-compose exec dev-website composer update`
 
+
 En cas de problème avec le serveur de base de données, utiliser plutôt
+
 `docker compose build`
+
 `docker compose --profile dev-db up -d`
 
+
 Adresse du site web : localhost:9999/
+
 Adresse de PHPmyAdmin : localhost:8888
