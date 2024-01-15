@@ -351,7 +351,7 @@ class PlanificationService
 
             $heure_deb = date_create($ligne["heure_deb"]);
             // stock le resultat dans un tableau a double entreé
-            $res[]= [$ligne["id_spectacle"], $heure_deb, $ligne["id_scene"],$ligne["date_spectacle"]];
+            $res[]= [$ligne["id_spectacle"], $heure_deb, $ligne["date_spectacle"], $ligne["id_scene"]];
 
         }
 

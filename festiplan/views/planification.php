@@ -40,7 +40,15 @@
                     }
                 }
             });
-
+            <?php 
+            foreach($plannification as &$event) {
+                $horaire_deb = date('Y-m-d', strtotime($date["date_deb"]. ' + '.($event[2]-1).' day')).'T'.date_format($event[1], 'H:i:s');
+                echo 'calendar.addEvent({';
+                    echo 'title: "Second Event",';
+                    echo 'start: "'.$horaire_deb.'",';
+                    echo 'end: "2020-08-08T13:30:00"});';
+            }
+            ?>
             calendar.render();
         });
     </script>
@@ -51,10 +59,11 @@
 
 <body>
     <?php include("./views/header.php"); 
-    var_dump($plannification);
+    var_dump($plannification["0"]);
+    echo '<br/>';
+    var_dump($horaire_deb);
     ?>
     <div class="contenue container mb-2">
-        var_dump()
         <div class="underline titre2 width-to-size">
             Planification de
             <?php echo $nomFestival["titre"] ?>
